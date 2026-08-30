@@ -1,0 +1,6 @@
+{
+  "name": "Led Machine Painéis",
+  "description": "Líder em painéis de LED de alta resolução, soluções visuais de última geração, outdoor e indoor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
