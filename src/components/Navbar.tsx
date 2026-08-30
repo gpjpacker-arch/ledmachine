@@ -37,35 +37,16 @@ export const Navbar: React.FC<NavbarProps> = ({
       className="absolute top-0 left-0 right-0 z-40 w-full px-6 sm:px-12 max-w-7xl mx-auto pt-6 sm:pt-8 pb-4 pointer-events-auto"
     >
       <nav className="flex items-center justify-between py-2 backdrop-blur-[2px]">
-        {/* Brand Logo (Left - matches GO-LAUNCH icon + text style) */}
+        {/* Brand Logo (Official LED Machine Logo) */}
         <div
           onClick={() => handleNavClick('home')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center cursor-pointer group"
         >
-          {/* Futuristic Hexagon Logo Icon */}
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 via-indigo-500 to-cyan-400 p-[1.5px] shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-            <div className="w-full h-full bg-[#08051a] rounded-[7px] flex items-center justify-center">
-              <span className="text-xs font-black bg-gradient-to-r from-purple-300 to-cyan-300 bg-clip-text text-transparent">
-                LM
-              </span>
-            </div>
-          </div>
-          <span className="font-extrabold text-lg sm:text-xl tracking-wider text-white uppercase group-hover:text-purple-200 transition-colors">
-            {content.general.siteName || 'LED-MACHINE'}
-          </span>
+          <LedMachineLogo size="md" />
         </div>
 
         {/* Center / Right Links: Exact layout of 'Contact | Menu ☷' */}
         <div className="flex items-center space-x-4 sm:space-x-8">
-          {/* Visual Editor Quick Button */}
-          <button
-            onClick={() => setIsEditorOpen(true)}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/40 text-xs font-semibold shadow-sm transition-all hover:scale-105"
-            title="Abrir Painel de Edição de Textos e Imagens"
-          >
-            <Edit3 className="w-3.5 h-3.5" />
-            <span>Editar Site</span>
-          </button>
 
           {/* Contact Link */}
           <button
@@ -127,17 +108,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMenuOpen(false);
-                setIsEditorOpen(true);
-              }}
-              className="w-full py-2.5 rounded-xl bg-blue-600/30 hover:bg-blue-600/40 text-blue-200 font-semibold text-xs border border-blue-400/40 flex items-center justify-center gap-1.5 transition-all"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>Painel de Edição Visual</span>
-            </button>
-
             <button
               onClick={() => {
                 setMenuOpen(false);

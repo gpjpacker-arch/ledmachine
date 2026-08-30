@@ -12,12 +12,14 @@ import { Footer } from './components/Footer';
 import { ContactModal } from './components/ContactModal';
 import { DemoPlaygroundModal } from './components/DemoPlaygroundModal';
 import { VisualEditorModal } from './components/VisualEditorModal';
+import { TutorialPdfModal } from './components/TutorialPdfModal';
 import { SiteContentProvider, useSiteContent } from './context/SiteContentContext';
 
 function MainAppContent() {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
   const [isSimulatorOpen, setIsSimulatorOpen] = useState<boolean>(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState<boolean>(false);
   const [contactPrefill, setContactPrefill] = useState<string>('');
   const { isEditorOpen, setIsEditorOpen } = useSiteContent();
 
@@ -179,6 +181,7 @@ function MainAppContent() {
             setContactPrefill('');
             setIsContactOpen(true);
           }}
+          onOpenTutorial={() => setIsTutorialOpen(true)}
         />
       </div>
 
@@ -202,6 +205,12 @@ function MainAppContent() {
       <VisualEditorModal
         isOpen={isEditorOpen}
         onClose={() => setIsEditorOpen(false)}
+      />
+
+      {/* 5. PDF / Printable Administrator Manual Modal */}
+      <TutorialPdfModal
+        isOpen={isTutorialOpen}
+        onClose={() => setIsTutorialOpen(false)}
       />
     </div>
   );

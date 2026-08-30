@@ -10,6 +10,8 @@ import imgDiningRoom from '../assets/images/led_dining_room_1788059416951.jpg';
 export interface SiteContent {
   general: {
     siteName: string;
+    logoUrl?: string;
+    logoHeight?: number;
     tagline: string;
     whatsappNumber: string;
     whatsappMessage: string;

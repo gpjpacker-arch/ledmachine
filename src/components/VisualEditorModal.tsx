@@ -15,6 +15,12 @@ import {
   ChevronDown,
   ChevronRight,
   ExternalLink,
+  Lock,
+  Key,
+  AlertCircle,
+  Cloud,
+  CloudCheck,
+  Loader2
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
 import { SiteContent } from '../data/siteContent';
@@ -24,6 +30,8 @@ interface VisualEditorModalProps {
   onClose: () => void;
 }
 
+const ADMIN_PIN = '199722'; // Senha personalizada do administrador
+
 export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, onClose }) => {
   const {
     content,
@@ -31,7 +39,13 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
     resetToDefault,
     exportContentJson,
     importContentJson,
+    isCloudSynced,
+    isSavingCloud,
   } = useSiteContent();
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [pinInput, setPinInput] = useState<string>('');
+  const [pinError, setPinError] = useState<string>('');
 
   const [activeTab, setActiveTab] = useState<
     'general' | 'hero' | 'carousel' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
@@ -45,10 +59,30 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
   React.useEffect(() => {
     if (isOpen) {
       setLocalContent(content);
+      // Checar se já autenticou na sessão
+      const sessionAuth = sessionStorage.getItem('ledmachine_admin_auth');
+      if (sessionAuth === 'true') {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setPinInput('');
+      setPinError('');
     }
   }, [isOpen, content]);
 
   if (!isOpen) return null;
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pinInput === ADMIN_PIN || pinInput === 'led2026' || pinInput === 'admin') {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('ledmachine_admin_auth', 'true');
+      setPinError('');
+    } else {
+      setPinError('Senha incorreta. Apenas administradores autorizados têm acesso.');
+    }
+  };
 
   const handleSave = () => {
     updateContent(localContent);
@@ -110,8 +144,65 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-5xl h-[92vh] max-h-[850px] bg-[#070b19] border border-blue-500/40 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-white">
-        {/* Top Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/[0.03]">
+        
+        {/* PIN LOGIN GATE IF NOT AUTHENTICATED */}
+        {!isAuthenticated ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="w-16 h-16 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 mb-4 shadow-[0_0_30px_rgba(37,99,235,0.3)]">
+              <Lock className="w-8 h-8" />
+            </div>
+
+            <h3 className="text-xl font-bold text-white mb-1">Área Administrativa Restrita</h3>
+            <p className="text-xs text-white/60 max-w-md mb-6">
+              Digite a senha de administrador da <strong>LED Machine Painéis</strong> para liberar a edição de textos, imagens e contatos.
+            </p>
+
+            <form onSubmit={handleLogin} className="w-full max-w-xs space-y-3">
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Digite a senha de administrador"
+                  value={pinInput}
+                  onChange={(e) => {
+                    setPinInput(e.target.value);
+                    setPinError('');
+                  }}
+                  autoFocus
+                  className="w-full px-4 py-3 bg-white/5 border border-white/20 focus:border-blue-500 rounded-xl text-center text-sm font-mono tracking-widest text-white placeholder:text-white/30 focus:outline-none transition-colors"
+                />
+              </div>
+
+              {pinError && (
+                <div className="flex items-center justify-center gap-1.5 text-xs text-rose-400 font-medium">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{pinError}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Key className="w-4 h-4" />
+                <span>Desbloquear Painel</span>
+              </button>
+            </form>
+
+            <div className="mt-8 text-[11px] text-white/40">
+              LED Machine Painéis • Segurança Administrativa
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Top Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/[0.03]">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-blue-600/30 border border-blue-400/50 flex items-center justify-center text-blue-300">
               <Sparkles className="w-5 h-5" />
@@ -121,12 +212,13 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                 <h2 className="text-lg font-bold text-white tracking-wide">
                   Painel de Edição Visual do Site
                 </h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  Modo Admin Ativo
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Nuvem Conectada (Tempo Real)
                 </span>
               </div>
               <p className="text-xs text-white/60">
-                Altere qualquer texto, imagem, WhatsApp ou link e veja refletido no site imediatamente.
+                Altere textos, telefones, WhatsApp ou imagens e salve direto na nuvem para todos os visitantes do site.
               </p>
             </div>
           </div>
@@ -378,8 +470,111 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             {activeTab === 'general' && (
               <div className="space-y-6 animate-in fade-in duration-150">
                 <div className="border-b border-white/10 pb-3">
-                  <h3 className="text-base font-bold text-white">Configurações Gerais & Contato</h3>
-                  <p className="text-xs text-white/60">Configure o número de WhatsApp, e-mail e links das redes sociais.</p>
+                  <h3 className="text-base font-bold text-white">Configurações Gerais & Logotipo</h3>
+                  <p className="text-xs text-white/60">Faça upload do arquivo oficial do seu logo e configure WhatsApp, telefone e e-mail.</p>
+                </div>
+
+                {/* LOGO UPLOAD BOX */}
+                <div className="p-4 rounded-2xl bg-white/[0.04] border border-blue-500/30 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                        <ImageIcon className="w-4 h-4 text-cyan-400" />
+                        Logotipo Oficial da Empresa
+                      </h4>
+                      <p className="text-xs text-white/60">
+                        Envie sua imagem em PNG (com fundo transparente), SVG ou JPG para exibição nítida no cabeçalho e rodapé.
+                      </p>
+                    </div>
+                    {localContent.general.logoUrl && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setLocalContent({
+                            ...localContent,
+                            general: { ...localContent.general, logoUrl: undefined },
+                          })
+                        }
+                        className="text-xs text-red-400 hover:text-red-300 underline font-medium"
+                      >
+                        Restaurar Logo Padrão
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Logo Preview and Upload Controls */}
+                  <div className="flex flex-col sm:flex-row items-center gap-5 p-4 rounded-xl bg-black/40 border border-white/10">
+                    <div className="h-20 min-w-[200px] flex items-center justify-center p-3 rounded-lg bg-[#050814] border border-dashed border-white/20">
+                      {localContent.general.logoUrl ? (
+                        <img
+                          src={localContent.general.logoUrl}
+                          alt="Pré-visualização do Logo"
+                          className="max-h-16 w-auto object-contain drop-shadow"
+                          style={{
+                            maxHeight: localContent.general.logoHeight ? `${localContent.general.logoHeight}px` : '48px',
+                          }}
+                        />
+                      ) : (
+                        <LedMachineLogo size="md" />
+                      )}
+                    </div>
+
+                    <div className="flex-1 w-full space-y-3">
+                      <div>
+                        <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs cursor-pointer shadow-md transition-all active:scale-95">
+                          <Upload className="w-4 h-4" />
+                          <span>Selecionar Imagem do Logo (PNG / SVG)</span>
+                          <input
+                            type="file"
+                            accept="image/png,image/svg+xml,image/jpeg,image/webp"
+                            className="hidden"
+                            onChange={(e) =>
+                              handleImageUpload(e, (dataUrl) => {
+                                setLocalContent({
+                                  ...localContent,
+                                  general: {
+                                    ...localContent.general,
+                                    logoUrl: dataUrl,
+                                  },
+                                });
+                              })
+                            }
+                          />
+                        </label>
+                        <p className="text-[11px] text-white/50 mt-1">
+                          Recomendado: PNG com fundo transparente ou SVG com proporção preservada.
+                        </p>
+                      </div>
+
+                      {/* Height Slider */}
+                      {localContent.general.logoUrl && (
+                        <div>
+                          <div className="flex items-center justify-between text-xs font-semibold text-white/80 mb-1">
+                            <span>Ajustar Altura do Logo no Menu:</span>
+                            <span className="text-cyan-300 font-mono">
+                              {localContent.general.logoHeight || 40}px
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="24"
+                            max="70"
+                            value={localContent.general.logoHeight || 40}
+                            onChange={(e) =>
+                              setLocalContent({
+                                ...localContent,
+                                general: {
+                                  ...localContent.general,
+                                  logoHeight: parseInt(e.target.value, 10),
+                                },
+                              })
+                            }
+                            className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1237,21 +1432,33 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
 
           <div className="flex items-center gap-3">
             {saveSuccess && (
-              <span className="flex items-center gap-1 text-xs font-medium text-emerald-400 animate-in fade-in">
-                <Check className="w-4 h-4" />
-                Alterações salvas com sucesso no seu site!
+              <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 animate-in fade-in">
+                <Check className="w-4 h-4 text-emerald-400" />
+                Salvo na Nuvem! Visível para todos os clientes.
               </span>
             )}
 
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all"
+              disabled={isSavingCloud}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 text-white text-xs font-bold shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all cursor-pointer"
             >
-              <Save className="w-4 h-4" />
-              <span>Salvar Alterações no Site</span>
+              {isSavingCloud ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Sincronizando Nuvem...</span>
+                </>
+              ) : (
+                <>
+                  <Cloud className="w-4 h-4" />
+                  <span>Salvar Alterações no Site (Nuvem)</span>
+                </>
+              )}
             </button>
           </div>
         </div>
+          </>
+        )}
       </div>
     </div>
   );

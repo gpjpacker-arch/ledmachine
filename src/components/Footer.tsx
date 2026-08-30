@@ -1,13 +1,15 @@
 import React from 'react';
-import { ShieldCheck, Phone, Mail, MapPin, Edit3 } from 'lucide-react';
+import { ShieldCheck, Phone, Mail, MapPin, Edit3, Lock } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { LedMachineLogo } from './LedMachineLogo';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
   onOpenContact: () => void;
+  onOpenTutorial?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpenTutorial }) => {
   const { content, setIsEditorOpen } = useSiteContent();
 
   return (
@@ -21,9 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact }) => 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
         {/* Brand Column */}
         <div className="space-y-4">
-          <span className="text-xl sm:text-2xl font-bold tracking-tight text-white block">
-            {content.general.siteName || 'LED Machine Painéis'}
-          </span>
+          <LedMachineLogo size="md" />
           <p className="text-sm text-white/80 max-w-sm leading-relaxed">
             {content.footer.aboutText || 'Empresa de tecnologia visual especializada em painéis de LED de alta qualidade para aplicações comerciais e residenciais com 2 anos de garantia.'}
           </p>
@@ -61,15 +61,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact }) => 
                 className="text-left block opacity-75 hover:opacity-100 transition-opacity cursor-pointer text-white"
               >
                 2 Anos de Garantia
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setIsEditorOpen(true)}
-                className="text-left inline-flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer text-xs mt-2"
-              >
-                <Edit3 className="w-3.5 h-3.5" />
-                <span>Painel de Edição de Textos & Fotos</span>
               </button>
             </li>
           </ul>

@@ -1,17 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { SiteContent, defaultSiteContent } from '../data/siteContent';
+import { db } from '../lib/firebase';
+import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 const STORAGE_KEY = 'ledmachine_site_content_v1';
+const FIRESTORE_DOC_ID = 'main_config';
 
 interface SiteContentContextType {
   content: SiteContent;
-  updateContent: (newContent: SiteContent) => void;
+  updateContent: (newContent: SiteContent) => Promise<boolean>;
   updateField: <K extends keyof SiteContent>(section: K, data: Partial<SiteContent[K]>) => void;
-  resetToDefault: () => void;
+  resetToDefault: () => Promise<void>;
   isEditorOpen: boolean;
   setIsEditorOpen: (open: boolean) => void;
   exportContentJson: () => void;
   importContentJson: (jsonString: string) => boolean;
+  isCloudSynced: boolean;
+  isSavingCloud: boolean;
 }
 
 const SiteContentContext = createContext<SiteContentContextType | undefined>(undefined);
@@ -25,48 +30,123 @@ export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return { ...defaultSiteContent, ...parsed };
       }
     } catch (e) {
-      console.warn('Erro ao carregar conteúdo customizado do localStorage:', e);
+      console.warn('Erro ao carregar do cache local:', e);
     }
     return defaultSiteContent;
   });
 
   const [isEditorOpen, setIsEditorOpen] = useState<boolean>(false);
+  const [isCloudSynced, setIsCloudSynced] = useState<boolean>(false);
+  const [isSavingCloud, setIsSavingCloud] = useState<boolean>(false);
 
+  // 1. Real-time synchronization with Firebase Firestore
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-    } catch (e) {
-      console.warn('Erro ao salvar conteúdo no localStorage:', e);
-    }
-  }, [content]);
+      const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
+      
+      // Listen to real-time updates from Cloud Firestore
+      const unsubscribe = onSnapshot(
+        docRef,
+        (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.data();
+            if (data && data.content) {
+              setContent((prev) => {
+                const merged = { ...defaultSiteContent, ...data.content };
+                try {
+                  localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+                } catch (err) {
+                  console.warn('Erro ao persistir local:', err);
+                }
+                return merged;
+              });
+              setIsCloudSynced(true);
+            }
+          } else {
+            // First run: save initial default content to Firestore cloud
+            setDoc(docRef, {
+              content: defaultSiteContent,
+              updatedAt: new Date().toISOString(),
+              updatedBy: 'system_init',
+            }).catch((err) => {
+              console.warn('Erro ao inicializar Firebase:', err);
+            });
+            setIsCloudSynced(true);
+          }
+        },
+        (error) => {
+          console.warn('Firestore fallback para local (offline ou sem conexão):', error);
+          setIsCloudSynced(false);
+        }
+      );
 
-  const updateContent = (newContent: SiteContent) => {
+      return () => unsubscribe();
+    } catch (err) {
+      console.warn('Firebase init error:', err);
+    }
+  }, []);
+
+  // Update content both in state, localStorage, and Firestore Cloud
+  const updateContent = async (newContent: SiteContent): Promise<boolean> => {
     setContent(newContent);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newContent));
+    } catch (e) {
+      console.warn('Erro ao salvar localmente:', e);
+    }
+
+    setIsSavingCloud(true);
+    try {
+      const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
+      await setDoc(docRef, {
+        content: newContent,
+        updatedAt: new Date().toISOString(),
+        updatedBy: 'admin_panel',
+      });
+      setIsCloudSynced(true);
+      setIsSavingCloud(false);
+      return true;
+    } catch (err) {
+      console.error('Erro ao salvar no Firestore Cloud:', err);
+      setIsSavingCloud(false);
+      return false;
+    }
   };
 
   const updateField = <K extends keyof SiteContent>(section: K, data: Partial<SiteContent[K]>) => {
     setContent((prev) => {
       const currentSection = prev[section];
+      let updated: SiteContent;
       if (typeof currentSection === 'object' && currentSection !== null && !Array.isArray(currentSection)) {
-        return {
+        updated = {
           ...prev,
           [section]: {
             ...currentSection,
             ...data,
           },
         };
+      } else {
+        updated = {
+          ...prev,
+          [section]: data as SiteContent[K],
+        };
       }
-      return {
-        ...prev,
-        [section]: data as SiteContent[K],
-      };
+      // Async sync to cloud
+      updateContent(updated).catch(() => {});
+      return updated;
     });
   };
 
-  const resetToDefault = () => {
+  const resetToDefault = async () => {
     setContent(defaultSiteContent);
     try {
       localStorage.removeItem(STORAGE_KEY);
+      const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
+      await setDoc(docRef, {
+        content: defaultSiteContent,
+        updatedAt: new Date().toISOString(),
+        updatedBy: 'admin_reset',
+      });
     } catch (e) {
       console.warn(e);
     }
@@ -85,7 +165,8 @@ export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const importContentJson = (jsonString: string): boolean => {
     try {
       const parsed = JSON.parse(jsonString);
-      setContent({ ...defaultSiteContent, ...parsed });
+      const merged = { ...defaultSiteContent, ...parsed };
+      updateContent(merged);
       return true;
     } catch (e) {
       console.error('JSON inválido:', e);
@@ -104,6 +185,8 @@ export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setIsEditorOpen,
         exportContentJson,
         importContentJson,
+        isCloudSynced,
+        isSavingCloud,
       }}
     >
       {children}

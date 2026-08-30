@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSiteContent } from '../context/SiteContentContext';
 
 interface LedMachineLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   showText?: boolean;
   className?: string;
   iconOnly?: boolean;
+  customSrc?: string;
 }
 
 export const LedMachineLogo: React.FC<LedMachineLogoProps> = ({
@@ -12,7 +14,37 @@ export const LedMachineLogo: React.FC<LedMachineLogoProps> = ({
   showText = true,
   className = '',
   iconOnly = false,
+  customSrc,
 }) => {
+  const { content } = useSiteContent();
+  const logoImage = customSrc || content?.general?.logoUrl;
+
+  const heights = {
+    sm: 'h-7',
+    md: 'h-9 sm:h-10',
+    lg: 'h-12',
+    xl: 'h-16',
+  };
+
+  // If user uploaded a custom logo image file (PNG/SVG/JPG), render it with strict aspect ratio preservation
+  if (logoImage) {
+    return (
+      <div
+        id="led-machine-logo-container"
+        className={`inline-flex items-center select-none cursor-pointer ${className}`}
+      >
+        <img
+          src={logoImage}
+          alt={content?.general?.siteName || 'LED Machine Painéis'}
+          className={`${heights[size]} w-auto object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.2)] transition-transform duration-300 hover:scale-105`}
+          style={{
+            maxHeight: content?.general?.logoHeight ? `${content.general.logoHeight}px` : undefined,
+          }}
+        />
+      </div>
+    );
+  }
+
   const iconDimensions = {
     sm: { width: 34, height: 28 },
     md: { width: 44, height: 36 },
