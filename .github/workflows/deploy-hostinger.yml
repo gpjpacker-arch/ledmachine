@@ -31,6 +31,9 @@ jobs:
           server: ${{ secrets.HOSTINGER_FTP_SERVER }}     # Ex: ftp.seudominio.com.br ou IP da Hostinger
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }} # Seu usuário FTP da Hostinger
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }} # Sua senha FTP da Hostinger
+          port: 21
+          protocol: ftp
           local-dir: ./dist/                              # Pasta gerada pelo build
-          server-dir: /public_html/                       # Pasta pública da Hostinger
+          server-dir: ./public_html/                      # Pasta pública da Hostinger
           dangerous-clean-slate: false                    # Não apaga arquivos extras fora do build
+          timeout: 60000
