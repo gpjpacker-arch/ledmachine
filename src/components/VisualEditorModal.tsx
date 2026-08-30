@@ -19,9 +19,9 @@ import {
   Key,
   AlertCircle,
   Cloud,
-  CloudCheck,
   Loader2
 } from 'lucide-react';
+import { LedMachineLogo } from './LedMachineLogo';
 import { useSiteContent } from '../context/SiteContentContext';
 import { SiteContent } from '../data/siteContent';
 

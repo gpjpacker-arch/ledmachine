@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { db } from '../lib/firebase';
-import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 
 const STORAGE_KEY = 'ledmachine_site_content_v1';
 const FIRESTORE_DOC_ID = 'main_config';
@@ -41,6 +41,11 @@ export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   // 1. Real-time synchronization with Firebase Firestore
   useEffect(() => {
+    if (!db) {
+      setIsCloudSynced(false);
+      return;
+    }
+
     try {
       const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
       
@@ -95,6 +100,10 @@ export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ c
       console.warn('Erro ao salvar localmente:', e);
     }
 
+    if (!db) {
+      return true;
+    }
+
     setIsSavingCloud(true);
     try {
       const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
@@ -141,12 +150,14 @@ export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setContent(defaultSiteContent);
     try {
       localStorage.removeItem(STORAGE_KEY);
-      const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
-      await setDoc(docRef, {
-        content: defaultSiteContent,
-        updatedAt: new Date().toISOString(),
-        updatedBy: 'admin_reset',
-      });
+      if (db) {
+        const docRef = doc(db, 'site_settings', FIRESTORE_DOC_ID);
+        await setDoc(docRef, {
+          content: defaultSiteContent,
+          updatedAt: new Date().toISOString(),
+          updatedBy: 'admin_reset',
+        });
+      }
     } catch (e) {
       console.warn(e);
     }
