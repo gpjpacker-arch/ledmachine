@@ -19,11 +19,13 @@ import {
   Key,
   AlertCircle,
   Cloud,
-  Loader2
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
 import { LedMachineLogo } from './LedMachineLogo';
 import { useSiteContent } from '../context/SiteContentContext';
-import { SiteContent } from '../data/siteContent';
+import { SiteContent, defaultSiteContent } from '../data/siteContent';
+import { compressAndOptimizeImage } from '../utils/imageCompressor';
 
 interface VisualEditorModalProps {
   isOpen: boolean;
@@ -53,6 +55,8 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
 
   const [localContent, setLocalContent] = useState<SiteContent>(content);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState<string>('');
+  const [isProcessingImage, setIsProcessingImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sync with context on open
@@ -68,6 +72,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
       }
       setPinInput('');
       setPinError('');
+      setSaveError('');
     }
   }, [isOpen, content]);
 
@@ -84,10 +89,20 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
     }
   };
 
-  const handleSave = () => {
-    updateContent(localContent);
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 2500);
+  const handleSave = async () => {
+    setSaveError('');
+    try {
+      const success = await updateContent(localContent);
+      if (success) {
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        setSaveError('Não foi possível salvar na nuvem agora. Suas alterações foram salvas localmente.');
+      }
+    } catch (err) {
+      console.error('Erro ao salvar no Firestore:', err);
+      setSaveError('Erro ao salvar alterações na nuvem.');
+    }
   };
 
   const handleReset = () => {
@@ -117,28 +132,34 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
     reader.readAsText(file);
   };
 
-  // Helper to handle image file upload and convert to base64 data URL
-  const handleImageUpload = (
+  // Helper to handle image file upload, auto-compress and optimize client-side
+  const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    onComplete: (dataUrl: string) => void
+    identifier: string,
+    onComplete: (dataUrl: string) => void,
+    options: { isLogo?: boolean; maxWidth?: number; maxHeight?: number } = {}
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check size limit (prevent freezing localStorage with 50MB files)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('A imagem é muito pesada (máx 5MB recomendado). Tente uma imagem otimizada em JPG ou WebP.');
-      return;
-    }
+    setIsProcessingImage(identifier);
+    try {
+      const optimizedBase64 = await compressAndOptimizeImage(file, {
+        isLogo: options.isLogo,
+        maxWidth: options.maxWidth || 1400,
+        maxHeight: options.maxHeight || 1050,
+        quality: 0.82,
+      });
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      if (base64) {
-        onComplete(base64);
-      }
-    };
-    reader.readAsDataURL(file);
+      onComplete(optimizedBase64);
+    } catch (err: any) {
+      console.error('Erro ao processar imagem:', err);
+      alert(err.message || 'Erro ao processar imagem.');
+    } finally {
+      setIsProcessingImage(null);
+      // Reset input value so same file can be selected again
+      e.target.value = '';
+    }
   };
 
   return (
@@ -522,22 +543,37 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                     <div className="flex-1 w-full space-y-3">
                       <div>
                         <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs cursor-pointer shadow-md transition-all active:scale-95">
-                          <Upload className="w-4 h-4" />
-                          <span>Selecionar Imagem do Logo (PNG / SVG)</span>
+                          {isProcessingImage === 'logo' ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              <span>Otimizando Logo...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-4 h-4" />
+                              <span>Selecionar Imagem do Logo (PNG / SVG)</span>
+                            </>
+                          )}
                           <input
                             type="file"
                             accept="image/png,image/svg+xml,image/jpeg,image/webp"
                             className="hidden"
+                            disabled={isProcessingImage === 'logo'}
                             onChange={(e) =>
-                              handleImageUpload(e, (dataUrl) => {
-                                setLocalContent({
-                                  ...localContent,
-                                  general: {
-                                    ...localContent.general,
-                                    logoUrl: dataUrl,
-                                  },
-                                });
-                              })
+                              handleImageUpload(
+                                e,
+                                'logo',
+                                (dataUrl) => {
+                                  setLocalContent({
+                                    ...localContent,
+                                    general: {
+                                      ...localContent.general,
+                                      logoUrl: dataUrl,
+                                    },
+                                  });
+                                },
+                                { isLogo: true }
+                              )
                             }
                           />
                         </label>
@@ -861,33 +897,67 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                           <label className="block text-xs font-semibold text-white/80">
                             Trocar Imagem deste Projeto:
                           </label>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap items-center gap-2">
                             <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-medium text-white transition-colors">
-                              <Upload className="w-3.5 h-3.5" />
-                              <span>Fazer Upload do Computador</span>
+                              {isProcessingImage === `carousel-${proj.id}` ? (
+                                <>
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                  <span>Otimizando Foto...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Upload className="w-3.5 h-3.5" />
+                                  <span>Fazer Upload do Computador</span>
+                                </>
+                              )}
                               <input
                                 type="file"
                                 accept="image/*"
                                 className="hidden"
+                                disabled={isProcessingImage === `carousel-${proj.id}`}
                                 onChange={(e) =>
-                                  handleImageUpload(e, (dataUrl) => {
-                                    const updatedProjects = [...localContent.carousel.projects];
-                                    updatedProjects[idx].imageUrl = dataUrl;
-                                    setLocalContent({
-                                      ...localContent,
-                                      carousel: { ...localContent.carousel, projects: updatedProjects },
-                                    });
-                                  })
+                                  handleImageUpload(
+                                    e,
+                                    `carousel-${proj.id}`,
+                                    (dataUrl) => {
+                                      const updatedProjects = [...localContent.carousel.projects];
+                                      updatedProjects[idx].imageUrl = dataUrl;
+                                      setLocalContent({
+                                        ...localContent,
+                                        carousel: { ...localContent.carousel, projects: updatedProjects },
+                                      });
+                                    },
+                                    { maxWidth: 1400, maxHeight: 1050 }
+                                  )
                                 }
                               />
                             </label>
+
+                            {proj.imageUrl !== defaultSiteContent.carousel.projects[idx]?.imageUrl && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const updatedProjects = [...localContent.carousel.projects];
+                                  updatedProjects[idx].imageUrl = defaultSiteContent.carousel.projects[idx].imageUrl;
+                                  setLocalContent({
+                                    ...localContent,
+                                    carousel: { ...localContent.carousel, projects: updatedProjects },
+                                  });
+                                }}
+                                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-xs transition-colors"
+                                title="Restaurar imagem padrão original deste projeto"
+                              >
+                                <RefreshCw className="w-3 h-3" />
+                                <span>Restaurar Padrão</span>
+                              </button>
+                            )}
                           </div>
                           <div className="mt-1">
                             <input
                               type="text"
-                              value={proj.imageUrl.startsWith('data:') ? '[Imagem personalizada carregada via upload]' : proj.imageUrl}
+                              value={proj.imageUrl.startsWith('data:') ? '[✓ Foto personalizada salva com sucesso]' : proj.imageUrl}
                               onChange={(e) => {
-                                if (e.target.value.startsWith('http')) {
+                                if (e.target.value.startsWith('http') || e.target.value.startsWith('/')) {
                                   const updatedProjects = [...localContent.carousel.projects];
                                   updatedProjects[idx].imageUrl = e.target.value;
                                   setLocalContent({
@@ -1003,14 +1073,24 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                     <div className="flex-1 space-y-2">
                       <label className="block text-xs font-semibold text-white/80">Trocar Imagem Comercial:</label>
                       <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-medium text-white transition-colors">
-                        <Upload className="w-3.5 h-3.5" />
-                        <span>Fazer Upload</span>
+                        {isProcessingImage === 'sol-commercial' ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Otimizando Imagem...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-3.5 h-3.5" />
+                            <span>Fazer Upload</span>
+                          </>
+                        )}
                         <input
                           type="file"
                           accept="image/*"
                           className="hidden"
+                          disabled={isProcessingImage === 'sol-commercial'}
                           onChange={(e) =>
-                            handleImageUpload(e, (dataUrl) => {
+                            handleImageUpload(e, 'sol-commercial', (dataUrl) => {
                               setLocalContent({
                                 ...localContent,
                                 solutions: {
@@ -1099,14 +1179,24 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                     <div className="flex-1 space-y-2">
                       <label className="block text-xs font-semibold text-white/80">Trocar Imagem Residencial:</label>
                       <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-medium text-white transition-colors">
-                        <Upload className="w-3.5 h-3.5" />
-                        <span>Fazer Upload</span>
+                        {isProcessingImage === 'sol-residential' ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Otimizando Imagem...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-3.5 h-3.5" />
+                            <span>Fazer Upload</span>
+                          </>
+                        )}
                         <input
                           type="file"
                           accept="image/*"
                           className="hidden"
+                          disabled={isProcessingImage === 'sol-residential'}
                           onChange={(e) =>
-                            handleImageUpload(e, (dataUrl) => {
+                            handleImageUpload(e, 'sol-residential', (dataUrl) => {
                               setLocalContent({
                                 ...localContent,
                                 solutions: {
@@ -1253,14 +1343,24 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                         </div>
                         <div className="flex-1 space-y-2 w-full">
                           <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-medium text-white transition-colors">
-                            <Upload className="w-3.5 h-3.5" />
-                            <span>Trocar Foto deste Post</span>
+                            {isProcessingImage === `social-${card.id}` ? (
+                              <>
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                <span>Otimizando Foto...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Upload className="w-3.5 h-3.5" />
+                                <span>Trocar Foto deste Post</span>
+                              </>
+                            )}
                             <input
                               type="file"
                               accept="image/*"
                               className="hidden"
+                              disabled={isProcessingImage === `social-${card.id}`}
                               onChange={(e) =>
-                                handleImageUpload(e, (dataUrl) => {
+                                handleImageUpload(e, `social-${card.id}`, (dataUrl) => {
                                   const updated = [...localContent.social.cards];
                                   updated[idx].imageUrl = dataUrl;
                                   setLocalContent({
@@ -1431,10 +1531,17 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
           </button>
 
           <div className="flex items-center gap-3">
+            {saveError && (
+              <span className="flex items-center gap-1.5 text-xs font-medium text-amber-400 animate-in fade-in">
+                <AlertCircle className="w-4 h-4 text-amber-400" />
+                {saveError}
+              </span>
+            )}
+
             {saveSuccess && (
               <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 animate-in fade-in">
                 <Check className="w-4 h-4 text-emerald-400" />
-                Salvo na Nuvem! Visível para todos os clientes.
+                Salvo na Nuvem com Sucesso!
               </span>
             )}
 
