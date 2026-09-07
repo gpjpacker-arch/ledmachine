@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { LedMachineLogo } from './LedMachineLogo';
-import { LayoutGrid, X, MessageSquare, ArrowRight, Edit3 } from 'lucide-react';
+import { LayoutGrid, X, ArrowRight } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { openButtonLink } from '../utils/linkHelper';
 
 interface NavbarProps {
   activeSection: string;
@@ -17,7 +18,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSimulator,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { content, setIsEditorOpen } = useSiteContent();
+  const { content } = useSiteContent();
 
   const navItems = content.navbar.navLinks || [
     { id: 'home', label: 'Início' },
@@ -47,11 +48,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Center / Right Links: Exact layout of 'Contact | Menu ☷' */}
         <div className="flex items-center space-x-4 sm:space-x-8">
-
           {/* Contact Link */}
           <button
             id="nav-contact-link"
-            onClick={onOpenContact}
+            onClick={() => openButtonLink(content.buttonLinks?.navbarContact, onOpenContact)}
             className="text-sm font-medium text-white/80 hover:text-white transition-colors cursor-pointer"
           >
             Contato
@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             aria-label="Abrir Menu"
           >
             <span>Menu</span>
-            <LayoutGrid className="w-4 h-4 text-white/80 group-hover:text-cyan-300 transition-colors" />
+            <LayoutGrid className="w-4 h-4 text-white/80 group-hover:text-blue-300 transition-colors" />
           </button>
         </div>
       </nav>
@@ -111,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => {
                 setMenuOpen(false);
-                onOpenContact();
+                openButtonLink(content.buttonLinks?.navbarBudget, onOpenContact);
               }}
               className="w-full py-2.5 rounded-xl bg-white hover:bg-white/90 text-[#070919] font-bold text-xs shadow-lg flex items-center justify-center gap-1.5 transition-all"
             >
@@ -133,4 +133,3 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
-

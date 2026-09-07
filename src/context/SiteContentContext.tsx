@@ -3,7 +3,7 @@ import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { db } from '../lib/firebase';
 import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 
-const STORAGE_KEY = 'ledmachine_site_content_v1';
+const STORAGE_KEY = 'ledmachine_site_content_v3';
 const FIRESTORE_DOC_ID = 'main_config';
 
 interface SiteContentContextType {

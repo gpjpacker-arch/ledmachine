@@ -13,6 +13,7 @@ import { ContactModal } from './components/ContactModal';
 import { DemoPlaygroundModal } from './components/DemoPlaygroundModal';
 import { VisualEditorModal } from './components/VisualEditorModal';
 import { TutorialPdfModal } from './components/TutorialPdfModal';
+import { GlobalAmbientLights } from './components/GlobalAmbientLights';
 import { SiteContentProvider, useSiteContent } from './context/SiteContentContext';
 
 function MainAppContent() {
@@ -75,18 +76,12 @@ function MainAppContent() {
   return (
     <div
       id="ledmachine-app-root"
-      className="min-h-screen w-full bg-[#05020c] text-white relative selection:bg-purple-600 selection:text-white overflow-x-hidden"
+      className="min-h-screen w-full bg-[#020617] text-white relative selection:bg-blue-600 selection:text-white overflow-x-hidden"
     >
-      {/* 1. Global Ambient Grid Background & Cosmic Lighting */}
-      <div className="fixed inset-0 cosmic-grid-bg opacity-70 pointer-events-none z-0" />
-      <div className="fixed inset-0 cosmic-glow-radial pointer-events-none z-0" />
+      {/* Dynamic 3D Background Ambience with Mouse/Scroll Parallax Motion */}
+      <GlobalAmbientLights />
 
-      {/* Secondary Ambient Light Spheres */}
-      <div className="fixed -top-40 -left-40 w-[600px] h-[600px] bg-purple-900/15 rounded-full blur-[140px] pointer-events-none z-0" />
-      <div className="fixed top-1/3 -right-40 w-[600px] h-[600px] bg-indigo-900/15 rounded-full blur-[140px] pointer-events-none z-0" />
-      <div className="fixed -bottom-40 left-1/3 w-[700px] h-[700px] bg-purple-950/20 rounded-full blur-[160px] pointer-events-none z-0" />
-
-      {/* 2. Main Visual Frame */}
+      {/* Main Visual Frame */}
       <div className="relative z-10 w-full min-h-screen flex flex-col justify-between">
         {/* Navigation Bar */}
         <Navbar
@@ -111,26 +106,26 @@ function MainAppContent() {
               handleOpenContactWithCustomMessage('Olá! Gostaria de conversar com um especialista da LED Machine.');
             }}
             onOpenPlayground={() => setIsSimulatorOpen(true)}
-            onRequestQuoteWithDetails={(title, category) => {
-              handleOpenContactWithCustomMessage(`Olá! Gostaria de um projeto personalizado similar ao '${title}' (Categoria: ${category}).`);
+            onRequestQuoteWithDetails={(title, cat) => {
+              handleOpenContactWithCustomMessage(`Olá! Gostaria de um projeto personalizado similar ao '${title}' (Categoria: ${cat}).`);
             }}
           />
 
-          {/* 2. Por que LED Machine? */}
+          {/* 2. Key Pillars / Why LED Machine */}
           <WhyLedMachineSection
             onSelectBlock={(blockTitle) => {
               handleOpenContactWithCustomMessage(`Olá! Gostaria de saber mais sobre: ${blockTitle}`);
             }}
           />
 
-          {/* Widescreen LED Showcase Banner */}
+          {/* 3. Widescreen Outdoor LED Banner Showcase */}
           <WidescreenLedBanner
             onOpenProjectQuote={() => {
               handleOpenContactWithCustomMessage('Olá! Gostaria de um orçamento para um projeto de painel de LED Outdoor de alta performance.');
             }}
           />
 
-          {/* 3. Soluções: Comercial & Residencial */}
+          {/* 4. Solutions Showcase (Commercial & Residential) */}
           <SolutionsSection
             onOpenCommercialQuote={() => {
               handleOpenContactWithCustomMessage('Olá! Gostaria de uma consultoria e projeto para ambiente Comercial.');
@@ -140,21 +135,21 @@ function MainAppContent() {
             }}
           />
 
-          {/* 4. Garantia & Confiança (2 Anos) */}
+          {/* 5. 2-Year Warranty & Reliability Badge */}
           <WarrantySection
             onOpenSpecialist={() => {
               handleOpenContactWithCustomMessage('Olá! Gostaria de falar com um especialista sobre a garantia e especificações dos painéis.');
             }}
           />
 
-          {/* 5. Galeria de Produto em Destaque (Single Product Showcase) */}
+          {/* 6. Featured Product Deep-Dive Gallery */}
           <FeaturedProductGallerySection
-            onOpenProductQuote={(productTitle) => {
-              handleOpenContactWithCustomMessage(`Olá! Gostaria de um orçamento personalizado para o ${productTitle}.`);
+            onOpenProductQuote={(productName) => {
+              handleOpenContactWithCustomMessage(`Olá! Gostaria de um orçamento personalizado para o ${productName}.`);
             }}
           />
 
-          {/* 7. Final CTA Section */}
+          {/* 7. Final Project CTA */}
           <FinalCtaSection
             onRequestProject={() => {
               setContactPrefill('');
@@ -165,7 +160,7 @@ function MainAppContent() {
             }}
           />
 
-          {/* 8. Social Networks & Community Section */}
+          {/* 8. Social Media & Channels */}
           <SocialSection
             onOpenContactModal={() => {
               setContactPrefill('');
@@ -185,13 +180,15 @@ function MainAppContent() {
         />
       </div>
 
-      {/* 3. Interactive Modals */}
+      {/* Interactive Modals */}
+      {/* 1. Direct Specialist Consultation Modal */}
       <ContactModal
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
         prefilledNotes={contactPrefill}
       />
 
+      {/* 2. Interactive Simulator & Demo Playground */}
       <DemoPlaygroundModal
         isOpen={isSimulatorOpen}
         onClose={() => setIsSimulatorOpen(false)}
@@ -201,13 +198,13 @@ function MainAppContent() {
         }}
       />
 
-      {/* 4. Visual Admin Editor Modal */}
+      {/* 3. Visual Admin Editor Modal */}
       <VisualEditorModal
         isOpen={isEditorOpen}
         onClose={() => setIsEditorOpen(false)}
       />
 
-      {/* 5. PDF / Printable Administrator Manual Modal */}
+      {/* 4. PDF / Printable Administrator Manual Modal */}
       <TutorialPdfModal
         isOpen={isTutorialOpen}
         onClose={() => setIsTutorialOpen(false)}

@@ -45,12 +45,12 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
     >
       <div
         id="simulator-modal-content"
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#09112d] border border-blue-500/30 p-6 md:p-8 shadow-[0_0_60px_rgba(37,99,235,0.35)] text-white"
+        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#10121a] border border-white/10 p-6 md:p-8 shadow-2xl text-white"
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors cursor-pointer"
+          className="absolute top-5 right-5 p-2 rounded-full bg-white/[0.05] hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -58,17 +58,17 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
         {/* Modal Header */}
         <div className="flex items-center gap-3 mb-6">
           <LedMachineLogo size="sm" />
-          <div className="h-6 w-[1px] bg-white/20" />
-          <div className="flex items-center gap-2 text-xs font-semibold text-blue-400 uppercase tracking-wider">
-            <Calculator className="w-4 h-4" />
+          <div className="h-4 w-[1px] bg-white/20" />
+          <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            <Calculator className="w-4 h-4 text-zinc-400" />
             <span>Simulador de Dimensões & Resolução</span>
           </div>
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">
           Configure seu Painel de LED Sob Medida
         </h2>
-        <p className="text-sm text-white/70 mb-8">
+        <p className="text-sm text-zinc-400 mb-8 font-normal">
           Ajuste as medidas e o pixel pitch desejado para calcular a resolução real em pixels, área total e distância ideal de visualização.
         </p>
 
@@ -78,7 +78,7 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
           <div className="lg:col-span-6 space-y-6">
             {/* 1. Environment */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-white uppercase tracking-wider">
+              <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                 1. Ambiente de Aplicação
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -97,8 +97,8 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
                     }}
                     className={`py-2.5 px-2 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
                       environment === item.id
-                        ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
-                        : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'
+                        ? 'bg-white border-white text-[#090a0f] font-semibold'
+                        : 'bg-white/[0.04] border-white/10 text-zinc-400 hover:text-white hover:bg-white/[0.08]'
                     }`}
                   >
                     {item.label}
@@ -111,8 +111,8 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
-                  <span className="font-semibold uppercase tracking-wider text-white">Largura (m)</span>
-                  <span className="font-mono text-blue-300 font-bold">{width} m</span>
+                  <span className="font-semibold uppercase tracking-wider text-zinc-400">Largura (m)</span>
+                  <span className="font-mono text-zinc-200 font-bold">{width} m</span>
                 </div>
                 <input
                   type="range"
@@ -121,14 +121,14 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
                   step={0.5}
                   value={width}
                   onChange={(e) => setWidth(parseFloat(e.target.value))}
-                  className="w-full accent-blue-500 cursor-pointer"
+                  className="w-full accent-white cursor-pointer"
                 />
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
-                  <span className="font-semibold uppercase tracking-wider text-white">Altura (m)</span>
-                  <span className="font-mono text-blue-300 font-bold">{height} m</span>
+                  <span className="font-semibold uppercase tracking-wider text-zinc-400">Altura (m)</span>
+                  <span className="font-mono text-zinc-200 font-bold">{height} m</span>
                 </div>
                 <input
                   type="range"
@@ -137,14 +137,14 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
                   step={0.5}
                   value={height}
                   onChange={(e) => setHeight(parseFloat(e.target.value))}
-                  className="w-full accent-blue-500 cursor-pointer"
+                  className="w-full accent-white cursor-pointer"
                 />
               </div>
             </div>
 
             {/* 3. Pixel Pitch */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-white uppercase tracking-wider">
+              <label className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                 3. Pixel Pitch (Distância entre LEDs)
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -154,8 +154,8 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
                     onClick={() => setPixelPitch(p)}
                     className={`py-2 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
                       pixelPitch === p
-                        ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
-                        : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10'
+                        ? 'bg-white border-white text-[#090a0f] font-semibold'
+                        : 'bg-white/[0.04] border-white/10 text-zinc-400 hover:text-white hover:bg-white/[0.08]'
                     }`}
                   >
                     P{p} mm
@@ -166,26 +166,26 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
           </div>
 
           {/* Results Visual & Calculations Box (6 cols) */}
-          <div className="lg:col-span-6 p-6 rounded-2xl bg-white/5 border border-blue-500/20 backdrop-blur-md space-y-6">
+          <div className="lg:col-span-6 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-6">
             {/* Visual Panel Display Aspect Ratio Box */}
             <div className="space-y-2">
-              <div className="flex justify-between text-xs text-white/70">
+              <div className="flex justify-between text-xs text-zinc-400">
                 <span>Visualização da Proporção</span>
-                <span>{cabinetCols} x {cabinetRows} Gabinetes</span>
+                <span className="font-mono text-zinc-300">{cabinetCols} × {cabinetRows} Gabinetes</span>
               </div>
-              <div className="w-full h-44 sm:h-48 rounded-xl bg-[#040817] border border-blue-500/40 p-3 flex items-center justify-center relative overflow-hidden">
-                {/* Subtle Grid / Measurement background in container */}
+              <div className="w-full h-44 sm:h-48 rounded-xl bg-[#090a0f] border border-white/10 p-3 flex items-center justify-center relative overflow-hidden">
+                {/* Subtle Grid in container */}
                 <div 
-                  className="absolute inset-0 opacity-15 pointer-events-none"
+                  className="absolute inset-0 opacity-10 pointer-events-none"
                   style={{
-                    backgroundImage: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 1px, transparent 1px)',
+                    backgroundImage: 'radial-gradient(circle, rgba(255, 255, 255, 0.4) 1px, transparent 1px)',
                     backgroundSize: '16px 16px',
                   }}
                 />
 
-                {/* Visual LED Matrix simulation with mathematically exact aspect ratio */}
+                {/* Visual LED Matrix simulation */}
                 <div
-                  className="bg-gradient-to-br from-blue-900/90 via-indigo-900/80 to-blue-950/90 border-2 border-blue-400 rounded-lg flex flex-col items-center justify-center relative shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all duration-300 overflow-hidden"
+                  className="bg-[#141724] border border-white/20 rounded-lg flex flex-col items-center justify-center relative transition-all duration-300 overflow-hidden"
                   style={{
                     aspectRatio: `${width} / ${height}`,
                     height: (width / height) > 2.2 ? 'auto' : '88%',
@@ -196,24 +196,24 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
                 >
                   {/* Subtle LED cabinet division lines overlay */}
                   <div 
-                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    className="absolute inset-0 opacity-15 pointer-events-none"
                     style={{
                       display: 'grid',
                       gridTemplateColumns: `repeat(${Math.min(cabinetCols, 16)}, 1fr)`,
                       gridTemplateRows: `repeat(${Math.min(cabinetRows, 12)}, 1fr)`,
-                      border: '1px solid rgba(255,255,255,0.3)',
+                      border: '1px solid rgba(255,255,255,0.2)',
                     }}
                   >
                     {Array.from({ length: Math.min(cabinetCols, 16) * Math.min(cabinetRows, 12) }).map((_, i) => (
-                      <div key={i} className="border border-white/20" />
+                      <div key={i} className="border border-white/10" />
                     ))}
                   </div>
 
                   <div className="relative z-10 text-center p-2 flex flex-col items-center justify-center">
-                    <span className="text-xs sm:text-sm font-black font-mono text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                    <span className="text-xs sm:text-sm font-bold font-mono text-white tracking-wide">
                       {width}m × {height}m
                     </span>
-                    <span className="text-[10px] sm:text-[11px] font-mono font-semibold text-blue-200 drop-shadow">
+                    <span className="text-[10px] sm:text-[11px] font-mono font-medium text-zinc-400">
                       {pixelsHorizontal} × {pixelsVertical} px
                     </span>
                   </div>
@@ -222,32 +222,32 @@ export const DemoPlaygroundModal: React.FC<DemoPlaygroundModalProps> = ({
             </div>
 
             {/* Metrics List */}
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-                <span className="text-white/60 block">Área Total:</span>
+            <div className="grid grid-cols-2 gap-2.5 text-xs">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                <span className="text-zinc-500 block mb-0.5">Área Total:</span>
                 <span className="text-base font-bold text-white">{totalArea} m²</span>
               </div>
-              <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-                <span className="text-white/60 block">Resolução:</span>
-                <span className="text-sm font-bold text-blue-300">{pixelsHorizontal} × {pixelsVertical}</span>
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                <span className="text-zinc-500 block mb-0.5">Resolução:</span>
+                <span className="text-sm font-bold text-zinc-200">{pixelsHorizontal} × {pixelsVertical}</span>
               </div>
-              <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-                <span className="text-white/60 block">Distância Mínima:</span>
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                <span className="text-zinc-500 block mb-0.5">Distância Mínima:</span>
                 <span className="text-base font-bold text-white">~{minViewingDist} metros</span>
               </div>
-              <div className="p-3 rounded-xl bg-black/40 border border-white/10">
-                <span className="text-white/60 block">Consumo Médio:</span>
-                <span className="text-base font-bold text-emerald-400">~{estimatedPowerAvg} W</span>
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                <span className="text-zinc-500 block mb-0.5">Consumo Médio:</span>
+                <span className="text-base font-bold text-zinc-200">~{estimatedPowerAvg} W</span>
               </div>
             </div>
 
             {/* Action CTA */}
             <button
               onClick={handleGenerateQuote}
-              className="w-full py-3.5 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-sm transition-all shadow-[0_4px_25px_rgba(255,255,255,0.2)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.3)] border border-white flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02]"
+              className="w-full py-3.5 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] font-semibold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Solicitar Orçamento com Esta Configuração</span>
-              <ArrowRight className="w-4 h-4 text-[#070c20]" />
+              <ArrowRight className="w-4 h-4 text-[#090a0f]" />
             </button>
           </div>
         </div>

@@ -20,12 +20,14 @@ import {
   AlertCircle,
   Cloud,
   Loader2,
-  RefreshCw
+  RefreshCw,
+  Link2
 } from 'lucide-react';
 import { LedMachineLogo } from './LedMachineLogo';
 import { useSiteContent } from '../context/SiteContentContext';
 import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { compressAndOptimizeImage } from '../utils/imageCompressor';
+import { ButtonLinksEditorTab, ButtonLinkKey } from './ButtonLinksEditorTab';
 
 interface VisualEditorModalProps {
   isOpen: boolean;
@@ -50,13 +52,16 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
   const [pinError, setPinError] = useState<string>('');
 
   const [activeTab, setActiveTab] = useState<
-    'general' | 'hero' | 'carousel' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
+    'general' | 'links' | 'hero' | 'carousel' | 'widescreen' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
   >('general');
 
   const [localContent, setLocalContent] = useState<SiteContent>(content);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState<string>('');
   const [isProcessingImage, setIsProcessingImage] = useState<string | null>(null);
+  const [isBatchUploading, setIsBatchUploading] = useState<boolean>(false);
+  const [batchProgress, setBatchProgress] = useState<string>('');
+  const [batchSuccessMessage, setBatchSuccessMessage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sync with context on open
@@ -112,6 +117,61 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
     }
   };
 
+  const handleUpdateLink = (key: ButtonLinkKey, value: string) => {
+    setLocalContent((prev) => ({
+      ...prev,
+      buttonLinks: {
+        ...(prev.buttonLinks || defaultSiteContent.buttonLinks || {
+          navbarContact: '#contato',
+          navbarBudget: '#contato',
+          heroPrimary: '#contato',
+          heroCarousel: '#contato',
+          widescreenBanner: '#contato',
+          featuredProductQuote: '#contato',
+          featuredProductWhatsapp: '',
+          finalCtaPrimary: '#contato',
+          finalCtaWhatsapp: '',
+          socialInstagram: '',
+          socialWhatsapp: '',
+          socialMaps: '',
+          footerContact: '#contato',
+          footerWarranty: '#contato',
+          footerPhone: '',
+          footerEmail: '',
+        }),
+        [key]: value,
+      },
+    }));
+  };
+
+  const handleResetAllLinks = () => {
+    if (window.confirm('Deseja restaurar os links de todos os botões para a configuração original padrão?')) {
+      setLocalContent((prev) => ({
+        ...prev,
+        buttonLinks: { ...(defaultSiteContent.buttonLinks as any) },
+      }));
+    }
+  };
+
+  const handleApplyWhatsappToAll = (phone: string) => {
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (!cleanPhone) return;
+
+    setLocalContent((prev) => {
+      const current = prev.buttonLinks || defaultSiteContent.buttonLinks || ({} as any);
+      return {
+        ...prev,
+        buttonLinks: {
+          ...current,
+          featuredProductWhatsapp: `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Olá, vi os detalhes do Cinema Series no site da LED Machine e gostaria de um orçamento personalizado.')}`,
+          finalCtaWhatsapp: `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Olá! Estava no site da LED Machine e gostaria de conversar com um especialista sobre um projeto.')}`,
+          socialWhatsapp: `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Olá, vi os produtos da Led Machine no site e gostaria de um orçamento')}`,
+          footerPhone: `https://wa.me/${cleanPhone}`,
+        },
+      };
+    });
+  };
+
   const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -158,6 +218,78 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
     } finally {
       setIsProcessingImage(null);
       // Reset input value so same file can be selected again
+      e.target.value = '';
+    }
+  };
+
+  // Helper to handle batch upload of all 7 gallery images at once
+  const handleBatchGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setIsBatchUploading(true);
+    setBatchProgress('Processando e otimizando imagens...');
+
+    try {
+      // Sort files by number in filename (1.png, 2.png, ...)
+      const sortedFiles = [...files].sort((a, b) => {
+        const numA = parseInt(a.name.match(/\d+/)?.[0] || '999', 10);
+        const numB = parseInt(b.name.match(/\d+/)?.[0] || '999', 10);
+        if (numA !== numB) return numA - numB;
+        return a.name.localeCompare(b.name);
+      });
+
+      const updatedProjects = [...localContent.carousel.projects];
+
+      for (let i = 0; i < sortedFiles.length; i++) {
+        const file = sortedFiles[i];
+        // Match project index: if filename has '1', put in index 0; '2' in index 1, etc.
+        const numMatch = file.name.match(/\d+/)?.[0];
+        let targetIndex = i;
+        if (numMatch) {
+          const parsed = parseInt(numMatch, 10);
+          if (parsed >= 1 && parsed <= updatedProjects.length) {
+            targetIndex = parsed - 1;
+          }
+        }
+
+        if (targetIndex < updatedProjects.length) {
+          setBatchProgress(`Otimizando foto ${i + 1} de ${sortedFiles.length} (${file.name})...`);
+          const base64 = await compressAndOptimizeImage(file, {
+            maxWidth: 1080,
+            maxHeight: 810,
+            quality: 0.78,
+          });
+          updatedProjects[targetIndex] = {
+            ...updatedProjects[targetIndex],
+            imageUrl: base64,
+          };
+        }
+      }
+
+      const newContent = {
+        ...localContent,
+        carousel: {
+          ...localContent.carousel,
+          projects: updatedProjects,
+        },
+      };
+
+      setLocalContent(newContent);
+      setBatchProgress('Salvando no banco em nuvem...');
+      const saved = await updateContent(newContent);
+      if (saved) {
+        setBatchSuccessMessage(`${sortedFiles.length} foto(s) atualizada(s) e salvas no site com sucesso!`);
+      } else {
+        setBatchSuccessMessage(`${sortedFiles.length} foto(s) atualizada(s) localmente!`);
+      }
+      setTimeout(() => setBatchSuccessMessage(''), 5000);
+    } catch (err: any) {
+      console.error('Erro no upload em lote:', err);
+      alert('Erro ao processar as fotos: ' + (err.message || 'Erro desconhecido'));
+    } finally {
+      setIsBatchUploading(false);
+      setBatchProgress('');
       e.target.value = '';
     }
   };
@@ -305,6 +437,27 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             </button>
 
             <button
+              id="editor-tab-button-links"
+              onClick={() => setActiveTab('links')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeTab === 'links'
+                  ? 'bg-cyan-600/30 text-cyan-200 border border-cyan-400/50 shadow-sm'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Link2 className="w-4 h-4 text-cyan-400" />
+                <span>Links dos Botões</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                  Novo
+                </span>
+                {activeTab === 'links' && <ChevronRight className="w-3.5 h-3.5" />}
+              </div>
+            </button>
+
+            <button
               onClick={() => setActiveTab('hero')}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                 activeTab === 'hero'
@@ -313,7 +466,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <Type className="w-4 h-4 text-purple-400" />
+                <Type className="w-4 h-4 text-blue-400" />
                 <span>Topo / Hero Principal</span>
               </div>
               {activeTab === 'hero' && <ChevronRight className="w-3.5 h-3.5" />}
@@ -347,6 +500,22 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                 <span>Por que LED Machine?</span>
               </div>
               {activeTab === 'whyUs' && <ChevronRight className="w-3.5 h-3.5" />}
+            </button>
+
+            <button
+              id="editor-tab-widescreen"
+              onClick={() => setActiveTab('widescreen')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeTab === 'widescreen'
+                  ? 'bg-cyan-600/30 text-cyan-200 border border-cyan-400/50 shadow-sm'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="w-4 h-4 text-cyan-400" />
+                <span>Banner Curvo Widescreen</span>
+              </div>
+              {activeTab === 'widescreen' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
 
             <button
@@ -403,7 +572,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <Type className="w-4 h-4 text-cyan-400" />
+                <Type className="w-4 h-4 text-blue-400" />
                 <span>Mais que um Painel</span>
               </div>
               {activeTab === 'moreThan' && <ChevronRight className="w-3.5 h-3.5" />}
@@ -418,7 +587,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <Layout className="w-4 h-4 text-teal-400" />
+                <Layout className="w-4 h-4 text-blue-400" />
                 <span>Etapas de Atendimento (4 Passos)</span>
               </div>
               {activeTab === 'experience' && <ChevronRight className="w-3.5 h-3.5" />}
@@ -433,7 +602,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <HelpCircle className="w-4 h-4 text-pink-400" />
+                <HelpCircle className="w-4 h-4 text-blue-400" />
                 <span>Perguntas Frequentes (FAQ)</span>
               </div>
               {activeTab === 'faq' && <ChevronRight className="w-3.5 h-3.5" />}
@@ -726,6 +895,16 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               </div>
             )}
 
+            {/* 1.5 LINKS DOS BOTÕES DO SITE */}
+            {activeTab === 'links' && (
+              <ButtonLinksEditorTab
+                localContent={localContent}
+                onUpdateLink={handleUpdateLink}
+                onResetAllLinks={handleResetAllLinks}
+                onApplyWhatsappToAll={handleApplyWhatsappToAll}
+              />
+            )}
+
             {/* 2. HERO / TOPO TAB */}
             {activeTab === 'hero' && (
               <div className="space-y-6 animate-in fade-in duration-150">
@@ -864,8 +1043,52 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                 <div className="border-b border-white/10 pb-3">
                   <h3 className="text-base font-bold text-white">Carrossel de Projetos Realizados</h3>
                   <p className="text-xs text-white/60">
-                    Você pode alterar as fotos, títulos, tags e especificações de cada um dos 8 projetos do carrossel principal.
+                    Você pode alterar as fotos, títulos, tags e especificações dos 7 projetos do carrossel principal.
                   </p>
+                </div>
+
+                {/* BATCH UPLOAD CARD FOR ALL 7 PHOTOS */}
+                <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-blue-950/40 border-2 border-dashed border-blue-500/40 hover:border-blue-400/70 transition-all flex flex-col items-center justify-center text-center space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-400/40 flex items-center justify-center text-blue-400">
+                    <Upload className="w-6 h-6" />
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-bold text-white">
+                      Upload em Lote de Todas as Fotos (1.png a 7.png)
+                    </h4>
+                    <p className="text-xs text-white/70 max-w-lg mt-1">
+                      Selecione de uma só vez os seus arquivos (ex: <span className="text-blue-300 font-mono font-semibold">1.png, 2.png, ... 7.png</span>). O sistema irá compactar e distribuir automaticamente para cada projeto do carrossel!
+                    </p>
+                  </div>
+
+                  <label className="cursor-pointer inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    {isBatchUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>{batchProgress || 'Processando fotos...'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4" />
+                        <span>Selecionar Arquivos (1 a 7) de Uma Vez</span>
+                      </>
+                    )}
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      className="hidden"
+                      disabled={isBatchUploading}
+                      onChange={handleBatchGalleryUpload}
+                    />
+                  </label>
+
+                  {batchSuccessMessage && (
+                    <div className="w-full py-2 px-3 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-semibold animate-in fade-in">
+                      ✓ {batchSuccessMessage}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-6">
@@ -1049,6 +1272,306 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               </div>
             )}
 
+            {/* 3.5 WIDESCREEN BANNER TAB */}
+            {activeTab === 'widescreen' && (
+              <div className="space-y-6 animate-in fade-in duration-150">
+                <div className="border-b border-white/10 pb-3">
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-cyan-400" />
+                    Banner Curvo Widescreen (Fine-Pitch)
+                  </h3>
+                  <p className="text-xs text-white/60">
+                    Personalize a imagem panorâmica, títulos, destaques técnicos e botão de ação do painel curvo.
+                  </p>
+                </div>
+
+                {/* Banner Image Preview & Upload */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+                      Imagem Panorâmica de Fundo
+                    </label>
+                    <span className="text-[11px] text-white/50">Recomendado: 1920x800 ou 16:9</span>
+                  </div>
+
+                  <div className="relative aspect-[21/9] sm:aspect-[2.4/1] w-full rounded-xl overflow-hidden bg-black/60 border border-white/15">
+                    <img
+                      src={localContent.widescreenBanner?.imageUrl || '/images/painel-led-curvo-panoramico.jpg'}
+                      alt="Banner Preview"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                    
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-[10px] text-white flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>{localContent.widescreenBanner?.badge || 'Cápsula de Destaque'}</span>
+                    </div>
+
+                    <div className="absolute bottom-3 left-3 right-3 text-left">
+                      <span className="text-[9px] uppercase tracking-wider text-sky-400 font-bold block">
+                        {localContent.widescreenBanner?.tag || 'Categoria'}
+                      </span>
+                      <p className="text-xs sm:text-sm font-bold text-white truncate">
+                        {localContent.widescreenBanner?.title || 'Título'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <label className="cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs shadow-lg transition-colors">
+                      {isProcessingImage === 'widescreen-banner' ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Otimizando Foto...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-4 h-4" />
+                          <span>Fazer Upload do Computador</span>
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        disabled={isProcessingImage === 'widescreen-banner'}
+                        onChange={(e) =>
+                          handleImageUpload(
+                            e,
+                            'widescreen-banner',
+                            (dataUrl) => {
+                              setLocalContent({
+                                ...localContent,
+                                widescreenBanner: {
+                                  ...localContent.widescreenBanner,
+                                  imageUrl: dataUrl,
+                                },
+                              });
+                            },
+                            { maxWidth: 1920, maxHeight: 1080 }
+                          )
+                        }
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={localContent.widescreenBanner?.imageUrl || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          widescreenBanner: {
+                            ...localContent.widescreenBanner,
+                            imageUrl: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Ou cole a URL direta da imagem aqui..."
+                      className="flex-1 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs placeholder:text-white/40 focus:border-cyan-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Banner Texts */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <h4 className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+                    Textos e Conteúdo do Banner
+                  </h4>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">
+                        Cápsula Flutuante Superior (Badge)
+                      </label>
+                      <input
+                        type="text"
+                        value={localContent.widescreenBanner?.badge || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            widescreenBanner: {
+                              ...localContent.widescreenBanner,
+                              badge: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Painel Curvo Fine-Pitch • Imersão Panorâmica 160°"
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">
+                        Etiqueta / Tag Superior (Cyan)
+                      </label>
+                      <input
+                        type="text"
+                        value={localContent.widescreenBanner?.tag || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            widescreenBanner: {
+                              ...localContent.widescreenBanner,
+                              tag: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Engenharia Visual em Todos os Ambientes"
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">
+                      Título Principal
+                    </label>
+                    <input
+                      type="text"
+                      value={localContent.widescreenBanner?.title || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          widescreenBanner: {
+                            ...localContent.widescreenBanner,
+                            title: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Ex: O Impacto Imersivo da Tela Curva sob Medida"
+                      className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-semibold focus:border-cyan-400 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">
+                      Descrição Detalhada
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={localContent.widescreenBanner?.description || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          widescreenBanner: {
+                            ...localContent.widescreenBanner,
+                            description: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Texto descritivo..."
+                      className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-white/70 mb-1">Destaque 1</label>
+                      <input
+                        type="text"
+                        value={localContent.widescreenBanner?.features?.[0] || 'Curva Contínua'}
+                        onChange={(e) => {
+                          const currentFeats = [...(localContent.widescreenBanner?.features || ['Curva Contínua', '100% Sem Emendas', 'Raio Personalizado'])];
+                          currentFeats[0] = e.target.value;
+                          setLocalContent({
+                            ...localContent,
+                            widescreenBanner: {
+                              ...localContent.widescreenBanner,
+                              features: currentFeats,
+                            },
+                          });
+                        }}
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-semibold text-white/70 mb-1">Destaque 2</label>
+                      <input
+                        type="text"
+                        value={localContent.widescreenBanner?.features?.[1] || '100% Sem Emendas'}
+                        onChange={(e) => {
+                          const currentFeats = [...(localContent.widescreenBanner?.features || ['Curva Contínua', '100% Sem Emendas', 'Raio Personalizado'])];
+                          currentFeats[1] = e.target.value;
+                          setLocalContent({
+                            ...localContent,
+                            widescreenBanner: {
+                              ...localContent.widescreenBanner,
+                              features: currentFeats,
+                            },
+                          });
+                        }}
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-semibold text-white/70 mb-1">Destaque 3</label>
+                      <input
+                        type="text"
+                        value={localContent.widescreenBanner?.features?.[2] || 'Raio Personalizado'}
+                        onChange={(e) => {
+                          const currentFeats = [...(localContent.widescreenBanner?.features || ['Curva Contínua', '100% Sem Emendas', 'Raio Personalizado'])];
+                          currentFeats[2] = e.target.value;
+                          setLocalContent({
+                            ...localContent,
+                            widescreenBanner: {
+                              ...localContent.widescreenBanner,
+                              features: currentFeats,
+                            },
+                          });
+                        }}
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/10">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">
+                        Texto do Botão
+                      </label>
+                      <input
+                        type="text"
+                        value={localContent.widescreenBanner?.ctaText || 'Consultar Projeto'}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            widescreenBanner: {
+                              ...localContent.widescreenBanner,
+                              ctaText: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">
+                        Link / Ação do Botão
+                      </label>
+                      <input
+                        type="text"
+                        value={localContent.buttonLinks?.widescreenBanner || '#contato'}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            buttonLinks: {
+                              ...(localContent.buttonLinks || defaultSiteContent.buttonLinks || {} as any),
+                              widescreenBanner: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: #contato ou https://wa.me/..."
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 4. SOLUTIONS TAB (COMERCIAL / RESIDENCIAL COM FOTOS) */}
             {activeTab === 'solutions' && (
               <div className="space-y-6 animate-in fade-in duration-150">
@@ -1165,7 +1688,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
 
                 {/* Residencial */}
                 <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
-                  <h4 className="text-sm font-bold text-purple-300">🏡 Solução Residencial</h4>
+                  <h4 className="text-sm font-bold text-blue-300">🏡 Solução Residencial</h4>
                   
                   {/* Image control */}
                   <div className="flex flex-col sm:flex-row gap-4 items-start">
@@ -1178,7 +1701,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                     </div>
                     <div className="flex-1 space-y-2">
                       <label className="block text-xs font-semibold text-white/80">Trocar Imagem Residencial:</label>
-                      <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-medium text-white transition-colors">
+                      <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-medium text-white transition-colors">
                         {isProcessingImage === 'sol-residential' ? (
                           <>
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -1548,7 +2071,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             <button
               onClick={handleSave}
               disabled={isSavingCloud}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 text-white text-xs font-bold shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all cursor-pointer"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 text-white text-xs font-bold shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all cursor-pointer"
             >
               {isSavingCloud ? (
                 <>

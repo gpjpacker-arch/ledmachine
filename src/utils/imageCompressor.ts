@@ -68,35 +68,28 @@ export const compressAndOptimizeImage = async (
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
 
-          // If it's a PNG logo, preserve transparent background
-          const isPng = file.type === 'image/png' || isLogo;
+          // Only preserve transparent PNG for logos; all normal photos/projects should be JPEG/WebP
+          const isTransparentLogo = Boolean(isLogo && (file.type === 'image/png' || file.name.toLowerCase().endsWith('.png')));
 
-          if (!isPng) {
-            // Fill background with black/dark to avoid transparent jpeg glitch
-            ctx.fillStyle = '#000000';
+          if (!isTransparentLogo) {
+            // Fill background with dark tone to prevent black/transparent glitch
+            ctx.fillStyle = '#050714';
             ctx.fillRect(0, 0, targetWidth, targetHeight);
           }
 
           ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
-          // Output format:
-          // For logos with transparency, use PNG (at smaller resolution it is very lightweight ~30-60KB)
-          // For regular gallery/project photos, use WebP or JPEG with quality 0.82 (~40-80KB)
-          let outputType = 'image/jpeg';
-          let outputQuality = quality;
-
-          if (isPng) {
-            outputType = 'image/png';
+          let dataUrl = '';
+          if (isTransparentLogo) {
+            dataUrl = canvas.toDataURL('image/png');
           } else {
-            // Check if WebP is supported
-            outputType = 'image/webp';
+            // Use JPEG at optimized quality to ensure small footprint (<80KB per photo)
+            dataUrl = canvas.toDataURL('image/jpeg', 0.80);
           }
 
-          let dataUrl = canvas.toDataURL(outputType, outputQuality);
-
-          // If browser didn't produce WebP (returned image/png fallback), use image/jpeg
-          if (!isPng && dataUrl.startsWith('data:image/png')) {
-            dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          // If size is still larger than 120KB, compress further to prevent Firestore document quota error
+          if (!isTransparentLogo && dataUrl.length > 160000) {
+            dataUrl = canvas.toDataURL('image/jpeg', 0.68);
           }
 
           resolve(dataUrl);

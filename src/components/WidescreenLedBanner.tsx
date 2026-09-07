@@ -1,87 +1,119 @@
-import React from 'react';
-import { ShieldCheck, Zap, Maximize2 } from 'lucide-react';
-import urbanOutdoorImg from '../assets/images/urban_outdoor_led_1788061472350.jpg';
+import React, { useState } from 'react';
+import { Layers, Eye, Maximize2, Edit3 } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContentContext';
+import { openButtonLink } from '../utils/linkHelper';
+import curvedScreenImg from '../assets/images/curved_led_screen_1788647221773.jpg';
+import { WidescreenBannerEditorModal } from './WidescreenBannerEditorModal';
 
 interface WidescreenLedBannerProps {
   onOpenProjectQuote?: () => void;
 }
 
 export const WidescreenLedBanner: React.FC<WidescreenLedBannerProps> = ({ onOpenProjectQuote }) => {
+  const { content } = useSiteContent();
+  const [isEditorModalOpen, setIsEditorModalOpen] = useState(false);
+
+  // Active banner content (persisted in SiteContent, or fallbacks)
+  const banner = content.widescreenBanner;
+  const currentBannerImage = banner?.imageUrl || curvedScreenImg;
+  const badgeText = banner?.badge || 'Painel Curvo Fine-Pitch • Imersão Panorâmica 160°';
+  const tagText = banner?.tag || 'Engenharia Visual em Todos os Ambientes';
+  const titleText = banner?.title || 'O Impacto Imersivo da Tela Curva sob Medida';
+  const descriptionText =
+    banner?.description ||
+    'Telas curvas contínuas que abraçam a arquitetura sem emendas visíveis. Desenvolvidas com tecnologia Fine-Pitch para entregar profundidade cinematográfica e requinte absoluto em livings, espaços gourmet, home cinemas e ambientes corporativos.';
+  const ctaText = banner?.ctaText || 'Consultar Projeto';
+  const features = banner?.features && banner.features.length >= 3
+    ? banner.features
+    : ['Curva Contínua', '100% Sem Emendas', 'Raio Personalizado'];
+
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative">
-      {/* Subtle Background Glow behind the banner */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-72 bg-gradient-to-r from-blue-600/20 via-indigo-600/15 to-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-
       {/* Main Container */}
-      <div className="relative rounded-3xl overflow-hidden border border-blue-500/30 bg-[#060c24]/90 shadow-[0_15px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(37,99,235,0.2)] group">
-        {/* Top Edge Highlight */}
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-400/50 to-transparent z-20" />
-
+      <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-[#090a0f] shadow-[0_20px_50px_rgba(0,0,0,0.7)] group">
         {/* Widescreen Image Wrapper */}
-        <div className="relative aspect-[16/9] sm:aspect-[21/9] lg:aspect-[2.4/1] w-full overflow-hidden">
+        <div className="relative aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] w-full overflow-hidden">
           <img
-            src={urbanOutdoorImg}
-            alt="Painel de LED Outdoor de Alta Performance LED Machine em Fachada Urbana"
-            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            src={currentBannerImage}
+            alt="Painel de LED Curvo Fine-Pitch LED Machine integrado em ambiente gourmet e living de luxo"
+            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
             referrerPolicy="no-referrer"
           />
 
           {/* Cinematic Vignette & Bottom Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#040819] via-[#040819]/30 to-transparent opacity-90" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#040819]/80 via-transparent to-[#040819]/80 opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#04060c] via-[#04060c]/50 to-transparent opacity-95 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04060c]/85 via-transparent to-[#04060c]/60 opacity-75 pointer-events-none" />
 
-          {/* Top Floating Badge */}
-          <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20 flex items-center gap-2">
-            <div className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-blue-400/40 text-[11px] sm:text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 shadow-lg">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Painel Outdoor Alta Performance • IP65</span>
+          {/* Top Bar: Floating Badge (Left) & Edit Button (Right) */}
+          <div className="absolute top-3.5 sm:top-5 left-3.5 sm:left-6 right-3.5 sm:right-6 z-20 flex items-center justify-between gap-3 pointer-events-auto">
+            {/* Top Floating Badge - Apple Pro Frosted Capsule */}
+            <div className="px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-black/70 backdrop-blur-xl border border-white/20 text-[11px] sm:text-xs font-medium text-white flex items-center gap-2 shadow-lg max-w-[calc(100%-140px)] sm:max-w-none">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <span className="truncate">{badgeText}</span>
             </div>
+
+            {/* Direct Edit Button for Banner Text and Image */}
+            <button
+              id="btn-edit-widescreen-banner"
+              onClick={() => setIsEditorModalOpen(true)}
+              className="px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-black/75 hover:bg-black/90 backdrop-blur-xl border border-cyan-400/40 hover:border-cyan-300 text-[11px] sm:text-xs font-medium text-cyan-200 hover:text-white flex items-center gap-1.5 sm:gap-2 shadow-[0_4px_16px_rgba(6,182,212,0.25)] hover:shadow-[0_4px_20px_rgba(6,182,212,0.4)] transition-all duration-200 cursor-pointer shrink-0 hover:scale-105 active:scale-95 group/btn"
+              title="Clique para editar texto, destaques e imagem deste painel curvo"
+            >
+              <Edit3 className="w-3.5 h-3.5 text-cyan-400 group-hover/btn:rotate-12 transition-transform" />
+              <span>Editar Texto e Imagem</span>
+            </button>
           </div>
 
           {/* Bottom Content Overlay */}
-          <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-8 right-4 sm:right-8 z-20 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="max-w-xl">
-              <span className="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-1">
-                Presença Visual de Alto Impacto
+          <div className="absolute bottom-3 sm:bottom-6 left-3.5 sm:left-8 right-3.5 sm:right-8 z-20 flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
+            <div className="max-w-2xl">
+              <span className="text-[11px] sm:text-xs font-semibold text-sky-400 uppercase tracking-widest block mb-1">
+                {tagText}
               </span>
-              <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold text-white tracking-tight drop-shadow-md">
-                Tecnologia Visual que Domina o Ambiente Urbano
+              <h3 className="text-base sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug">
+                {titleText}
               </h3>
-              <p className="text-xs sm:text-sm text-white/80 mt-1 line-clamp-2 drop-shadow">
-                Brilho calibrado de até 6.500 nits, proteção climática integral e altíssima taxa de atualização para visualização perfeita sob luz solar direta.
+              <p className="text-[11px] sm:text-sm text-zinc-300/90 mt-1 sm:mt-1.5 leading-relaxed max-w-xl line-clamp-3 sm:line-clamp-none">
+                {descriptionText}
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="hidden md:flex items-center gap-4 text-xs font-semibold text-white/80 bg-black/50 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10">
+            <div className="flex items-center gap-3 shrink-0 mt-1 sm:mt-0">
+              <div className="hidden md:flex items-center gap-4 text-xs font-medium text-zinc-200 bg-black/70 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-white/15 shadow-xl">
                 <div className="flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-blue-400" />
-                  <span>6.500 nits</span>
+                  <Layers className="w-3.5 h-3.5 text-zinc-300" />
+                  <span>{features[0]}</span>
                 </div>
                 <div className="w-[1px] h-3 bg-white/20" />
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-                  <span>IP65 Total</span>
+                  <Eye className="w-3.5 h-3.5 text-zinc-300" />
+                  <span>{features[1]}</span>
                 </div>
                 <div className="w-[1px] h-3 bg-white/20" />
                 <div className="flex items-center gap-1.5">
-                  <Maximize2 className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Sob Medida</span>
+                  <Maximize2 className="w-3.5 h-3.5 text-zinc-300" />
+                  <span>{features[2]}</span>
                 </div>
               </div>
 
               {onOpenProjectQuote && (
                 <button
-                  onClick={onOpenProjectQuote}
-                  className="px-5 py-2.5 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(255,255,255,0.18)] hover:shadow-[0_6px_25px_rgba(255,255,255,0.28)] border border-white cursor-pointer shrink-0 hover:scale-[1.02]"
+                  onClick={() => openButtonLink(content.buttonLinks?.widescreenBanner, onOpenProjectQuote)}
+                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] font-semibold text-xs sm:text-sm transition-all duration-200 cursor-pointer shrink-0 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  Consultar Projeto
+                  {ctaText}
                 </button>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Direct Modal to Edit Banner Text and Image */}
+      <WidescreenBannerEditorModal
+        isOpen={isEditorModalOpen}
+        onClose={() => setIsEditorModalOpen(false)}
+      />
     </section>
   );
 };

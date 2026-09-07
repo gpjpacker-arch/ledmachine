@@ -29,12 +29,12 @@ class RootErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundar
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ backgroundColor: '#05020c', color: '#fff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'sans-serif', padding: '20px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '12px', color: '#a855f7' }}>LED Machine Painéis</h1>
+        <div style={{ backgroundColor: '#030712', color: '#fff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'sans-serif', padding: '20px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '12px', color: '#38bdf8' }}>LED Machine Painéis</h1>
           <p style={{ color: '#d1d5db', marginBottom: '20px' }}>Carregando painel principal...</p>
           <button 
             onClick={() => { localStorage.clear(); window.location.reload(); }}
-            style={{ backgroundColor: '#7e22ce', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
+            style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
           >
             Recarregar Página
           </button>

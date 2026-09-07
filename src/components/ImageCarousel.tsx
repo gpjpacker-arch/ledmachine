@@ -10,6 +10,7 @@ import {
   X
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { openButtonLink } from '../utils/linkHelper';
 
 export interface LedProjectCard {
   id: number;
@@ -149,13 +150,13 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
             className="p-2 rounded-full bg-white/5 hover:bg-white/15 border border-white/15 text-white transition-colors cursor-pointer"
             title={isPlaying ? 'Pausar reprodução' : 'Iniciar reprodução'}
           >
-            {isPlaying ? <Pause className="w-3.5 h-3.5 text-blue-300" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
+            {isPlaying ? <Pause className="w-3.5 h-3.5 text-blue-300" /> : <Play className="w-3.5 h-3.5 text-blue-300" />}
           </button>
           <button
             onClick={() => setIsLightboxOpen(true)}
@@ -323,9 +324,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (onRequestQuoteForProject) {
-                            onRequestQuoteForProject(project.title, project.category);
-                          }
+                          openButtonLink(content.buttonLinks?.heroCarousel, () => {
+                            if (onRequestQuoteForProject) {
+                              onRequestQuoteForProject(project.title, project.category);
+                            }
+                          });
                         }}
                         className="px-5 py-2 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs shadow-[0_4px_20px_rgba(255,255,255,0.2)] hover:shadow-[0_6px_25px_rgba(255,255,255,0.3)] border border-white inline-flex items-center gap-1.5 transition-transform hover:scale-105 cursor-pointer"
                       >
@@ -378,7 +381,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           <span>•</span>
           <span className="text-white/90">{activeProject.specs.brightness}</span>
           <span>•</span>
-          <span className="text-emerald-400 font-semibold flex items-center gap-1">
+          <span className="text-blue-300 font-semibold flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5" />
             2 Anos de Garantia
           </span>
@@ -430,7 +433,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               <span>•</span>
               <span>{activeProject.specs.brightness}</span>
               <span>•</span>
-              <span className="text-emerald-400 font-semibold">2 Anos de Garantia LED Machine</span>
+              <span className="text-blue-300 font-semibold">2 Anos de Garantia LED Machine</span>
             </div>
           </div>
         </div>

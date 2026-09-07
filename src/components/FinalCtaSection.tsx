@@ -1,5 +1,7 @@
 import React from 'react';
-import { ArrowRight, MessageSquare } from 'lucide-react';
+import { ArrowRight, MessageCircle } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContentContext';
+import { openButtonLink } from '../utils/linkHelper';
 
 interface FinalCtaSectionProps {
   onRequestProject: () => void;
@@ -10,50 +12,51 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
   onRequestProject,
   onTalkSpecialist,
 }) => {
+  const { content } = useSiteContent();
+
+  const defaultWhatsapp = `https://wa.me/5519999107788?text=${encodeURIComponent(
+    'Olá! Estava no site da LED Machine e gostaria de conversar com um especialista sobre um projeto.'
+  )}`;
+
   return (
-    <section
-      id="final-cta-section"
-      className="relative w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center overflow-hidden"
-    >
-      {/* Soft Ambient Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[700px] h-[300px] bg-blue-600/20 rounded-full blur-[140px] pointer-events-none" />
-
+    <section id="final-cta-section" className="relative w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-80 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.2]">
-          Está pronto para elevar o nível do seu espaço?
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
+          Pronto para transformar seu espaço em uma experiência visual?
         </h2>
-
-        <p className="text-base sm:text-lg text-white/80 leading-relaxed font-normal max-w-2xl mx-auto">
-          Seja para transformar a presença da sua marca ou criar uma experiência única dentro da sua casa, a <strong className="text-white font-semibold">LED Machine</strong> tem a tecnologia e a experiência para transformar sua ideia em realidade.
-        </p>
-
-        <p className="text-blue-300 font-semibold text-lg sm:text-xl">
-          Conte-nos o que você deseja criar.
+        <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto">
+          Seja para destacar sua empresa ou criar um ambiente incrível na sua residência, a LED Machine desenvolve o projeto ideal para você.
         </p>
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             id="final-cta-request-project"
-            onClick={onRequestProject}
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-base shadow-[0_4px_25px_rgba(255,255,255,0.18)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.28)] border border-white transition-all hover:scale-105 inline-flex items-center justify-center gap-3 cursor-pointer"
+            onClick={() => openButtonLink(content.buttonLinks?.finalCtaPrimary, onRequestProject)}
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-sm transition-all shadow-[0_4px_25px_rgba(255,255,255,0.22)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.32)] border border-white inline-flex items-center justify-center gap-2 cursor-pointer hover:scale-105"
           >
-            <span>Solicitar meu projeto</span>
-            <ArrowRight className="w-5 h-5 text-[#070c20]" />
+            <span>{content.finalCta?.btnPrimary || 'Solicitar Projeto Sob Medida'}</span>
+            <ArrowRight className="w-4 h-4 text-[#070c20]" />
           </button>
 
           <button
-            id="final-cta-talk-specialist"
-            onClick={onTalkSpecialist}
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/10 hover:bg-white/15 text-white font-semibold text-base border border-white/20 transition-all inline-flex items-center justify-center gap-3 cursor-pointer backdrop-blur-md"
+            id="final-cta-whatsapp-specialist"
+            onClick={() =>
+              openButtonLink(
+                content.buttonLinks?.finalCtaWhatsapp || defaultWhatsapp,
+                onTalkSpecialist
+              )
+            }
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 hover:text-white font-semibold text-sm border border-emerald-500/40 transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
           >
-            <MessageSquare className="w-5 h-5 text-white/80" />
-            <span>Falar com um especialista</span>
+            <MessageCircle className="w-4 h-4 text-emerald-400" />
+            <span>{content.finalCta?.btnSecondary || 'Falar com Especialista no WhatsApp'}</span>
           </button>
         </div>
 
-        <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs sm:text-sm text-blue-300/80 font-medium tracking-wide">
-          <span className="font-bold text-white">LED Machine Painéis</span>
-          <span className="hidden sm:inline text-white/30">•</span>
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-white/50">
+          <span>LED Machine Painéis</span>
+          <span className="hidden sm:inline">•</span>
           <span>Tecnologia que transforma espaços em experiências.</span>
         </div>
       </div>

@@ -79,20 +79,16 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     >
       <div
         id="contact-modal-card"
-        className="relative w-full max-w-lg rounded-3xl bg-[#09112d] border border-blue-500/40 p-6 sm:p-8 shadow-[0_0_50px_rgba(37,99,235,0.4)] text-white overflow-hidden"
+        className="relative w-full max-w-lg rounded-2xl bg-[#10121a] border border-white/10 p-6 sm:p-8 shadow-2xl text-white overflow-hidden"
       >
-        {/* Top Glow */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-400 to-transparent" />
-        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-
         {/* Close Button */}
         <button
           id="contact-modal-close-btn"
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+          className="absolute top-5 right-5 p-2 rounded-full bg-white/[0.05] hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
           title="Fechar"
         >
-          <X className="w-4 h-4 text-white" />
+          <X className="w-4 h-4" />
         </button>
 
         <div className="mb-6">
@@ -100,26 +96,26 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           <h3 className="text-2xl font-bold text-white mt-3 tracking-tight">
             Solicitar Projeto Personalizado
           </h3>
-          <p className="text-xs sm:text-sm text-white/80 mt-1">
+          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
             Conte-nos sobre seu espaço ou necessidade. Desenvolvemos uma proposta sob medida com 2 anos de garantia.
           </p>
         </div>
 
         {submitted ? (
           <div className="py-10 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 animate-bounce">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+            <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <CheckCircle2 className="w-7 h-7 text-emerald-400" />
             </div>
-            <h4 className="text-xl font-bold text-white">Solicitação Enviada!</h4>
-            <p className="text-sm text-white/80 max-w-sm">
-              Abrindo seu WhatsApp com os dados do projeto preenchidos automaticamente...
+            <h4 className="text-xl font-bold text-white">Solicitação Enviada</h4>
+            <p className="text-sm text-zinc-400 max-w-sm">
+              Abrindo seu WhatsApp com os dados técnicos do projeto preenchidos automaticamente...
             </p>
             {submittedUrl && (
               <a
                 href={submittedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all cursor-pointer"
+                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Clique aqui se o WhatsApp não abriu</span>
@@ -130,7 +126,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                 Seu Nome
               </label>
               <div className="relative">
@@ -140,15 +136,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nome completo"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/40 text-sm focus:outline-none focus:border-blue-400"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30"
                 />
-                <User className="w-4 h-4 text-white/50 absolute left-3.5 top-3" />
+                <User className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3" />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                   WhatsApp / Telefone
                 </label>
                 <div className="relative">
@@ -158,14 +154,14 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="(11) 99999-9999"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/40 text-sm focus:outline-none focus:border-blue-400"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30"
                   />
-                  <Phone className="w-4 h-4 text-white/50 absolute left-3.5 top-3" />
+                  <Phone className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                   E-mail
                 </label>
                 <div className="relative">
@@ -175,22 +171,22 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="seuemail@dominio.com"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/40 text-sm focus:outline-none focus:border-blue-400"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30"
                   />
-                  <Mail className="w-4 h-4 text-white/50 absolute left-3.5 top-3" />
+                  <Mail className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3" />
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                   Tipo de Projeto
                 </label>
                 <select
                   value={segment}
                   onChange={(e) => setSegment(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#0d173d] border border-white/15 text-white text-sm focus:outline-none focus:border-blue-400 cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#141724] border border-white/10 text-white text-sm focus:outline-none focus:border-white/30 cursor-pointer"
                 >
                   <option value="Comercial">Comercial / Empresarial</option>
                   <option value="Residencial">Residencial de Alto Padrão</option>
@@ -198,13 +194,13 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                   Ambiente Pretendido
                 </label>
                 <select
                   value={application}
                   onChange={(e) => setApplication(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#0d173d] border border-white/15 text-white text-sm focus:outline-none focus:border-blue-400 cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#141724] border border-white/10 text-white text-sm focus:outline-none focus:border-white/30 cursor-pointer"
                 >
                   {segment === 'Comercial' ? (
                     <>
@@ -227,7 +223,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-white/80 mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                 Conte-nos o que você deseja criar
               </label>
               <div className="relative">
@@ -236,23 +232,23 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Ex: Gostaria de um painel integrado para transformar o ambiente com excelente resolução e sofisticação..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/40 text-sm focus:outline-none focus:border-blue-400"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30"
                 />
-                <MessageSquare className="w-4 h-4 text-white/50 absolute left-3.5 top-3" />
+                <MessageSquare className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3" />
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-blue-300">
-              <ShieldCheck className="w-4 h-4 shrink-0" />
-              <span>Garantia de 2 anos e instalação profissional incluídas.</span>
+            <div className="flex items-center gap-2 text-xs text-zinc-400">
+              <ShieldCheck className="w-4 h-4 text-zinc-300 shrink-0" />
+              <span>Garantia de 2 anos integral e instalação profissional incluídas.</span>
             </div>
 
             <button
               id="contact-submit-btn"
               type="submit"
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] border border-emerald-400/40 transition-all cursor-pointer hover:scale-[1.02]"
+              className="w-full py-3.5 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] font-semibold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
-              <MessageCircle className="w-4 h-4 text-white" />
+              <MessageCircle className="w-4 h-4 text-[#090a0f]" />
               <span>Enviar e Abrir no WhatsApp</span>
             </button>
           </form>
