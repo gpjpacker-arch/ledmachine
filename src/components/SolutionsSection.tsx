@@ -151,16 +151,23 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
           </div>
         )}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 [text-wrap:balance]">
-          {sectionTitle.includes('valorizar o seu espaço') ? (
-            <>
-              {sectionTitle.replace('valorizar o seu espaço', '').trim()}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
-                valorizar o seu espaço
-              </span>
-            </>
-          ) : (
-            sectionTitle
-          )}
+          {(() => {
+            const targetPhrase = 'valorizar o seu espaço';
+            const regex = new RegExp(`(${targetPhrase})`, 'i');
+            if (regex.test(sectionTitle)) {
+              const parts = sectionTitle.split(regex);
+              return (
+                <>
+                  {parts[0]}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400 whitespace-nowrap">
+                    {parts[1]}
+                  </span>
+                  {parts[2] || ''}
+                </>
+              );
+            }
+            return sectionTitle;
+          })()}
         </h2>
         <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto [text-wrap:balance]">
           {sectionSubtitle}
