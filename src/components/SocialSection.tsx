@@ -75,9 +75,9 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
               {content.social.badge}
             </div>
           )}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 [text-wrap:balance]">
             {content.social?.title || 'Acompanhe a'}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400 whitespace-nowrap">
               {content.social?.titleHighlight || 'LED Machine'}
             </span>
           </h2>

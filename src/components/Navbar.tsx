@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             aria-label="Abrir menu"
           >
             <span>Menu</span>
-            <LayoutGrid className="w-4 h-4 text-white/80 group-hover:text-blue-300 transition-colors" />
+            <LayoutGrid className="w-4 h-4 text-white/80 group-hover:text-white transition-colors" />
           </button>
         </div>
       </nav>
@@ -98,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => handleNavClick(item.id)}
                 className={`text-left px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                   activeSection === item.id
-                    ? 'bg-blue-600/40 text-white font-semibold border border-blue-400/30'
+                    ? 'bg-white/10 text-white font-semibold border border-white/20'
                     : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
               >

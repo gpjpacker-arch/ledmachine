@@ -13,8 +13,11 @@ export const AuthoritySection: React.FC = () => {
             <Quote className="w-4 h-4" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-[1.2]">
-            Tecnologia que valoriza o que realmente importa.
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-[1.2] [text-wrap:balance]">
+            Tecnologia que valoriza{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
+              o que realmente importa.
+            </span>
           </h2>
 
           <div className="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl mx-auto font-normal">

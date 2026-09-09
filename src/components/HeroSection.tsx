@@ -54,7 +54,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <h1 className="text-2xl sm:text-4xl md:text-[42px] lg:text-[46px] font-black text-white uppercase tracking-tight leading-[1.12] mb-5 drop-shadow-md max-w-2xl">
           {content.hero.titleLine1}{' '}
           <br />
-          <span className="mt-1 inline-block text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-300">
+          <span className="mt-1 inline-block text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
             {content.hero.titleLine2}
           </span>
         </h1>
@@ -103,7 +103,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* 3D Carousel Showcase */}
       <div className="w-full max-w-6xl relative group mt-16">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 via-blue-500/15 to-slate-700/15 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition duration-1000" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/25 via-blue-500/20 to-slate-700/20 rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition duration-1000" />
         <ImageCarousel
           onRequestQuoteForProject={(projectTitle, category) => {
             if (onRequestQuoteWithDetails) {

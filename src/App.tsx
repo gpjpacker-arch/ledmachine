@@ -4,6 +4,7 @@ import { HeroSection } from './components/HeroSection';
 import { WhyLedMachineSection } from './components/WhyLedMachineSection';
 import { WidescreenLedBanner } from './components/WidescreenLedBanner';
 import { SolutionsSection } from './components/SolutionsSection';
+import { SimulatorSection } from './components/SimulatorSection';
 import { WarrantySection } from './components/WarrantySection';
 import { FeaturedProductGallerySection } from './components/FeaturedProductGallerySection';
 import { FinalCtaSection } from './components/FinalCtaSection';
@@ -31,6 +32,7 @@ function MainAppContent() {
         'home',
         'diferenciais',
         'solucoes',
+        'simulador',
         'garantia',
       ];
       const scrollPosition = window.scrollY + 220;
@@ -91,7 +93,7 @@ function MainAppContent() {
             setContactPrefill('');
             setIsContactOpen(true);
           }}
-          onOpenSimulator={() => setIsSimulatorOpen(true)}
+          onOpenSimulator={() => scrollToSection('simulador')}
         />
 
         {/* Main Content Area */}
@@ -105,7 +107,7 @@ function MainAppContent() {
             onOpenSpecialist={() => {
               handleOpenContactWithCustomMessage('Olá! Gostaria de conversar com um especialista da LED Machine.');
             }}
-            onOpenPlayground={() => setIsSimulatorOpen(true)}
+            onOpenPlayground={() => scrollToSection('simulador')}
             onRequestQuoteWithDetails={(title, cat) => {
               handleOpenContactWithCustomMessage(`Olá! Gostaria de um projeto personalizado similar ao '${title}' (Categoria: ${cat}).`);
             }}
@@ -135,7 +137,14 @@ function MainAppContent() {
             }}
           />
 
-          {/* 5. 2-Year Warranty & Reliability Badge */}
+          {/* 5. Interactive Simulator Section (Above Warranty) */}
+          <SimulatorSection
+            onRequestQuoteWithSpecs={(specsText) => {
+              handleOpenContactWithCustomMessage(`Olá! Utilizei o simulador da LED Machine e gostaria de um orçamento com estas especificações:\n\n${specsText}`);
+            }}
+          />
+
+          {/* 6. 2-Year Warranty & Reliability Badge */}
           <WarrantySection
             onOpenSpecialist={() => {
               handleOpenContactWithCustomMessage('Olá! Gostaria de falar com um especialista sobre a garantia e especificações dos painéis.');

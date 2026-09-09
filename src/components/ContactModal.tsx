@@ -103,8 +103,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
         {submitted ? (
           <div className="py-10 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+            <div className="w-14 h-14 rounded-full bg-white/[0.08] border border-white/20 flex items-center justify-center text-white">
+              <CheckCircle2 className="w-7 h-7 text-white" />
             </div>
             <h4 className="text-xl font-bold text-white">Solicitação enviada</h4>
             <p className="text-sm text-zinc-400 max-w-sm">
@@ -115,9 +115,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 href={submittedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+                className="mt-2 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-zinc-200 text-[#070c20] text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4 text-[#070c20]" />
                 <span>Clique aqui se o WhatsApp não abriu</span>
                 <ExternalLink className="w-3.5 h-3.5 opacity-75" />
               </a>

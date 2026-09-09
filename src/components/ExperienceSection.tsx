@@ -51,12 +51,15 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onStartPro
       id="experiencia-section"
       className="relative w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]"
     >
-      <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
-        <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block mb-3">
+      <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-14">
+        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-3">
           Processo de engenharia
         </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.2] mb-4">
-          Da primeira consulta à entrega técnica, uma jornada precisa.
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.2] mb-4 [text-wrap:balance]">
+          Da primeira consulta à entrega técnica, <br className="hidden sm:inline" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
+            uma jornada precisa.
+          </span>
         </h2>
         <div className="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto font-normal">
           <p>

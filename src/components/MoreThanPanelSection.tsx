@@ -17,14 +17,14 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
     >
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         {/* Section Tag */}
-        <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block mb-3">
+        <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-3">
           Experiência visual
         </span>
 
         {/* Section Headline */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-6">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-6 [text-wrap:balance]">
           Não é apenas uma tela instalada. <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-white via-blue-200 to-blue-400 bg-clip-text text-transparent font-bold">
+          <span className="bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent font-bold">
             É a transformação completa do seu espaço.
           </span>
         </h2>
@@ -39,14 +39,14 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
             {/* Commercial Card */}
             <div
               onClick={onOpenCommercial}
-              className="p-8 rounded-2xl bg-[#0c1424] border border-blue-500/20 hover:border-blue-500/40 hover:shadow-xl transition-all duration-200 group cursor-pointer hover:-translate-y-0.5"
+              className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 hover:shadow-xl transition-all duration-200 group cursor-pointer hover:-translate-y-0.5"
             >
-              <div className="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-zinc-200 mb-5">
                 <Building2 className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2 flex items-center justify-between">
                 <span>Para sua empresa</span>
-                <ArrowRight className="w-4 h-4 text-blue-400 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
                 Máxima visibilidade institucional, campanhas dinâmicas e diferenciação de marca em recepções, showrooms e fachadas.
@@ -56,14 +56,14 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
             {/* Residential Card */}
             <div
               onClick={onOpenResidential}
-              className="p-8 rounded-2xl bg-[#141220] border border-amber-500/20 hover:border-amber-500/40 hover:shadow-xl transition-all duration-200 group cursor-pointer hover:-translate-y-0.5"
+              className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 hover:shadow-xl transition-all duration-200 group cursor-pointer hover:-translate-y-0.5"
             >
-              <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-300 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-zinc-200 mb-5">
                 <Home className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2 flex items-center justify-between">
                 <span>Para sua residência</span>
-                <ArrowRight className="w-4 h-4 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
                 Cinematografia sem reflexos, pretos profundos e integração sob medida à marcenaria em livings e home theaters.
@@ -71,8 +71,8 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#0d1322] border border-slate-800 max-w-2xl mx-auto text-center">
-            <p className="text-sm sm:text-base font-medium text-blue-200">
+          <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 max-w-2xl mx-auto text-center">
+            <p className="text-sm sm:text-base font-medium text-white/90">
               Planejamento de engenharia, calibração profissional e assistência direta em todo o Brasil.
             </p>
           </div>

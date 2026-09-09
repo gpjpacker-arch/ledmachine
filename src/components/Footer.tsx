@@ -55,6 +55,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
             </li>
             <li>
               <button
+                onClick={() => onNavigate('simulador')}
+                className="text-left block text-zinc-400 hover:text-white transition-colors cursor-pointer"
+              >
+                Simulador interativo
+              </button>
+            </li>
+            <li>
+              <button
                 onClick={() => onNavigate('garantia')}
                 className="text-left block text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >

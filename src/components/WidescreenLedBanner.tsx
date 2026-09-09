@@ -70,8 +70,17 @@ export const WidescreenLedBanner: React.FC<WidescreenLedBannerProps> = ({ onOpen
               <span className="text-[11px] sm:text-xs font-semibold text-sky-400 uppercase tracking-widest block mb-1">
                 {tagText}
               </span>
-              <h3 className="text-base sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug">
-                {titleText}
+              <h3 className="text-base sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug [text-wrap:balance]">
+                {titleText.includes('LED Machine') ? (
+                  <>
+                    {titleText.replace('LED Machine', '').trim()}{' '}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400 whitespace-nowrap">
+                      LED Machine
+                    </span>
+                  </>
+                ) : (
+                  titleText
+                )}
               </h3>
               <p className="text-[11px] sm:text-sm text-zinc-300/90 mt-1 sm:mt-1.5 leading-relaxed max-w-xl line-clamp-3 sm:line-clamp-none">
                 {descriptionText}

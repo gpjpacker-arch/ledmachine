@@ -122,7 +122,7 @@ export const GlobalAmbientLights: React.FC = () => {
       <div
         ref={orb1Ref}
         style={{
-          background: 'radial-gradient(circle, rgba(29, 78, 216, 0.14) 0%, rgba(30, 58, 138, 0.07) 35%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(29, 78, 216, 0.22) 0%, rgba(30, 58, 138, 0.12) 35%, transparent 75%)',
           filter: 'blur(50px)',
         }}
         className="absolute -top-32 left-[5%] w-[550px] sm:w-[750px] h-[550px] sm:h-[750px] rounded-full will-change-transform"
@@ -132,7 +132,7 @@ export const GlobalAmbientLights: React.FC = () => {
       <div
         ref={orb2Ref}
         style={{
-          background: 'radial-gradient(circle, rgba(30, 58, 138, 0.14) 0%, rgba(15, 23, 42, 0.08) 40%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(30, 58, 138, 0.20) 0%, rgba(15, 23, 42, 0.12) 40%, transparent 75%)',
           filter: 'blur(60px)',
         }}
         className="absolute top-[45%] left-[-15%] w-[650px] sm:w-[900px] h-[650px] sm:h-[900px] rounded-full will-change-transform"
@@ -141,13 +141,13 @@ export const GlobalAmbientLights: React.FC = () => {
       {/* 5. Dynamic 3D Volumetric Diagonal Aurora Beam (Deep Royal Blue / Steel) */}
       <div
         ref={beamRef}
-        className="absolute -top-28 right-[-10%] w-[800px] sm:w-[1200px] h-[220px] sm:h-[320px] aurora-beam opacity-45 will-change-transform"
+        className="absolute -top-28 right-[-10%] w-[800px] sm:w-[1200px] h-[220px] sm:h-[320px] aurora-beam opacity-60 will-change-transform"
       />
 
       {/* 6. Clean Steel Blue Linear Beam Core */}
       <div
         ref={beamSharpRef}
-        className="absolute top-8 right-[5%] w-[700px] sm:w-[1050px] h-[50px] sm:h-[85px] aurora-beam-sharp opacity-50 will-change-transform"
+        className="absolute top-8 right-[5%] w-[700px] sm:w-[1050px] h-[50px] sm:h-[85px] aurora-beam-sharp opacity-65 will-change-transform"
       />
 
       {/* 7. Bottom Ambiance (Deep Obsidian Steel) */}

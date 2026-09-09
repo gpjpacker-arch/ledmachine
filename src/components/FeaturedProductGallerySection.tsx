@@ -243,17 +243,17 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
       id="produto-destaque-section"
       className="relative w-full pt-16 sm:pt-20 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden"
     >
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[550px] h-[550px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[550px] h-[550px] bg-white/[0.02] rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-slate-800/10 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15]">
+      <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15] [text-wrap:balance]">
           {(content.featuredGallery?.title || 'Os melhores Projetos')}{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-200 to-white">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400 whitespace-nowrap">
             {content.featuredGallery?.titleHighlight || 'LED Machine'}
           </span>
         </h2>
-        <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">
+        <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto [text-wrap:balance]">
           {content.featuredGallery?.subtitle ||
             'Conheça os detalhes dos nossos projetos sob medida: especificações técnicas de alta precisão, tecnologia de ponta e o mais elevado nível de acabamento.'}
         </p>
@@ -262,7 +262,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Main Stage & Thumbnails */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="relative aspect-[16/9] sm:aspect-[16/10] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#0a1026] border border-blue-500/20 shadow-[0_20px_60px_rgba(0,0,0,0.8)] group">
+          <div className="relative aspect-[16/9] sm:aspect-[16/10] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#070a14] border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.85)] group">
             <img
               src={currentView.imageUrl}
               alt={currentView.title}
@@ -272,7 +272,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             <div className="absolute inset-0 bg-gradient-to-r from-[#030614]/40 via-transparent to-transparent pointer-events-none" />
 
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-              <span className="px-3 py-1 rounded-full bg-blue-600/80 backdrop-blur-md text-white text-[11px] font-bold tracking-wide uppercase shadow-lg border border-blue-400/30">
+              <span className="px-3.5 py-1.5 rounded-full bg-black/75 hover:bg-black/90 backdrop-blur-xl text-white/95 text-[10.5px] font-semibold tracking-wider uppercase shadow-xl border border-white/20 transition-colors">
                 {currentView.badge}
               </span>
               <div className="flex items-center gap-2">
@@ -283,12 +283,12 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                   className="px-3.5 py-1.5 rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-xl border border-white/20 hover:border-white/40 text-xs font-semibold text-white flex items-center gap-2 shadow-lg transition-all duration-200 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
                   title="Trocar fotos desta galeria"
                 >
-                  <Camera className="w-3.5 h-3.5 text-sky-400 group-hover:scale-110 transition-transform" />
+                  <Camera className="w-3.5 h-3.5 text-zinc-300 group-hover:scale-110 transition-transform" />
                   <span>Trocar Fotos</span>
                 </button>
                 <button
                   onClick={() => setIsLightboxOpen(true)}
-                  className="p-2 rounded-full bg-black/60 hover:bg-blue-600/80 backdrop-blur-md text-white/90 hover:text-white transition-all border border-white/10 hover:border-blue-400/40 cursor-pointer shadow-md"
+                  className="p-2 rounded-full bg-black/60 hover:bg-white/20 backdrop-blur-md text-white/90 hover:text-white transition-all border border-white/15 hover:border-white/40 cursor-pointer shadow-md"
                   title="Expandir imagem"
                 >
                   <Maximize2 className="w-4 h-4" />
@@ -308,8 +308,8 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                     onClick={() => setActiveHotspot(activeHotspot === idx ? null : idx)}
                     className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-transform duration-300 cursor-pointer ${
                       activeHotspot === idx
-                        ? 'bg-blue-500 text-white scale-125 shadow-[0_0_25px_rgba(59,130,246,0.9)]'
-                        : 'bg-white/90 text-blue-900 hover:scale-110 shadow-[0_0_15px_rgba(255,255,255,0.7)]'
+                        ? 'bg-white text-zinc-950 scale-125 shadow-[0_0_20px_rgba(255,255,255,0.8)] border border-white'
+                        : 'bg-black/75 text-white hover:scale-110 shadow-lg border border-white/30 backdrop-blur-md'
                     }`}
                   >
                     <span className="w-2.5 h-2.5 rounded-full bg-current animate-ping opacity-75 absolute" />
@@ -317,9 +317,9 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                   </button>
 
                   {activeHotspot === idx && (
-                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 w-56 sm:w-64 p-3 rounded-xl bg-[#080d22]/95 border border-blue-400/40 shadow-2xl backdrop-blur-xl z-30 text-left transition-all animate-in fade-in zoom-in-95">
-                      <div className="flex items-center gap-1.5 text-blue-400 text-xs font-bold mb-1">
-                        <Info className="w-3 h-3 shrink-0" />
+                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 w-56 sm:w-64 p-3 rounded-xl bg-[#090d1c]/95 border border-white/20 shadow-2xl backdrop-blur-xl z-30 text-left transition-all animate-in fade-in zoom-in-95">
+                      <div className="flex items-center gap-1.5 text-white text-xs font-bold mb-1">
+                        <Info className="w-3 h-3 text-zinc-300 shrink-0" />
                         <span>{hotspot.label}</span>
                       </div>
                       <p className="text-[11px] text-white/80 leading-snug">{hotspot.desc}</p>
@@ -332,14 +332,14 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             {/* Navigation Arrows */}
             <button
               onClick={handlePrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/50 hover:bg-blue-600/80 backdrop-blur-md text-white/80 hover:text-white transition-all border border-white/10 hover:border-blue-400/30 cursor-pointer shadow-lg z-10"
+              className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/60 hover:bg-white/20 backdrop-blur-md text-white/80 hover:text-white transition-all border border-white/15 hover:border-white/40 cursor-pointer shadow-lg z-10"
               aria-label="Imagem anterior"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/50 hover:bg-blue-600/80 backdrop-blur-md text-white/80 hover:text-white transition-all border border-white/10 hover:border-blue-400/30 cursor-pointer shadow-lg z-10"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/60 hover:bg-white/20 backdrop-blur-md text-white/80 hover:text-white transition-all border border-white/15 hover:border-white/40 cursor-pointer shadow-lg z-10"
               aria-label="Próxima imagem"
             >
               <ChevronRight className="w-5 h-5" />
@@ -364,10 +364,10 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             <button
               type="button"
               onClick={() => openAdminEditor('featured')}
-              className="text-xs text-sky-400 hover:text-sky-300 font-medium flex items-center gap-1.5 transition-colors cursor-pointer hover:underline"
+              className="text-xs text-zinc-400 hover:text-white font-medium flex items-center gap-1.5 transition-colors cursor-pointer hover:underline"
               title="Abrir painel administrativo para editar fotos e pontos brilhantes"
             >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
               <span>Painel ADM • Editar fotos & hotspots</span>
             </button>
           </div>
@@ -386,7 +386,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                     }}
                     className={`w-full relative aspect-[16/10] rounded-xl overflow-hidden text-left transition-all duration-300 cursor-pointer border ${
                       isActive
-                        ? 'border-blue-400 ring-2 ring-blue-500/40 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-[1.02]'
+                        ? 'border-white ring-1 ring-white/60 shadow-[0_4px_18px_rgba(0,0,0,0.8)] scale-[1.02]'
                         : 'border-white/10 opacity-60 hover:opacity-100 hover:border-white/30'
                     }`}
                   >
@@ -402,7 +402,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                       e.stopPropagation();
                       handleOpenEditor(idx);
                     }}
-                    className="absolute top-1.5 right-1.5 w-6 h-6 rounded-lg bg-black/75 hover:bg-sky-500 text-white/80 hover:text-white flex items-center justify-center transition-all shadow-md cursor-pointer border border-white/15 opacity-0 group-hover/thumb:opacity-100 z-20"
+                    className="absolute top-1.5 right-1.5 w-6 h-6 rounded-lg bg-black/75 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all shadow-md cursor-pointer border border-white/15 opacity-0 group-hover/thumb:opacity-100 z-20"
                     title={`Trocar foto ${idx + 1}: ${view.badge}`}
                   >
                     <Camera className="w-3 h-3" />
@@ -414,10 +414,10 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
         </div>
 
         {/* Product Details Sidebar */}
-        <div className="lg:col-span-4 flex flex-col justify-between space-y-6 bg-[#070c20]/60 rounded-3xl p-6 sm:p-8 border border-blue-500/15 backdrop-blur-xl">
+        <div className="lg:col-span-4 flex flex-col justify-between space-y-6 bg-[#090d1c]/80 rounded-3xl p-6 sm:p-8 border border-white/10 backdrop-blur-xl">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
+            <div className="flex items-center gap-2 text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
+              <ShieldCheck className="w-4 h-4 text-zinc-300" />
               <span>Garantia de 2 anos inclusa</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
@@ -454,15 +454,15 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
 
           <div className="space-y-2 text-xs text-white/80">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-zinc-300 shrink-0" />
               <span>Formatos planos, curvos ou em ângulo 90°</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-zinc-300 shrink-0" />
               <span>Compatível com Apple TV, PS5, automação Control4/Crestron</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-zinc-300 shrink-0" />
               <span>Instalação estrutural e calibração por equipe própria</span>
             </div>
           </div>
@@ -475,7 +475,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                   () => onOpenProductQuote(flagshipProductTitle)
                 )
               }
-              className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(255,255,255,0.18)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.28)] border border-white transition-all cursor-pointer hover:scale-[1.02]"
+              className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-zinc-100 text-[#070c20] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(255,255,255,0.18)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.28)] border border-white transition-all cursor-pointer hover:scale-[1.02]"
             >
               <span>Solicitar orçamento deste produto</span>
               <ArrowRight className="w-4 h-4 text-[#070c20]" />
@@ -490,9 +490,9 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                   () => onOpenProductQuote(flagshipProductTitle)
                 );
               }}
-              className="w-full py-3 px-5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 border border-emerald-500/30 transition-all cursor-pointer"
+              className="w-full py-3.5 px-5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2.5 border border-white/15 hover:border-white/30 transition-all cursor-pointer shadow-sm hover:scale-[1.01] active:scale-[0.99]"
             >
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
+              <MessageCircle className="w-4 h-4 text-zinc-300" />
               <span>Tirar dúvidas com especialista no WhatsApp</span>
             </button>
           </div>
@@ -567,11 +567,11 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                     }}
                     className={`py-2.5 px-3 rounded-xl text-left text-xs font-medium transition-all duration-200 cursor-pointer border ${
                       isSelected
-                        ? 'bg-blue-600/30 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.3)]'
+                        ? 'bg-white/10 border-white/40 text-white shadow-sm'
                         : 'bg-white/[0.03] border-white/10 text-zinc-400 hover:text-white hover:bg-white/[0.06]'
                     }`}
                   >
-                    <div className="text-[10px] text-sky-400 font-bold uppercase truncate">
+                    <div className="text-[10px] text-zinc-300 font-bold uppercase truncate">
                       Foto {idx + 1}
                     </div>
                     <div className="truncate font-semibold text-white">
@@ -586,7 +586,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             <div className="space-y-4 bg-white/[0.02] border border-white/10 rounded-2xl p-4 sm:p-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
                     Editando Foto {editTabIndex + 1} de 4 • {productViews[editTabIndex].badge}
                   </span>
                   <h4 className="text-sm sm:text-base font-bold text-white">

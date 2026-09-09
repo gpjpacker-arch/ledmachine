@@ -144,22 +144,31 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
 
   return (
     <section id="solucoes-section" className="relative w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+      <div className="text-center max-w-5xl mx-auto mb-10 sm:mb-12">
         {solutions?.badge && (
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-300 mb-4 backdrop-blur-md">
             {solutions.badge}
           </div>
         )}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
-          {sectionTitle}
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 [text-wrap:balance]">
+          {sectionTitle.includes('valorizar o seu espaço') ? (
+            <>
+              {sectionTitle.replace('valorizar o seu espaço', '').trim()}{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
+                valorizar o seu espaço
+              </span>
+            </>
+          ) : (
+            sectionTitle
+          )}
         </h2>
-        <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto [text-wrap:balance]">
           {sectionSubtitle}
         </p>
       </div>
 
       <div className="flex justify-center mb-12 sm:mb-16">
-        <div className="inline-flex p-1.5 rounded-full bg-[#080e26] border border-blue-500/30 backdrop-blur-xl shadow-lg">
+        <div className="inline-flex p-1.5 rounded-full bg-[#0c0f18] border border-white/15 backdrop-blur-xl shadow-lg">
           <button
             onClick={() => setActiveTab('comercial')}
             className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
@@ -187,13 +196,13 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
 
       {activeTab === 'comercial' ? (
         <div className="space-y-16 animate-in fade-in duration-500">
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#070c20]/95 via-[#0b1435]/90 to-[#070c20]/95 border border-blue-500/25 p-8 sm:p-12">
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0e1220] via-[#090c17] to-[#060811] border border-white/10 p-8 sm:p-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
-                <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block">
+                <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">
                   {commBadge}
                 </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug [text-wrap:balance]">
                   {commTitle}{' '}
                   {commHighlight && (
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
@@ -215,16 +224,16 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
                 </div>
               </div>
 
-              <div className="lg:col-span-5 bg-[#080e26]/90 rounded-2xl p-6 border border-white/10">
+              <div className="lg:col-span-5 bg-black/40 rounded-2xl p-6 border border-white/10">
                 <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-400" />
+                  <span className="w-2 h-2 rounded-full bg-white/70" />
                   Onde instalar em sua empresa:
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {commercialApplications.map((app, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 text-white/80 text-xs font-medium hover:border-blue-400/40 hover:text-white transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 text-white/80 text-xs font-medium hover:border-white/30 hover:text-white transition-colors"
                     >
                       {app}
                     </span>
@@ -265,13 +274,13 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
         </div>
       ) : (
         <div className="space-y-16 animate-in fade-in duration-500">
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#070c20]/95 via-[#0b1435]/90 to-[#070c20]/95 border border-blue-500/25 p-8 sm:p-12">
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0e1220] via-[#090c17] to-[#060811] border border-white/10 p-8 sm:p-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
-                <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block">
+                <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">
                   {resBadge}
                 </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug [text-wrap:balance]">
                   {resTitle}{' '}
                   {resHighlight && (
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
@@ -293,16 +302,16 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
                 </div>
               </div>
 
-              <div className="lg:col-span-5 bg-[#080e26]/90 rounded-2xl p-6 border border-white/10">
+              <div className="lg:col-span-5 bg-black/40 rounded-2xl p-6 border border-white/10">
                 <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-400" />
+                  <span className="w-2 h-2 rounded-full bg-white/70" />
                   Aplicações residenciais exclusivas:
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {residentialApplications.map((app, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 text-white/80 text-xs font-medium hover:border-blue-400/40 hover:text-white transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 text-white/80 text-xs font-medium hover:border-white/30 hover:text-white transition-colors"
                     >
                       {app}
                     </span>

@@ -71,25 +71,25 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
 
   return (
     <section id="diferenciais-section" className="relative w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+      <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
         {whyUs?.badge && whyUs.badge.trim() !== '' && (
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-white/90 mb-4 backdrop-blur-md">
             {whyUs.badge}
           </div>
         )}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 [text-wrap:balance]">
           {sectionTitle}
           {sectionHighlight && sectionHighlight.trim() !== '' && (
             <>
               {' '}
               <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
                 {sectionHighlight}
               </span>
             </>
           )}
         </h2>
-        <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto [text-wrap:balance]">
           {sectionSubtitle}
         </p>
       </div>
@@ -116,7 +116,7 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
                     {displayBadge}
                   </span>
                 </div>
-                <div className="text-xs font-semibold text-sky-400 tracking-wider uppercase mb-1.5">
+                <div className="text-xs font-semibold text-zinc-400 tracking-wider uppercase mb-1.5">
                   {displayTag}
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3 tracking-tight min-h-[3.25rem] flex items-center">
