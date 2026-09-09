@@ -37,13 +37,13 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
   const sectionTitle = solutions?.title || 'Soluções criadas para valorizar o seu espaço';
   const sectionSubtitle = solutions?.subtitle || 'Desenvolvemos projetos sob medida para empresas que buscam visibilidade e residências que buscam sofisticação.';
 
-  const commBadge = solutions?.commercial?.badge || 'Presença & Retorno Comercial';
+  const commBadge = solutions?.commercial?.badge || 'Presença & retorno comercial';
   const commTitle = solutions?.commercial?.title || 'Mais visibilidade para o seu negócio.';
   const commHighlight = solutions?.commercial?.titleHighlight || 'Mais impacto para a sua marca.';
   const commDesc = solutions?.commercial?.description || 'Em um mercado competitivo, quem chama mais atenção vende mais. O painel de LED transforma sua fachada, vitrine ou espaço interno em um canal de comunicação poderoso.';
   const commCta = solutions?.commercial?.ctaText || 'Quero um projeto para minha empresa';
 
-  const resBadge = solutions?.residential?.badge || 'Experiência & Sofisticação';
+  const resBadge = solutions?.residential?.badge || 'Experiência & sofisticação';
   const resTitle = solutions?.residential?.title || 'O cinema definitivo.';
   const resHighlight = solutions?.residential?.titleHighlight || 'Na sua própria casa.';
   const resDesc = solutions?.residential?.description || 'Substitua a limitação das TVs convencionais por um painel de LED Fine-Pitch sob medida. Uma imagem perfeita, sem emendas, que dialoga perfeitamente com sua arquitetura.';
@@ -169,7 +169,7 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
             }`}
           >
             <Building2 className="w-4 h-4" />
-            <span>Para sua Empresa</span>
+            <span>Para sua empresa</span>
           </button>
           <button
             onClick={() => setActiveTab('residencial')}
@@ -180,7 +180,7 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
             }`}
           >
             <Home className="w-4 h-4" />
-            <span>Para sua Residência</span>
+            <span>Para sua residência</span>
           </button>
         </div>
       </div>

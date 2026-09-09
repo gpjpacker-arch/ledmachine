@@ -20,21 +20,21 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
       name: 'Instagram',
       handle: '@ledmachinepaineis',
       description: 'Acompanhe nossos bastidores, projetos recentes, instalações em andamento e lançamentos exclusivos.',
-      followers: 'Projetos Reais Semanais',
+      followers: 'Projetos reais semanais',
       icon: Instagram,
       gradient: 'from-blue-600/25 via-blue-900/20 to-slate-800/20',
       accentBorder: 'group-hover:border-blue-400/60',
-      tag: 'Mais Ativo',
+      tag: 'Mais ativo',
       tagBg: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
       actionText: 'Acessar canal',
       url: content.buttonLinks?.socialInstagram || 'https://instagram.com/ledmachinepaineis',
     },
     {
       id: 'whatsapp',
-      name: 'WhatsApp Oficial',
+      name: 'WhatsApp oficial',
       handle: content.general?.phoneContact || '(19) 99910-7788',
       description: 'Atendimento direto e imediato. Fale com um consultor técnico para tirar dúvidas ou solicitar orçamento.',
-      followers: 'Suporte Imediato',
+      followers: 'Suporte imediato',
       icon: MessageCircle,
       gradient: 'from-blue-600/25 via-blue-900/20 to-slate-800/20',
       accentBorder: 'group-hover:border-blue-400/60',
@@ -48,9 +48,9 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
     {
       id: 'google-maps',
       name: 'Google Maps',
-      handle: content.general?.address || 'São Paulo - SP • Atendimento Nacional',
+      handle: content.general?.address || 'R. Dr. José Rodrigues de Almeida, 632 - Paulicéia, Piracicaba - SP',
       description: 'Trace sua rota até nós, confira a localização e agende uma visita técnica ou demonstração exclusiva.',
-      followers: 'Como Chegar',
+      followers: 'Como chegar',
       icon: MapPin,
       gradient: 'from-blue-600/25 via-blue-900/20 to-slate-800/20',
       accentBorder: 'group-hover:border-blue-400/60',
@@ -59,17 +59,17 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
       actionText: 'Abrir no Maps',
       url:
         content.buttonLinks?.socialMaps ||
-        'https://www.google.com/maps/search/?api=1&query=LED+Machine+Paineis+de+LED+Sao+Paulo',
+        'https://share.google/e2fpI9CJ972PHCw3Q',
     },
   ];
 
   return (
-    <section id="redes-sociais" className="relative w-full py-20 sm:py-28 overflow-hidden">
+    <section id="redes-sociais" className="relative w-full pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden">
       <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-900/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           {content.social?.badge && (
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-300 mb-4 backdrop-blur-md">
               {content.social.badge}

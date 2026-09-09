@@ -16,16 +16,16 @@ export const WidescreenLedBanner: React.FC<WidescreenLedBannerProps> = ({ onOpen
   // Active banner content (persisted in SiteContent, or fallbacks)
   const banner = content.widescreenBanner;
   const currentBannerImage = banner?.imageUrl || curvedScreenImg;
-  const badgeText = banner?.badge || 'Painel Curvo Fine-Pitch • Imersão Panorâmica 160°';
-  const tagText = banner?.tag || 'Engenharia Visual em Todos os Ambientes';
-  const titleText = banner?.title || 'O Impacto Imersivo da Tela Curva sob Medida';
+  const badgeText = banner?.badge || 'Painel curvo fine-pitch • Imersão panorâmica 160°';
+  const tagText = banner?.tag || 'Engenharia visual em todos os ambientes';
+  const titleText = banner?.title || 'O impacto imersivo da tela curva sob medida';
   const descriptionText =
     banner?.description ||
     'Telas curvas contínuas que abraçam a arquitetura sem emendas visíveis. Desenvolvidas com tecnologia Fine-Pitch para entregar profundidade cinematográfica e requinte absoluto em livings, espaços gourmet, home cinemas e ambientes corporativos.';
-  const ctaText = banner?.ctaText || 'Consultar Projeto';
+  const ctaText = banner?.ctaText || 'Consultar projeto';
   const features = banner?.features && banner.features.length >= 3
     ? banner.features
-    : ['Curva Contínua', '100% Sem Emendas', 'Raio Personalizado'];
+    : ['Curva contínua', '100% sem emendas', 'Raio personalizado'];
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative">
@@ -60,7 +60,7 @@ export const WidescreenLedBanner: React.FC<WidescreenLedBannerProps> = ({ onOpen
               title="Clique para editar texto, destaques e imagem deste painel curvo"
             >
               <Edit3 className="w-3.5 h-3.5 text-cyan-400 group-hover/btn:rotate-12 transition-transform" />
-              <span>Editar Texto e Imagem</span>
+              <span>Editar texto e imagem</span>
             </button>
           </div>
 

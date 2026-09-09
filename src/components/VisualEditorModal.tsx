@@ -317,7 +317,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               <Lock className="w-8 h-8" />
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-1">Área Administrativa Restrita</h3>
+            <h3 className="text-xl font-bold text-white mb-1">Área administrativa restrita</h3>
             <p className="text-xs text-white/60 max-w-md mb-6">
               Digite a senha de administrador da <strong>LED Machine Painéis</strong> para liberar a edição de textos, imagens e contatos.
             </p>
@@ -349,12 +349,12 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                 className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Key className="w-4 h-4" />
-                <span>Desbloquear Painel</span>
+                <span>Desbloquear painel</span>
               </button>
             </form>
 
             <div className="mt-8 text-[11px] text-white/40">
-              LED Machine Painéis • Segurança Administrativa
+              LED Machine Painéis • Segurança administrativa
             </div>
           </div>
         ) : (
@@ -368,11 +368,11 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold text-white tracking-wide">
-                  Painel de Edição Visual do Site
+                  Painel de edição visual do site
                 </h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Nuvem Conectada (Tempo Real)
+                  Nuvem conectada (tempo real)
                 </span>
               </div>
               <p className="text-xs text-white/60">
@@ -389,7 +389,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white/80 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Exportar Backup</span>
+              <span>Exportar backup</span>
             </button>
 
             <button
@@ -423,7 +423,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
           {/* Left Tabs Navigation */}
           <div className="w-64 sm:w-72 bg-black/40 border-r border-white/10 flex flex-col p-3 overflow-y-auto space-y-1">
             <div className="text-[11px] font-semibold text-white/40 uppercase tracking-wider px-3 py-1.5">
-              Seções do Site
+              Seções do site
             </div>
 
             <button
@@ -452,7 +452,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Link2 className="w-4 h-4 text-cyan-400" />
-                <span>Links dos Botões</span>
+                <span>Links dos botões</span>
               </div>
               <div className="flex items-center gap-1">
                 <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
@@ -472,7 +472,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Type className="w-4 h-4 text-blue-400" />
-                <span>Topo / Hero Principal</span>
+                <span>Topo / hero principal</span>
               </div>
               {activeTab === 'hero' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -487,7 +487,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <ImageIcon className="w-4 h-4 text-amber-400" />
-                <span>Carrossel de Projetos (8 Fotos)</span>
+                <span>Carrossel de projetos (8 fotos)</span>
               </div>
               {activeTab === 'carousel' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -502,7 +502,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Layout className="w-4 h-4 text-indigo-400" />
-                <span>Por que LED Machine?</span>
+                <span>Tecnologia e qualidade</span>
               </div>
               {activeTab === 'whyUs' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -518,7 +518,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Banner Curvo Widescreen</span>
+                <span>Banner curvo widescreen</span>
               </div>
               {activeTab === 'widescreen' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -533,7 +533,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Layout className="w-4 h-4 text-emerald-400" />
-                <span>Soluções (Comercial/Residencial)</span>
+                <span>Soluções (comercial/residencial)</span>
               </div>
               {activeTab === 'solutions' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -548,7 +548,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Type className="w-4 h-4 text-amber-300" />
-                <span>Garantia de 2 Anos</span>
+                <span>Garantia de 2 anos</span>
               </div>
               {activeTab === 'warranty' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -563,7 +563,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <ImageIcon className="w-4 h-4 text-blue-400" />
-                <span>Projetos (Galeria)</span>
+                <span>Projetos (galeria)</span>
               </div>
               {activeTab === 'featured' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -578,7 +578,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Type className="w-4 h-4 text-blue-400" />
-                <span>Mais que um Painel</span>
+                <span>Mais que um painel</span>
               </div>
               {activeTab === 'moreThan' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -593,7 +593,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Layout className="w-4 h-4 text-blue-400" />
-                <span>Etapas de Atendimento (4 Passos)</span>
+                <span>Etapas de atendimento</span>
               </div>
               {activeTab === 'experience' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -608,7 +608,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <HelpCircle className="w-4 h-4 text-blue-400" />
-                <span>Perguntas Frequentes (FAQ)</span>
+                <span>Perguntas frequentes (FAQ)</span>
               </div>
               {activeTab === 'faq' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -623,7 +623,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <ImageIcon className="w-4 h-4 text-orange-400" />
-                <span>Redes Sociais (Instagram)</span>
+                <span>Redes sociais (Instagram)</span>
               </div>
               {activeTab === 'social' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -638,7 +638,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Type className="w-4 h-4 text-red-400" />
-                <span>Chamada Final (CTA)</span>
+                <span>Chamada final (CTA)</span>
               </div>
               {activeTab === 'finalCta' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -653,7 +653,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <Type className="w-4 h-4 text-gray-400" />
-                <span>Rodapé & Copyright</span>
+                <span>Rodapé & copyright</span>
               </div>
               {activeTab === 'footer' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -665,7 +665,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             {activeTab === 'general' && (
               <div className="space-y-6 animate-in fade-in duration-150">
                 <div className="border-b border-white/10 pb-3">
-                  <h3 className="text-base font-bold text-white">Configurações Gerais & Logotipo</h3>
+                  <h3 className="text-base font-bold text-white">Configurações gerais & logotipo</h3>
                   <p className="text-xs text-white/60">Faça upload do arquivo oficial do seu logo e configure WhatsApp, telefone e e-mail.</p>
                 </div>
 
@@ -1037,6 +1037,48 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                       }
                       className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-blue-500 focus:outline-none"
                     />
+                  </div>
+
+                  <div className="sm:col-span-2 pt-3 border-t border-white/10 space-y-3">
+                    <h4 className="text-xs font-semibold text-blue-400 uppercase tracking-wider">
+                      Clientes em Destaque (Faixa de Confiança)
+                    </h4>
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Frase da Faixa</label>
+                      <input
+                        type="text"
+                        value={localContent.hero.trustText || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            hero: { ...localContent.hero, trustText: e.target.value },
+                          })
+                        }
+                        placeholder="Ex: Confiado por mais de 100 marcas, arquitetos e residências de alto padrão"
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-blue-500 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">
+                        Nomes dos Clientes (separados por vírgula)
+                      </label>
+                      <input
+                        type="text"
+                        value={(localContent.hero.clientLogos || ['Jangada', 'Casa da Esfiha', 'Hotel Capsula', 'Abilitá']).join(', ')}
+                        onChange={(e) => {
+                          const names = e.target.value.split(',').map((s) => s.trim()).filter(Boolean);
+                          setLocalContent({
+                            ...localContent,
+                            hero: { ...localContent.hero, clientLogos: names },
+                          });
+                        }}
+                        placeholder="Jangada, Casa da Esfiha, Hotel Capsula, Abilitá"
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-blue-500 focus:outline-none"
+                      />
+                      <span className="text-[11px] text-white/40">
+                        Cada cliente é exibido no topo com o ícone de bolinha redonda no estilo Absen LED.
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1607,7 +1649,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                             },
                           })
                         }
-                        placeholder="Ex: Tecnologia que você percebe."
+                        placeholder="Ex: Tecnologia e Qualidade"
                         className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
                       />
                     </div>
@@ -1625,7 +1667,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                             },
                           })
                         }
-                        placeholder="Ex: Qualidade que você sente."
+                        placeholder="Ex: no seu Painel de Led"
                         className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
                       />
                     </div>
@@ -2051,13 +2093,13 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             {activeTab === 'warranty' && (
               <div className="space-y-6 animate-in fade-in duration-150">
                 <div className="border-b border-white/10 pb-3">
-                  <h3 className="text-base font-bold text-white">Garantia de 2 Anos & Assistência</h3>
+                  <h3 className="text-base font-bold text-white">Garantia de 2 anos & assistência</h3>
                   <p className="text-xs text-white/60">Edite os textos e termos da seção de garantia da LED Machine.</p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
                   <div>
-                    <label className="block text-xs font-semibold text-white/80 mb-1">Selo / Badge Superior</label>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Selo / badge superior</label>
                     <input
                       type="text"
                       value={localContent.warranty?.badge || ''}
@@ -2070,13 +2112,13 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                           },
                         })
                       }
-                      placeholder="Ex: 2 ANOS DE GARANTIA"
+                      placeholder="Ex: 2 anos de garantia"
                       className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-white/80 mb-1">Título Principal</label>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Título principal</label>
                     <input
                       type="text"
                       value={localContent.warranty?.title || ''}
@@ -2089,13 +2131,13 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                           },
                         })
                       }
-                      placeholder="Ex: Garantia Total de 2 Anos e Assistência Direta de Fábrica"
+                      placeholder="Ex: Garantia total de 2 anos e assistência direta de fábrica"
                       className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-white/80 mb-1">Primeiro Parágrafo</label>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Primeiro parágrafo</label>
                     <textarea
                       rows={3}
                       value={localContent.warranty?.p1 || ''}

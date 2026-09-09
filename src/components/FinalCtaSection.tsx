@@ -18,9 +18,9 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
     'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.';
 
   return (
-    <section id="final-cta-section" className="relative w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-80 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+    <section id="final-cta-section" className="relative w-full py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-64 bg-blue-600/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="relative z-10 max-w-3xl mx-auto space-y-4">
         {content.finalCta?.badge && (
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-white/90 backdrop-blur-md">
             {content.finalCta.badge}
@@ -33,13 +33,13 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
           {content.finalCta?.subtitle || 'Seja para destacar sua empresa ou criar um ambiente incrível na sua residência, a LED Machine desenvolve o projeto ideal para você.'}
         </p>
 
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
           <button
             id="final-cta-request-project"
             onClick={() => openButtonLink(content.buttonLinks?.finalCtaPrimary, onRequestProject)}
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-sm transition-all shadow-[0_4px_25px_rgba(255,255,255,0.22)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.32)] border border-white inline-flex items-center justify-center gap-2 cursor-pointer hover:scale-105"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-sm transition-all shadow-[0_4px_25px_rgba(255,255,255,0.22)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.32)] border border-white inline-flex items-center justify-center gap-2 cursor-pointer hover:scale-105"
           >
-            <span>{content.finalCta?.btnPrimary || 'Solicitar Projeto Sob Medida'}</span>
+            <span>{content.finalCta?.btnPrimary || 'Solicitar projeto sob medida'}</span>
             <ArrowRight className="w-4 h-4 text-[#070c20]" />
           </button>
 
@@ -51,14 +51,14 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({
                 onTalkSpecialist
               )
             }
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 hover:text-white font-semibold text-sm border border-emerald-500/40 transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 hover:text-white font-semibold text-sm border border-emerald-500/40 transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span>{content.finalCta?.btnSecondary || 'Falar com Especialista no WhatsApp'}</span>
+            <span>{content.finalCta?.btnSecondary || 'Falar com especialista no WhatsApp'}</span>
           </button>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-white/50">
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-white/50">
           <span>LED Machine Painéis</span>
           <span className="hidden sm:inline">•</span>
           <span>Tecnologia que transforma espaços em experiências.</span>

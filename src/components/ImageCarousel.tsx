@@ -383,7 +383,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           <span>•</span>
           <span className="text-blue-300 font-semibold flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5" />
-            2 Anos de Garantia
+            2 anos de garantia
           </span>
         </div>
       </div>
@@ -433,7 +433,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               <span>•</span>
               <span>{activeProject.specs.brightness}</span>
               <span>•</span>
-              <span className="text-blue-300 font-semibold">2 Anos de Garantia LED Machine</span>
+              <span className="text-blue-300 font-semibold">2 anos de garantia LED Machine</span>
             </div>
           </div>
         </div>

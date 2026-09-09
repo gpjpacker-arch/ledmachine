@@ -24,7 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'home', label: 'Início' },
     { id: 'diferenciais', label: 'Diferenciais' },
     { id: 'solucoes', label: 'Soluções' },
-    { id: 'garantia', label: '2 Anos Garantia' },
+    { id: 'garantia', label: '2 anos de garantia' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -65,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             id="nav-menu-toggle-btn"
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white transition-colors cursor-pointer group"
-            aria-label="Abrir Menu"
+            aria-label="Abrir menu"
           >
             <span>Menu</span>
             <LayoutGrid className="w-4 h-4 text-white/80 group-hover:text-blue-300 transition-colors" />
@@ -115,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className="w-full py-2.5 rounded-xl bg-white hover:bg-white/90 text-[#070919] font-bold text-xs shadow-lg flex items-center justify-center gap-1.5 transition-all"
             >
-              <span>Solicitar Orçamento</span>
+              <span>Solicitar orçamento</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
@@ -125,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className="w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium flex items-center justify-center gap-1.5 border border-white/10"
             >
-              <span>Simulador Interativo</span>
+              <span>Simulador interativo</span>
             </button>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { db } from '../lib/firebase';
 import { doc, setDoc, onSnapshot, collection } from 'firebase/firestore';
 
-const STORAGE_KEY = 'ledmachine_site_content_v3';
+const STORAGE_KEY = 'ledmachine_site_content_v4';
 const FIRESTORE_DOC_ID = 'main_config';
 
 interface SiteContentContextType {
@@ -57,11 +57,12 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
     !updatedFeaturedGallery ||
     updatedFeaturedGallery.titleHighlight === 'Cinema Series' ||
     updatedFeaturedGallery.subtitle?.includes('Fine-Pitch Master Wall') ||
-    (updatedFeaturedGallery.title === 'LED Machine' && updatedFeaturedGallery.titleHighlight === 'Cinema Series')
+    (updatedFeaturedGallery.title === 'LED Machine' && updatedFeaturedGallery.titleHighlight === 'Cinema Series') ||
+    updatedFeaturedGallery.title === 'Os melhores Projetos'
   ) {
     updatedFeaturedGallery = {
       ...(updatedFeaturedGallery || defaultSiteContent.featuredGallery),
-      title: 'Os melhores Projetos',
+      title: 'Os melhores projetos',
       titleHighlight: 'LED Machine',
       subtitle:
         'Conheça os detalhes dos nossos projetos sob medida: especificações técnicas de alta precisão, tecnologia de ponta e o mais elevado nível de acabamento.',
@@ -74,23 +75,96 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
     updatedWhyUs.title?.includes('Engenharia de precisão') ||
     !updatedWhyUs.cards ||
     updatedWhyUs.cards.length !== 6 ||
-    updatedWhyUs.cards.some((c: any) => c.title === 'Projetos 100% Personalizados')
+    updatedWhyUs.cards.some((c: any) => c.title === 'Projetos 100% Personalizados' || c.tag === '2 Anos de Garantia')
   ) {
     updatedWhyUs = defaultSiteContent.whyUs;
   } else if (updatedWhyUs.badge === 'Diferenciais Exclusivos') {
     updatedWhyUs = { ...updatedWhyUs, badge: '' };
   }
 
+  if (
+    updatedWhyUs?.title === 'Tecnologia que você percebe.' ||
+    updatedWhyUs?.title === 'Tecnologia e Qualidade'
+  ) {
+    updatedWhyUs = {
+      ...updatedWhyUs,
+      title: 'Tecnologia e qualidade',
+      titleHighlight: 'no seu painel de LED',
+    };
+  }
+
+  let updatedHero = sc.hero;
+  if (updatedHero) {
+    let cleanGuaranteeNotice = updatedHero.guaranteeNotice;
+    if (
+      !cleanGuaranteeNotice ||
+      cleanGuaranteeNotice.includes('2 Anos') ||
+      cleanGuaranteeNotice.includes('Suporte Nacional')
+    ) {
+      cleanGuaranteeNotice = '2 anos de garantia com suporte técnico especializado.';
+    }
+
+    updatedHero = {
+      ...updatedHero,
+      ctaPrimaryText: updatedHero.ctaPrimaryText === 'Solicitar Projeto' ? 'Solicitar projeto' : updatedHero.ctaPrimaryText || 'Solicitar projeto',
+      ctaSecondaryText: updatedHero.ctaSecondaryText === 'Ver Galeria de Projetos' ? 'Ver galeria de projetos' : updatedHero.ctaSecondaryText || 'Ver galeria de projetos',
+      guaranteeNotice: cleanGuaranteeNotice,
+      trustText: updatedHero.trustText || defaultSiteContent.hero.trustText || 'Confiado por mais de 100 marcas, arquitetos e residências de alto padrão',
+      clientLogos: !updatedHero.clientLogos || updatedHero.clientLogos.length === 0 ? ['Jangada', 'Casa da Esfiha', 'Hotel Capsula', 'Abilitá'] : updatedHero.clientLogos,
+    };
+  }
+
+  let updatedWarranty = sc.warranty || defaultSiteContent.warranty;
+  if (
+    !updatedWarranty ||
+    updatedWarranty.title?.includes('2 Anos') ||
+    updatedWarranty.title?.includes('Suporte Nacional') ||
+    updatedWarranty.badge === '2 Anos de Garantia' ||
+    updatedWarranty.badge === '2 ANOS DE GARANTIA' ||
+    updatedWarranty.badge === 'Confiança Inabalável'
+  ) {
+    updatedWarranty = defaultSiteContent.warranty;
+  }
+
+  let updatedFinalCta = sc.finalCta || defaultSiteContent.finalCta;
+  if (
+    !updatedFinalCta ||
+    updatedFinalCta.btnPrimary === 'Solicitar Projeto Sob Medida' ||
+    updatedFinalCta.btnSecondary?.includes('Especialista') ||
+    updatedFinalCta.guaranteeSeal?.includes('Suporte em todo o Brasil')
+  ) {
+    updatedFinalCta = defaultSiteContent.finalCta;
+  }
+
+  if (
+    !updatedButtons.socialMaps ||
+    updatedButtons.socialMaps.includes('LED+Machine+Paineis+de+LED+Sao+Paulo') ||
+    updatedButtons.socialMaps.includes('maps/search')
+  ) {
+    updatedButtons.socialMaps = 'https://share.google/e2fpI9CJ972PHCw3Q';
+  }
+
+  const updatedAddress =
+    !sc.general?.address ||
+    sc.general.address.includes('São Paulo - SP') ||
+    sc.general.address.includes('Atendimento em todo o Brasil')
+      ? 'R. Dr. José Rodrigues de Almeida, 632 - Paulicéia, Piracicaba - SP'
+      : sc.general.address;
+
   return {
     ...sc,
     general: {
       ...sc.general,
+      address: updatedAddress,
       whatsappNumber: '5519999107788',
       whatsappMessage:
         'Olá! Vi o site da LED Machine e quero solicitar um projeto sob medida.',
       phoneContact: '(19) 99910-7788',
     },
+    hero: updatedHero,
     whyUs: updatedWhyUs,
+    warranty: updatedWarranty,
+    finalCta: updatedFinalCta,
     featuredGallery: updatedFeaturedGallery,
     buttonLinks: updatedButtons,
   };
@@ -99,6 +173,9 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
 export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
     try {
+      localStorage.removeItem('ledmachine_site_content_v3');
+      localStorage.removeItem('ledmachine_site_content_v2');
+      localStorage.removeItem('ledmachine_site_content');
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);

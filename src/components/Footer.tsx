@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
                 onClick={() => onNavigate('diferenciais')}
                 className="text-left block text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
-                Por que LED Machine?
+                Por que a LED Machine?
               </button>
             </li>
             <li>
@@ -50,7 +50,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
                 onClick={() => onNavigate('solucoes')}
                 className="text-left block text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
-                Soluções Corporativas & Residenciais
+                Soluções corporativas & residenciais
               </button>
             </li>
             <li>
@@ -58,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
                 onClick={() => onNavigate('garantia')}
                 className="text-left block text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
-                2 Anos de Garantia
+                2 anos de garantia
               </button>
             </li>
           </ul>
@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
         {/* Contact / Consultation Info */}
         <div className="space-y-3">
           <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">
-            Consultoria & Engenharia
+            Consultoria & engenharia
           </h4>
           <p className="text-xs text-zinc-400 leading-relaxed font-normal">
             Equipe dedicada para desenvolvimento de projetos sob medida em todo o Brasil.
@@ -92,9 +92,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
               <Mail className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
               <span className="text-zinc-300">{content.general.emailContact || 'contato@ledmachine.com.br'}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div
+              onClick={() => openButtonLink(content.buttonLinks?.socialMaps || 'https://share.google/e2fpI9CJ972PHCw3Q')}
+              className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors w-fit"
+              title="Abrir no Google Maps"
+            >
               <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-              <span>{content.general.address || 'Atendimento e Instalação em Âmbito Nacional'}</span>
+              <span>{content.general.address || 'R. Dr. José Rodrigues de Almeida, 632 - Paulicéia, Piracicaba - SP'}</span>
             </div>
           </div>
         </div>
@@ -110,20 +114,20 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
             onClick={() => openButtonLink(content.buttonLinks?.footerWarranty, onOpenContact)}
             className="hover:text-white transition-colors cursor-pointer"
           >
-            2 Anos de Garantia
+            2 anos de garantia
           </button>
           <button
             onClick={() => openButtonLink(content.buttonLinks?.footerContact, onOpenContact)}
             className="hover:text-white transition-colors cursor-pointer"
           >
-            Falar com um Especialista
+            Falar com um especialista
           </button>
           <button
             onClick={() => setIsEditorOpen(true)}
             className="text-zinc-400 hover:text-white font-medium inline-flex items-center gap-1 cursor-pointer transition-colors"
           >
             <Edit3 className="w-3 h-3" />
-            <span>Editar Conteúdo</span>
+            <span>Editar conteúdo</span>
           </button>
         </div>
       </div>

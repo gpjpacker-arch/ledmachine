@@ -18,7 +18,7 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         {/* Section Tag */}
         <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block mb-3">
-          Experiência Visual
+          Experiência visual
         </span>
 
         {/* Section Headline */}
@@ -45,7 +45,7 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
                 <Building2 className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2 flex items-center justify-between">
-                <span>Para sua Empresa</span>
+                <span>Para sua empresa</span>
                 <ArrowRight className="w-4 h-4 text-blue-400 group-hover:translate-x-0.5 transition-transform" />
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
@@ -62,7 +62,7 @@ export const MoreThanPanelSection: React.FC<MoreThanPanelSectionProps> = ({
                 <Home className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2 flex items-center justify-between">
-                <span>Para sua Residência</span>
+                <span>Para sua residência</span>
                 <ArrowRight className="w-4 h-4 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">

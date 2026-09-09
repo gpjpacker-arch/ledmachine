@@ -94,7 +94,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
         <div className="mb-6">
           <LedMachineLogo size="sm" />
           <h3 className="text-2xl font-bold text-white mt-3 tracking-tight">
-            Solicitar Projeto Personalizado
+            Solicitar projeto personalizado
           </h3>
           <p className="text-xs sm:text-sm text-zinc-400 mt-1">
             Conte-nos sobre seu espaço ou necessidade. Desenvolvemos uma proposta sob medida com 2 anos de garantia.
@@ -106,7 +106,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
               <CheckCircle2 className="w-7 h-7 text-emerald-400" />
             </div>
-            <h4 className="text-xl font-bold text-white">Solicitação Enviada</h4>
+            <h4 className="text-xl font-bold text-white">Solicitação enviada</h4>
             <p className="text-sm text-zinc-400 max-w-sm">
               Abrindo seu WhatsApp com os dados técnicos do projeto preenchidos automaticamente...
             </p>
@@ -127,7 +127,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                Seu Nome
+                Seu nome
               </label>
               <div className="relative">
                 <input
@@ -145,7 +145,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                  WhatsApp / Telefone
+                  WhatsApp / telefone
                 </label>
                 <div className="relative">
                   <input
@@ -181,21 +181,21 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                  Tipo de Projeto
+                  Tipo de projeto
                 </label>
                 <select
                   value={segment}
                   onChange={(e) => setSegment(e.target.value)}
                   className="w-full px-3 py-2.5 rounded-xl bg-[#141724] border border-white/10 text-white text-sm focus:outline-none focus:border-white/30 cursor-pointer"
                 >
-                  <option value="Comercial">Comercial / Empresarial</option>
-                  <option value="Residencial">Residencial de Alto Padrão</option>
+                  <option value="Comercial">Comercial / empresarial</option>
+                  <option value="Residencial">Residencial de alto padrão</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                  Ambiente Pretendido
+                  Ambiente pretendido
                 </label>
                 <select
                   value={application}
@@ -204,18 +204,18 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 >
                   {segment === 'Comercial' ? (
                     <>
-                      <option value="Fachada / Vitrine">Fachada / Vitrine</option>
-                      <option value="Loja / Shopping">Loja / Shopping</option>
-                      <option value="Showroom / Corporativo">Showroom / Corporativo</option>
-                      <option value="Restaurante / Hotel">Restaurante / Hotel</option>
-                      <option value="Igreja / Auditório">Igreja / Auditório</option>
+                      <option value="Fachada / Vitrine">Fachada / vitrine</option>
+                      <option value="Loja / Shopping">Loja / shopping</option>
+                      <option value="Showroom / Corporativo">Showroom / corporativo</option>
+                      <option value="Restaurante / Hotel">Restaurante / hotel</option>
+                      <option value="Igreja / Auditório">Igreja / auditório</option>
                     </>
                   ) : (
                     <>
-                      <option value="Home Theater / Cinema">Home Theater / Cinema</option>
-                      <option value="Área Gourmet / Convivência">Área Gourmet / Convivência</option>
-                      <option value="Sala de Estar Principal">Sala de Estar Principal</option>
-                      <option value="Área Externa / Piscina">Área Externa / Piscina</option>
+                      <option value="Home Theater / Cinema">Home theater / cinema</option>
+                      <option value="Área Gourmet / Convivência">Área gourmet / convivência</option>
+                      <option value="Sala de Estar Principal">Sala de estar principal</option>
+                      <option value="Área Externa / Piscina">Área externa / piscina</option>
                     </>
                   )}
                 </select>
@@ -249,7 +249,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               className="w-full py-3.5 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] font-semibold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <MessageCircle className="w-4 h-4 text-[#090a0f]" />
-              <span>Enviar e Abrir no WhatsApp</span>
+              <span>Enviar e abrir no WhatsApp</span>
             </button>
           </form>
         )}

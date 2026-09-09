@@ -9,7 +9,7 @@ export const WarrantySection: React.FC<WarrantySectionProps> = () => {
   const { content } = useSiteContent();
   const warranty = content.warranty;
 
-  const badgeText = warranty?.badge || '2 ANOS DE GARANTIA';
+  const badgeText = warranty?.badge || '2 anos de garantia';
   const titleText = warranty?.title || 'Qualidade para hoje.\nConfiança para os próximos anos.';
   const p1Text = warranty?.p1 || warranty?.description || 'Quando você investe em um produto premium, precisa ter segurança de que está fazendo a escolha certa. Por isso, todos os projetos contam com 2 anos de garantia.';
   const p2Text = warranty?.p2 || 'Porque qualidade não é apenas aquilo que você vê na primeira vez que liga o painel. É a tranquilidade de saber que existe uma empresa por trás do seu investimento.';
@@ -25,13 +25,13 @@ export const WarrantySection: React.FC<WarrantySectionProps> = () => {
               <span className="text-3xl sm:text-4xl font-black leading-none tracking-tight text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
                 2
               </span>
-              <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.16em] text-center leading-tight mt-2 text-white/90">
-                {badgeText.includes('ANOS') ? (
+              <span className="text-[11px] sm:text-[12px] font-semibold tracking-normal text-center leading-tight mt-2 text-white/90">
+                {/anos/i.test(badgeText) ? (
                   <>
-                    {badgeText.replace(/GARANTIA/i, '').trim()}
+                    <span>anos de</span>
                     <br />
-                    <span className="text-blue-300/90 font-extrabold tracking-widest text-[9.5px]">
-                      GARANTIA
+                    <span className="text-blue-300 font-bold tracking-normal text-[10.5px]">
+                      garantia
                     </span>
                   </>
                 ) : (

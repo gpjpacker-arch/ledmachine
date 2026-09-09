@@ -46,7 +46,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             />
           </div>
           <span className="font-normal text-[11px] tracking-normal text-white/90">
-            {content.hero.clientCountText || '+500 Projetos Entregues'}
+            {content.hero.clientCountText || '+500 projetos entregues'}
           </span>
         </div>
 
@@ -71,7 +71,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             onClick={() => openButtonLink(content.buttonLinks?.heroPrimary, onOpenContact)}
             className="group px-6 sm:px-8 py-3.5 rounded-full bg-white hover:bg-white/90 text-[#070919] font-bold text-xs sm:text-sm shadow-[0_0_25px_rgba(255,255,255,0.3)] transition-all duration-300 hover:scale-105 active:scale-95 inline-flex items-center gap-2 cursor-pointer"
           >
-            <span>{content.hero.ctaPrimaryText || 'Solicitar Projeto'}</span>
+            <span>{content.hero.ctaPrimaryText || 'Solicitar projeto'}</span>
             <ArrowRight className="w-4 h-4 text-[#070919] group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
@@ -79,39 +79,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* Trust Badges */}
       <div className="relative z-10 w-full max-w-5xl mx-auto pt-6 border-t border-white/10 flex flex-col items-center space-y-5">
-        <p className="text-xs sm:text-sm text-white/55 font-medium tracking-tight">
-          Confiado por mais de 100 marcas, arquitetos e residências de alto padrão
+        <p className="text-xs sm:text-sm text-white/55 font-medium tracking-tight text-center px-4">
+          {content.hero?.trustText || 'Confiado por mais de 100 marcas, arquitetos e residências de alto padrão'}
         </p>
 
-        <div className="w-full flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-50 hover:opacity-80 transition-opacity">
-          <div className="flex items-center gap-1.5 font-bold tracking-widest text-xs sm:text-sm uppercase text-white/80">
-            <div className="w-4 h-4 rounded-full border border-white/60 flex items-center justify-center">
-              <div className="w-2 h-2 bg-white/80 rounded-full" />
+        <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:gap-12 opacity-60 hover:opacity-90 transition-opacity">
+          {(content.hero?.clientLogos && content.hero.clientLogos.length > 0
+            ? content.hero.clientLogos
+            : ['Jangada', 'Casa da Esfiha', 'Hotel Capsula', 'Abilitá']
+          ).map((clientName, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-2 font-bold tracking-widest text-xs sm:text-sm uppercase text-white/80 hover:text-white transition-colors"
+            >
+              <div className="w-4 h-4 rounded-full border border-white/60 flex items-center justify-center shrink-0">
+                <div className="w-2 h-2 bg-white/80 rounded-full" />
+              </div>
+              <span>{clientName}</span>
             </div>
-            <span>ABSEN LED</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 font-bold tracking-widest text-xs sm:text-sm uppercase text-white/80">
-            <div className="w-4 h-4 rounded border border-white/60 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-white/80 rounded-sm rotate-45" />
-            </div>
-            <span>NOVASTAR</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 font-bold tracking-widest text-xs sm:text-sm uppercase text-white/80">
-            <div className="w-4 h-4 border-2 border-white/60 rotate-45" />
-            <span>MICROLED PRO</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 font-bold tracking-widest text-xs sm:text-sm uppercase text-white/80">
-            <div className="w-4 h-4 rounded-sm bg-white/40 flex items-center justify-center" />
-            <span>UNILUMIN</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 font-bold tracking-widest text-xs sm:text-sm uppercase text-white/80">
-            <div className="w-4 h-4 rounded-full border-t-2 border-white/80" />
-            <span>CRESTRON</span>
-          </div>
+          ))}
         </div>
       </div>
 

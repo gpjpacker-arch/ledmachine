@@ -84,41 +84,41 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
   const productViews: ProductView[] = [
     {
       id: 'panoramica',
-      title: savedImages[0]?.title || 'Visão Panorâmica do Ambiente',
+      title: savedImages[0]?.title || 'Visão panorâmica do ambiente',
       subtitle: savedImages[0]?.subtitle || 'Integração completa ao living & espaço gourmet',
       description:
         'O painel se torna o ponto central do espaço, oferecendo imersão visual contínua com moldura invisível e curvatura personalizada sob medida.',
-      badge: 'Vista Principal',
+      badge: 'Vista principal',
       imageUrl: savedImages[0]?.url || defaultImages[0],
       hotspots: getHotspotsForView(0),
     },
     {
       id: 'contraste',
-      title: savedImages[1]?.title || 'Contraste Profundo & Nível de Preto',
+      title: savedImages[1]?.title || 'Contraste profundo & nível de preto',
       subtitle: savedImages[1]?.subtitle || 'Tecnologia HDR10+ com calibração precisa de cores',
       description:
         'Pretos verdadeiramente profundos e taxa de atualização de 3840Hz, eliminando reflexos indesejados e entregando fidelidade cinematográfica.',
-      badge: 'Detalhe & Contraste',
+      badge: 'Detalhe & contraste',
       imageUrl: savedImages[1]?.url || defaultImages[1],
       hotspots: getHotspotsForView(1),
     },
     {
       id: 'marcenaria',
-      title: savedImages[2]?.title || 'Integração Arquitetônica & Acabamento',
+      title: savedImages[2]?.title || 'Integração arquitetônica & acabamento',
       subtitle: savedImages[2]?.subtitle || 'Harmonia milimétrica com painéis de madeira e pedras nobres',
       description:
         'Desenvolvido para dialogar perfeitamente com projetos de arquitetura e design de interiores, sem cabos visíveis e com ventilação silenciosa.',
-      badge: 'Arquitetura & Design',
+      badge: 'Arquitetura & design',
       imageUrl: savedImages[2]?.url || defaultImages[2],
       hotspots: getHotspotsForView(2),
     },
     {
       id: 'escala',
-      title: savedImages[3]?.title || 'Impacto Visual & Resolução Imersiva',
+      title: savedImages[3]?.title || 'Impacto visual & resolução imersiva',
       subtitle: savedImages[3]?.subtitle || 'Experiência imersiva de ponta a ponta sem emendas',
       description:
         'Superfície contínua e uniforme, proporcionando uma experiência muito superior a TVs convencionais em grandes formatos.',
-      badge: 'Escala & Fidelidade',
+      badge: 'Escala & fidelidade',
       imageUrl: savedImages[3]?.url || defaultImages[3],
       hotspots: getHotspotsForView(3),
     },
@@ -241,7 +241,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
   return (
     <section
       id="produto-destaque-section"
-      className="relative w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden"
+      className="relative w-full pt-16 sm:pt-20 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden"
     >
       <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[550px] h-[550px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[130px] pointer-events-none" />
@@ -359,7 +359,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
           {/* Thumbnails Row Header */}
           <div className="flex items-center justify-between px-1 pt-1">
             <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">
-              Ângulos & Aplicações ({activeViewIndex + 1}/4)
+              Ângulos & aplicações ({activeViewIndex + 1}/4)
             </span>
             <button
               type="button"
@@ -368,7 +368,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
               title="Abrir painel administrativo para editar fotos e pontos brilhantes"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Painel ADM • Editar Fotos & Hotspots</span>
+              <span>Painel ADM • Editar fotos & hotspots</span>
             </button>
           </div>
 
@@ -418,10 +418,10 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
           <div>
             <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">
               <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span>Garantia de 2 Anos Inclusa</span>
+              <span>Garantia de 2 anos inclusa</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
-              Engenharia e Imagem em Nível Cinema
+              Engenharia e imagem em nível cinema
             </h3>
             <p className="mt-3 text-xs sm:text-sm text-white/70 leading-relaxed">
               {currentView.description}
@@ -430,24 +430,24 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
 
           <div className="space-y-2.5 pt-2 border-t border-white/10">
             <h4 className="text-[11px] font-bold text-white/50 uppercase tracking-widest">
-              Especificações do Modelo
+              Especificações do modelo
             </h4>
             <div className="grid grid-cols-2 gap-2 text-left">
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Pixel Pitch</span>
+                <span className="text-[10px] text-white/50 block font-medium">Pixel pitch</span>
                 <span className="text-xs sm:text-sm font-bold text-white">P1.2 a P1.8 mm</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Taxa de Atualização</span>
+                <span className="text-[10px] text-white/50 block font-medium">Taxa de atualização</span>
                 <span className="text-xs sm:text-sm font-bold text-white">3.840 Hz HDR</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Brilho Calibrado</span>
+                <span className="text-[10px] text-white/50 block font-medium">Brilho calibrado</span>
                 <span className="text-xs sm:text-sm font-bold text-white">Até 1.600 nits</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-[10px] text-white/50 block font-medium">Manutenção</span>
-                <span className="text-xs sm:text-sm font-bold text-white">100% Frontal</span>
+                <span className="text-xs sm:text-sm font-bold text-white">100% frontal</span>
               </div>
             </div>
           </div>
@@ -459,7 +459,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Compatível com Apple TV, PS5, Automação Control4/Crestron</span>
+              <span>Compatível com Apple TV, PS5, automação Control4/Crestron</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -477,7 +477,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
               }
               className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(255,255,255,0.18)] hover:shadow-[0_6px_30px_rgba(255,255,255,0.28)] border border-white transition-all cursor-pointer hover:scale-[1.02]"
             >
-              <span>Solicitar Orçamento Deste Produto</span>
+              <span>Solicitar orçamento deste produto</span>
               <ArrowRight className="w-4 h-4 text-[#070c20]" />
             </button>
 
@@ -493,7 +493,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
               className="w-full py-3 px-5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 border border-emerald-500/30 transition-all cursor-pointer"
             >
               <MessageCircle className="w-4 h-4 text-emerald-400" />
-              <span>Tirar Dúvidas com Especialista no WhatsApp</span>
+              <span>Tirar dúvidas com especialista no WhatsApp</span>
             </button>
           </div>
         </div>
@@ -536,7 +536,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white tracking-tight">
-                    Alterar Fotos dos Projetos LED Machine
+                    Alterar fotos dos projetos LED Machine
                   </h3>
                   <p className="text-xs text-zinc-400">
                     Substitua qualquer uma das 4 fotos por imagens do seu computador, celular ou link.
@@ -628,7 +628,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                     </div>
                   )}
                   <div className="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[10px] text-white/90 border border-white/10">
-                    Pré-visualização do Enquadramento
+                    Pré-visualização do enquadramento
                   </div>
                 </div>
               </div>
@@ -665,7 +665,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
               {/* URL Input */}
               <div>
                 <label className="block text-[11px] font-semibold text-zinc-400 mb-1">
-                  Ou colar link de imagem da Web (URL)
+                  Ou colar link de imagem da web (URL)
                 </label>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
@@ -704,7 +704,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             {/* All 4 Thumbnails Quick Strip */}
             <div className="mt-4 pt-4 border-t border-white/10">
               <label className="block text-[11px] font-semibold text-zinc-400 mb-2">
-                Visão Geral das 4 Fotos (Clique em qualquer miniatura para selecioná-la):
+                Visão geral das 4 fotos (clique em qualquer miniatura para selecioná-la):
               </label>
               <div className="grid grid-cols-4 gap-2">
                 {productViews.map((pv, idx) => {
@@ -764,17 +764,17 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                   {isSaving ? (
                     <>
                       <Loader2 className="w-4 h-4 text-sky-600 animate-spin" />
-                      <span>Salvando na Nuvem...</span>
+                      <span>Salvando na nuvem...</span>
                     </>
                   ) : saveSuccess ? (
                     <>
                       <Check className="w-4 h-4 text-emerald-600" />
-                      <span>Salvo com Sucesso!</span>
+                      <span>Salvo com sucesso!</span>
                     </>
                   ) : (
                     <>
                       <Check className="w-4 h-4" />
-                      <span>Salvar Fotos</span>
+                      <span>Salvar fotos</span>
                     </>
                   )}
                 </button>

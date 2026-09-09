@@ -41,7 +41,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onStartPro
     {
       num: '05',
       icon: PartyPopper,
-      title: 'Entrega Técnica',
+      title: 'Entrega técnica',
       description: 'Comissionamento final, treinamento operacional e ativação da garantia de 2 anos.',
     },
   ];
@@ -53,7 +53,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onStartPro
     >
       <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
         <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider block mb-3">
-          Processo de Engenharia
+          Processo de engenharia
         </span>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.2] mb-4">
           Da primeira consulta à entrega técnica, uma jornada precisa.
@@ -104,7 +104,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onStartPro
           onClick={onStartProject}
           className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] font-semibold text-sm transition-all duration-200 cursor-pointer"
         >
-          <span>Iniciar Consulta Técnica do Meu Projeto</span>
+          <span>Iniciar consulta técnica do meu projeto</span>
           <ArrowRight className="w-4 h-4 text-[#090a0f]" />
         </button>
       </div>

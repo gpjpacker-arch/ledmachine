@@ -22,51 +22,51 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
   const defaultCards = [
     {
       id: 1,
-      tag: 'Alta Qualidade',
+      tag: 'Alta qualidade',
       title: 'Imagem impressionante',
       description: 'Painéis desenvolvidos para entregar excelente qualidade visual, brilho, contraste e definição, valorizando cada conteúdo exibido.',
-      badge: 'Contraste & Brilho',
+      badge: 'Contraste & brilho',
     },
     {
       id: 2,
-      tag: 'Acabamento Premium',
+      tag: 'Acabamento premium',
       title: 'Seu ambiente merece excelência',
       description: 'Cada detalhe importa. Trabalhamos para que o painel seja integrado ao espaço de forma elegante, moderna e sofisticada.',
-      badge: 'Design Slim & Elegante',
+      badge: 'Design slim & elegante',
     },
     {
       id: 3,
-      tag: 'Plug & Play Completo',
+      tag: 'Plug & play completo',
       title: 'Sistema e som integrados',
       description: 'Painel 100% pronto para uso, unindo sistema operacional intuitivo, áudio de alta fidelidade e conectividade descomplicada.',
-      badge: 'Pronto para Usar',
+      badge: 'Pronto para usar',
     },
     {
       id: 4,
-      tag: '2 Anos de Garantia',
+      tag: '2 anos de garantia',
       title: 'Seu investimento protegido',
       description: 'Você conta com 2 anos de garantia total, assegurando a tranquilidade, o suporte e a segurança de um investimento seguro.',
-      badge: 'Garantia Total',
+      badge: 'Garantia total',
     },
     {
       id: 5,
-      tag: 'Projeto Personalizado',
+      tag: 'Projeto personalizado',
       title: 'Feito para o seu espaço',
       description: 'Desenvolvemos soluções sob medida de acordo com as dimensões do ambiente, objetivo técnico e experiência desejada.',
-      badge: '100% Sob Medida',
+      badge: '100% sob medida',
     },
     {
       id: 6,
-      tag: 'Instalação Profissional',
+      tag: 'Instalação profissional',
       title: 'Do projeto à instalação',
       description: 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável.',
-      badge: 'Engenharia Especializada',
+      badge: 'Engenharia especializada',
     },
   ];
 
   const cards = (whyUs?.cards && whyUs.cards.length > 0) ? whyUs.cards : defaultCards;
-  const sectionTitle = whyUs?.title || 'Tecnologia que você percebe.';
-  const sectionHighlight = whyUs?.titleHighlight || 'Qualidade que você sente.';
+  const sectionTitle = whyUs?.title || 'Tecnologia e qualidade';
+  const sectionHighlight = whyUs?.titleHighlight !== undefined ? whyUs.titleHighlight : 'no seu painel de LED';
   const sectionSubtitle = whyUs?.subtitle || 'Unimos engenharia avançada, estética de alto padrão e garantia estendida para entregar a melhor experiência visual do mercado.';
 
   return (
@@ -78,11 +78,16 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
           </div>
         )}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
-          {sectionTitle}{' '}
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-400">
-            {sectionHighlight}
-          </span>
+          {sectionTitle}
+          {sectionHighlight && sectionHighlight.trim() !== '' && (
+            <>
+              {' '}
+              <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-400">
+                {sectionHighlight}
+              </span>
+            </>
+          )}
         </h2>
         <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto">
           {sectionSubtitle}

@@ -83,11 +83,11 @@ export const TutorialPdfModal: React.FC<TutorialPdfModalProps> = ({ isOpen, onCl
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span><strong>Simulador Interativo:</strong> Cálculos de dimensões e consumo</span>
+                <span><strong>Simulador interativo:</strong> Cálculos de dimensões e consumo</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span><strong>Garantia & Certificações:</strong> 2 Anos e atendimento nacional</span>
+                <span><strong>Garantia & certificações:</strong> 2 anos e suporte nacional</span>
               </li>
             </ul>
           </section>
@@ -96,10 +96,10 @@ export const TutorialPdfModal: React.FC<TutorialPdfModalProps> = ({ isOpen, onCl
           <section className="space-y-4">
             <h3 className="text-lg font-bold text-white flex items-center gap-2 print:text-black border-b border-white/10 pb-2 print:border-gray-300">
               <Edit3 className="w-5 h-5 text-blue-400 print:text-blue-600" />
-              2. Método 1: Painel Visual Embutido (Direto na Tela)
+              2. Método 1: Painel visual embutido (direto na tela)
             </h3>
             <p>
-              O site conta com um <strong>Painel de Edição Visual</strong> exclusivo para alterar textos, telefones, links de WhatsApp e fotos sem precisar mexer em linhas de código.
+              O site conta com um <strong>painel de edição visual</strong> exclusivo para alterar textos, telefones, links de WhatsApp e fotos sem precisar mexer em linhas de código.
             </p>
 
             <div className="bg-[#060c20] border border-blue-900/40 rounded-xl p-4 space-y-3 print:bg-gray-50 print:border-gray-300">
@@ -108,24 +108,24 @@ export const TutorialPdfModal: React.FC<TutorialPdfModalProps> = ({ isOpen, onCl
               </h4>
               <ol className="list-decimal list-inside space-y-2 text-xs text-white/85 print:text-gray-800">
                 <li>
-                  Role a página até o rodapé (Footer) e clique no link azul <strong>"Painel de Edição de Textos & Fotos"</strong>.
+                  Role a página até o rodapé (footer) e clique no link <strong>"Editar conteúdo"</strong>.
                 </li>
                 <li>
                   Uma janela lateral se abrirá com abas organizadas:
                   <ul className="list-disc list-inside pl-4 mt-1 space-y-1 text-white/70 print:text-gray-600">
                     <li><strong>Geral:</strong> Telefone, WhatsApp comercial, e-mail e endereço.</li>
-                    <li><strong>Hero Principal:</strong> Título principal, slogan, estatísticas e botões de chamada.</li>
-                    <li><strong>Carrossel de Imagens:</strong> Troca de fotos e legendas dos ambientes.</li>
-                    <li><strong>Soluções & Produtos:</strong> Modelos Indoor, Outdoor, Flexíveis e Curvos.</li>
-                    <li><strong>Diferenciais & Garantia:</strong> Textos sobre os 2 anos de garantia e suporte.</li>
+                    <li><strong>Hero principal:</strong> Título principal, slogan, estatísticas e botões de chamada.</li>
+                    <li><strong>Carrossel de imagens:</strong> Troca de fotos e legendas dos ambientes.</li>
+                    <li><strong>Soluções & produtos:</strong> Modelos indoor, outdoor, flexíveis e curvos.</li>
+                    <li><strong>Diferenciais & garantia:</strong> Textos sobre os 2 anos de garantia e suporte nacional.</li>
                     <li><strong>FAQ:</strong> Perguntas e respostas frequentes.</li>
                   </ul>
                 </li>
                 <li>
-                  Edite os campos desejados e clique no botão verde <strong>"Salvar Alterações"</strong>.
+                  Edite os campos desejados e clique no botão verde <strong>"Salvar alterações"</strong>.
                 </li>
                 <li>
-                  <em>Opcional:</em> Você pode clicar em <strong>"Exportar Backup JSON"</strong> para guardar uma cópia das suas alterações no computador.
+                  <em>Opcional:</em> Você pode clicar em <strong>"Exportar backup JSON"</strong> para guardar uma cópia das suas alterações no computador.
                 </li>
               </ol>
             </div>
