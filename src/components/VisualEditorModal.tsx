@@ -28,15 +28,17 @@ import { useSiteContent } from '../context/SiteContentContext';
 import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { compressAndOptimizeImage } from '../utils/imageCompressor';
 import { ButtonLinksEditorTab, ButtonLinkKey } from './ButtonLinksEditorTab';
+import { FeaturedHotspotsEditor } from './FeaturedHotspotsEditor';
 
 interface VisualEditorModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialTab?: string;
 }
 
 const ADMIN_PIN = '199722'; // Senha personalizada do administrador
 
-export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, onClose }) => {
+export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, onClose, initialTab }) => {
   const {
     content,
     updateContent,
@@ -68,6 +70,9 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
   React.useEffect(() => {
     if (isOpen) {
       setLocalContent(content);
+      if (initialTab) {
+        setActiveTab(initialTab as any);
+      }
       // Checar se já autenticou na sessão
       const sessionAuth = sessionStorage.getItem('ledmachine_admin_auth');
       if (sessionAuth === 'true') {
@@ -163,10 +168,10 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
         ...prev,
         buttonLinks: {
           ...current,
-          featuredProductWhatsapp: `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Olá, vi os detalhes do Cinema Series no site da LED Machine e gostaria de um orçamento personalizado.')}`,
-          finalCtaWhatsapp: `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Olá! Estava no site da LED Machine e gostaria de conversar com um especialista sobre um projeto.')}`,
-          socialWhatsapp: `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Olá, vi os produtos da Led Machine no site e gostaria de um orçamento')}`,
-          footerPhone: `https://wa.me/${cleanPhone}`,
+          featuredProductWhatsapp: `https://wa.me/${cleanPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
+          finalCtaWhatsapp: `https://wa.me/${cleanPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
+          socialWhatsapp: `https://wa.me/${cleanPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
+          footerPhone: `https://wa.me/${cleanPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
         },
       };
     });
@@ -558,7 +563,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
             >
               <div className="flex items-center gap-2.5">
                 <ImageIcon className="w-4 h-4 text-blue-400" />
-                <span>Cinema Series (Galeria)</span>
+                <span>Projetos (Galeria)</span>
               </div>
               {activeTab === 'featured' && <ChevronRight className="w-3.5 h-3.5" />}
             </button>
@@ -1572,12 +1577,260 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               </div>
             )}
 
+            {/* WHY US TAB (POR QUE LED MACHINE - 6 DIFERENCIAIS) */}
+            {activeTab === 'whyUs' && (
+              <div className="space-y-6 animate-in fade-in duration-150">
+                <div className="border-b border-white/10 pb-3">
+                  <h3 className="text-base font-bold text-white">Por que LED Machine? (Diferenciais)</h3>
+                  <p className="text-xs text-white/60">
+                    Edite o título principal da seção e os 6 blocos de diferenciais e acabamento.
+                  </p>
+                </div>
+
+                {/* Section Header Inputs */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
+                    Textos Principais da Seção
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Título (Linha 1)</label>
+                      <input
+                        type="text"
+                        value={localContent.whyUs?.title || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            whyUs: {
+                              ...(localContent.whyUs || defaultSiteContent.whyUs),
+                              title: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Tecnologia que você percebe."
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Destaque do Título (Linha 2)</label>
+                      <input
+                        type="text"
+                        value={localContent.whyUs?.titleHighlight || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            whyUs: {
+                              ...(localContent.whyUs || defaultSiteContent.whyUs),
+                              titleHighlight: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Qualidade que você sente."
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Subtítulo da Seção</label>
+                      <textarea
+                        rows={2}
+                        value={localContent.whyUs?.subtitle || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            whyUs: {
+                              ...(localContent.whyUs || defaultSiteContent.whyUs),
+                              subtitle: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Unimos engenharia avançada, estética de alto padrão e garantia estendida..."
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-white/80 mb-1">
+                        Tag / Selo Superior (Opcional - deixe vazio para manter sem selo)
+                      </label>
+                      <input
+                        type="text"
+                        value={localContent.whyUs?.badge || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            whyUs: {
+                              ...(localContent.whyUs || defaultSiteContent.whyUs),
+                              badge: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Deixe em branco para manter sem selo"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 6 Cards */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
+                    Os 6 Cards de Diferenciais
+                  </h4>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(localContent.whyUs?.cards || defaultSiteContent.whyUs.cards).map((card, idx) => (
+                      <div key={card.id || idx} className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-indigo-300">Card #{idx + 1}</span>
+                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/10 text-white/70">
+                            {card.badge || card.highlight || 'Destaque'}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <label className="block text-[11px] font-semibold text-white/70 mb-1">Tag Superior</label>
+                            <input
+                              type="text"
+                              value={card.tag || ''}
+                              onChange={(e) => {
+                                const nextCards = [...(localContent.whyUs?.cards || defaultSiteContent.whyUs.cards)];
+                                nextCards[idx] = { ...nextCards[idx], tag: e.target.value };
+                                setLocalContent({
+                                  ...localContent,
+                                  whyUs: { ...(localContent.whyUs || defaultSiteContent.whyUs), cards: nextCards },
+                                });
+                              }}
+                              placeholder="Ex: ALTA QUALIDADE"
+                              className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-white/70 mb-1">Pílula do Canto</label>
+                            <input
+                              type="text"
+                              value={card.badge || ''}
+                              onChange={(e) => {
+                                const nextCards = [...(localContent.whyUs?.cards || defaultSiteContent.whyUs.cards)];
+                                nextCards[idx] = { ...nextCards[idx], badge: e.target.value };
+                                setLocalContent({
+                                  ...localContent,
+                                  whyUs: { ...(localContent.whyUs || defaultSiteContent.whyUs), cards: nextCards },
+                                });
+                              }}
+                              placeholder="Ex: Contraste & Brilho"
+                              className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-semibold text-white/70 mb-1">Título do Card</label>
+                          <input
+                            type="text"
+                            value={card.title || ''}
+                            onChange={(e) => {
+                              const nextCards = [...(localContent.whyUs?.cards || defaultSiteContent.whyUs.cards)];
+                              nextCards[idx] = { ...nextCards[idx], title: e.target.value };
+                              setLocalContent({
+                                ...localContent,
+                                whyUs: { ...(localContent.whyUs || defaultSiteContent.whyUs), cards: nextCards },
+                              });
+                            }}
+                            placeholder="Título"
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-semibold text-white/70 mb-1">Descrição</label>
+                          <textarea
+                            rows={3}
+                            value={card.description || ''}
+                            onChange={(e) => {
+                              const nextCards = [...(localContent.whyUs?.cards || defaultSiteContent.whyUs.cards)];
+                              nextCards[idx] = { ...nextCards[idx], description: e.target.value };
+                              setLocalContent({
+                                ...localContent,
+                                whyUs: { ...(localContent.whyUs || defaultSiteContent.whyUs), cards: nextCards },
+                              });
+                            }}
+                            placeholder="Descrição detalhada..."
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-indigo-400 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 4. SOLUTIONS TAB (COMERCIAL / RESIDENCIAL COM FOTOS) */}
             {activeTab === 'solutions' && (
               <div className="space-y-6 animate-in fade-in duration-150">
                 <div className="border-b border-white/10 pb-3">
                   <h3 className="text-base font-bold text-white">Soluções: Comercial & Residencial</h3>
                   <p className="text-xs text-white/60">Edite as fotos, listas de benefícios e textos dos blocos de soluções.</p>
+                </div>
+
+                {/* Section Header Inputs */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <h4 className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                    Textos Principais da Seção
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Tag / Selo da Seção</label>
+                      <input
+                        type="text"
+                        value={localContent.solutions?.badge || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            solutions: {
+                              ...localContent.solutions,
+                              badge: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Título da Seção</label>
+                      <input
+                        type="text"
+                        value={localContent.solutions?.title || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            solutions: {
+                              ...localContent.solutions,
+                              title: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Subtítulo da Seção</label>
+                      <textarea
+                        rows={2}
+                        value={localContent.solutions?.subtitle || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            solutions: {
+                              ...localContent.solutions,
+                              subtitle: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Comercial */}
@@ -1794,6 +2047,289 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               </div>
             )}
 
+            {/* WARRANTY TAB (GARANTIA DE 2 ANOS) */}
+            {activeTab === 'warranty' && (
+              <div className="space-y-6 animate-in fade-in duration-150">
+                <div className="border-b border-white/10 pb-3">
+                  <h3 className="text-base font-bold text-white">Garantia de 2 Anos & Assistência</h3>
+                  <p className="text-xs text-white/60">Edite os textos e termos da seção de garantia da LED Machine.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Selo / Badge Superior</label>
+                    <input
+                      type="text"
+                      value={localContent.warranty?.badge || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          warranty: {
+                            ...(localContent.warranty || defaultSiteContent.warranty),
+                            badge: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Ex: 2 ANOS DE GARANTIA"
+                      className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Título Principal</label>
+                    <input
+                      type="text"
+                      value={localContent.warranty?.title || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          warranty: {
+                            ...(localContent.warranty || defaultSiteContent.warranty),
+                            title: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Ex: Garantia Total de 2 Anos e Assistência Direta de Fábrica"
+                      className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Primeiro Parágrafo</label>
+                    <textarea
+                      rows={3}
+                      value={localContent.warranty?.p1 || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          warranty: {
+                            ...(localContent.warranty || defaultSiteContent.warranty),
+                            p1: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Texto do primeiro parágrafo..."
+                      className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Segundo Parágrafo</label>
+                    <textarea
+                      rows={3}
+                      value={localContent.warranty?.p2 || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          warranty: {
+                            ...(localContent.warranty || defaultSiteContent.warranty),
+                            p2: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Texto do segundo parágrafo..."
+                      className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* FEATURED GALLERY TAB */}
+            {activeTab === 'featured' && (
+              <div className="space-y-6 animate-in fade-in duration-150">
+                <div className="border-b border-white/10 pb-3">
+                  <h3 className="text-base font-bold text-white">Galeria de Projetos (Fotos e Textos)</h3>
+                  <p className="text-xs text-white/60">
+                    Gerencie as fotos em alta definição e os textos da seção de projetos LED Machine.
+                  </p>
+                </div>
+
+                {/* Textos Principais */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <h4 className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+                    Textos e Descrições da Seção
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Título Superior</label>
+                      <input
+                        type="text"
+                        value={localContent.featuredGallery?.title || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            featuredGallery: {
+                              ...localContent.featuredGallery,
+                              title: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Destaque do Título (Gradient)</label>
+                      <input
+                        type="text"
+                        value={localContent.featuredGallery?.titleHighlight || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            featuredGallery: {
+                              ...localContent.featuredGallery,
+                              titleHighlight: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Subtítulo da Seção</label>
+                      <textarea
+                        rows={2}
+                        value={localContent.featuredGallery?.subtitle || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            featuredGallery: {
+                              ...localContent.featuredGallery,
+                              subtitle: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 Imagens da Galeria */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-5">
+                  <h4 className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+                    4 Fotos de Alta Definição do Painel
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(localContent.featuredGallery?.images || []).map((img, idx) => (
+                      <div key={img.id || idx} className="p-3.5 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-white/90">Foto #{idx + 1} - {img.title || `Ângulo ${idx + 1}`}</span>
+                          <span className="text-[10px] text-zinc-400">ID: {img.id}</span>
+                        </div>
+
+                        {/* Image Preview */}
+                        <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                          {img.url ? (
+                            <img src={img.url} alt={img.title} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-xs text-white/40">
+                              Sem foto
+                            </div>
+                          )}
+                          {isProcessingImage === `featured-img-${idx}` && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-xs text-cyan-400">
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Title & Subtitle inputs */}
+                        <div className="space-y-2">
+                          <input
+                            type="text"
+                            value={img.title || ''}
+                            placeholder="Título da foto (ex: Living Integrado)"
+                            onChange={(e) => {
+                              const nextImages = [...(localContent.featuredGallery?.images || [])];
+                              nextImages[idx] = { ...nextImages[idx], title: e.target.value };
+                              setLocalContent({
+                                ...localContent,
+                                featuredGallery: { ...localContent.featuredGallery, images: nextImages },
+                              });
+                            }}
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                          />
+                          <input
+                            type="text"
+                            value={img.subtitle || ''}
+                            placeholder="Legenda (ex: Harmonia com marcenaria nobre)"
+                            onChange={(e) => {
+                              const nextImages = [...(localContent.featuredGallery?.images || [])];
+                              nextImages[idx] = { ...nextImages[idx], subtitle: e.target.value };
+                              setLocalContent({
+                                ...localContent,
+                                featuredGallery: { ...localContent.featuredGallery, images: nextImages },
+                              });
+                            }}
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-cyan-400 focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Upload & URL */}
+                        <div className="flex flex-col gap-2">
+                          <label className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-semibold cursor-pointer transition-colors">
+                            <Upload className="w-3.5 h-3.5" />
+                            <span>Upload da Foto {idx + 1}</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) =>
+                                handleImageUpload(
+                                  e,
+                                  `featured-img-${idx}`,
+                                  (dataUrl) => {
+                                    const nextImages = [...(localContent.featuredGallery?.images || [])];
+                                    nextImages[idx] = { ...nextImages[idx], url: dataUrl };
+                                    setLocalContent({
+                                      ...localContent,
+                                      featuredGallery: { ...localContent.featuredGallery, images: nextImages },
+                                    });
+                                  },
+                                  { maxWidth: 1400, maxHeight: 900 }
+                                )
+                              }
+                            />
+                          </label>
+                          <input
+                            type="text"
+                            value={img.url || ''}
+                            placeholder="Ou cole a URL direta..."
+                            onChange={(e) => {
+                              const nextImages = [...(localContent.featuredGallery?.images || [])];
+                              nextImages[idx] = { ...nextImages[idx], url: e.target.value };
+                              setLocalContent({
+                                ...localContent,
+                                featuredGallery: { ...localContent.featuredGallery, images: nextImages },
+                              });
+                            }}
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-[11px] placeholder:text-white/30 focus:border-cyan-400 focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hotspots Interativos (Pontos Brilhantes) */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-cyan-500/30 shadow-2xl">
+                  <FeaturedHotspotsEditor
+                    images={localContent.featuredGallery?.images || []}
+                    onChangeImages={(updatedImages) => {
+                      setLocalContent({
+                        ...localContent,
+                        featuredGallery: {
+                          ...localContent.featuredGallery,
+                          images: updatedImages,
+                        },
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* 5. FAQ TAB */}
             {activeTab === 'faq' && (
               <div className="space-y-6 animate-in fade-in duration-150">
@@ -1849,7 +2385,70 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
               <div className="space-y-6 animate-in fade-in duration-150">
                 <div className="border-b border-white/10 pb-3">
                   <h3 className="text-base font-bold text-white">Redes Sociais & Posts</h3>
-                  <p className="text-xs text-white/60">Edite as fotos e legendas dos posts do Instagram exibidos no site.</p>
+                  <p className="text-xs text-white/60">Edite as fotos, textos e legendas dos posts do Instagram exibidos no site.</p>
+                </div>
+
+                {/* Section Header Inputs */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                  <h4 className="text-xs font-semibold text-pink-400 uppercase tracking-wider">
+                    Textos Principais da Seção
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Título da Seção</label>
+                      <input
+                        type="text"
+                        value={localContent.social?.title || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            social: {
+                              ...localContent.social,
+                              title: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Acompanhe Nossos Projetos"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-pink-400 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Destaque do Título</label>
+                      <input
+                        type="text"
+                        value={localContent.social?.titleHighlight || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            social: {
+                              ...localContent.social,
+                              titleHighlight: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: no Instagram"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-pink-400 focus:outline-none"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Subtítulo da Seção</label>
+                      <textarea
+                        rows={2}
+                        value={localContent.social?.subtitle || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            social: {
+                              ...localContent.social,
+                              subtitle: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Ex: Bastidores, instalações recentes e a experiência real..."
+                        className="w-full px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-pink-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-4">

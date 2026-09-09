@@ -60,7 +60,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Menu & Topo',
       description: 'Botão de texto localizado no canto superior direito do cabeçalho de navegação.',
       defaultVal: defaultSiteContent.buttonLinks?.navbarContact || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de falar sobre os painéis de LED da LED Machine.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'navbarBudget',
@@ -70,7 +70,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Menu & Topo',
       description: 'Botão branco de destaque exibido quando o visitante clica no botão de Menu.',
       defaultVal: defaultSiteContent.buttonLinks?.navbarBudget || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de solicitar um orçamento pelo site.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'heroPrimary',
@@ -80,7 +80,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Hero & Topo',
       description: 'O botão de maior destaque na primeira visualização da tela inicial, logo abaixo do título.',
       defaultVal: defaultSiteContent.buttonLinks?.heroPrimary || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Vi o site da LED Machine e quero solicitar um projeto sob medida.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'heroCarousel',
@@ -90,7 +90,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Hero & Topo',
       description: 'Botão de ação exibido dentro do card ativo no carrossel de projetos realizados.',
       defaultVal: defaultSiteContent.buttonLinks?.heroCarousel || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de um projeto sob medida similar aos do carrossel da LED Machine.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'widescreenBanner',
@@ -100,29 +100,29 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Banner Curvo',
       description: 'Botão exibido no rodapé do banner cinematográfico de painel curvo widescreen.',
       defaultVal: defaultSiteContent.buttonLinks?.widescreenBanner || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de consultar um projeto de Painel Curvo Widescreen.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'featuredProductQuote',
-      label: 'Cinema Series: Botão "Solicitar Orçamento Deste Produto"',
-      section: 'Galeria Cinema Series',
+      label: 'Projetos: Botão "Solicitar Orçamento Deste Produto"',
+      section: 'Galeria de Projetos',
       category: 'gallery',
-      categoryLabel: 'Cinema Series',
-      description: 'Botão branco principal de orçamento na seção de especificações da linha Cinema Series.',
+      categoryLabel: 'Galeria de Projetos',
+      description: 'Botão branco principal de orçamento na seção de projetos da LED Machine.',
       defaultVal: defaultSiteContent.buttonLinks?.featuredProductQuote || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de um orçamento detalhado do Cinema Series.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'featuredProductWhatsapp',
-      label: 'Cinema Series: Botão WhatsApp "Tirar Dúvidas com Especialista"',
-      section: 'Galeria Cinema Series',
+      label: 'Projetos: Botão WhatsApp "Tirar Dúvidas com Especialista"',
+      section: 'Galeria de Projetos',
       category: 'gallery',
-      categoryLabel: 'Cinema Series',
-      description: 'Botão verde de contato imediato localizado abaixo do botão de orçamento do Cinema Series.',
+      categoryLabel: 'Galeria de Projetos',
+      description: 'Botão verde de contato imediato localizado abaixo do botão de orçamento de projetos.',
       defaultVal:
         defaultSiteContent.buttonLinks?.featuredProductWhatsapp ||
-        `https://wa.me/5519999107788?text=${encodeURIComponent('Olá, vi os detalhes do Cinema Series no site da LED Machine e gostaria de um orçamento personalizado.')}`,
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá, vi os detalhes do Cinema Series no site da LED Machine e gostaria de um orçamento personalizado.')}`,
+        'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.',
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'finalCtaPrimary',
@@ -132,7 +132,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Chamada Final',
       description: 'Botão branco principal da chamada para ação antes do rodapé.',
       defaultVal: defaultSiteContent.buttonLinks?.finalCtaPrimary || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de iniciar um projeto com a LED Machine.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'finalCtaWhatsapp',
@@ -143,8 +143,8 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       description: 'Botão verde com ícone do WhatsApp na chamada de encerramento da página.',
       defaultVal:
         defaultSiteContent.buttonLinks?.finalCtaWhatsapp ||
-        `https://wa.me/5519999107788?text=${encodeURIComponent('Olá! Estava no site da LED Machine e gostaria de conversar com um especialista sobre um projeto.')}`,
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Estava no site da LED Machine e gostaria de conversar com um especialista sobre um projeto.')}`,
+        'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.',
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'socialInstagram',
@@ -164,8 +164,8 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       description: 'Card central na seção de redes sociais para abertura de atendimento rápido.',
       defaultVal:
         defaultSiteContent.buttonLinks?.socialWhatsapp ||
-        `https://wa.me/5519999107788?text=${encodeURIComponent('Olá, vi os produtos da Led Machine no site e gostaria de um orçamento')}`,
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá, vi os produtos da Led Machine no site e gostaria de um orçamento')}`,
+        'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.',
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'socialMaps',
@@ -186,7 +186,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       categoryLabel: 'Rodapé',
       description: 'Link no rodapé ao lado dos termos de garantia e créditos.',
       defaultVal: defaultSiteContent.buttonLinks?.footerContact || '#contato',
-      suggestedWhatsapp: `https://wa.me/${customPhone}?text=${encodeURIComponent('Olá! Gostaria de falar com um especialista da LED Machine.')}`,
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'footerWarranty',
@@ -204,8 +204,10 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
       category: 'footer',
       categoryLabel: 'Rodapé',
       description: 'Ação executada ao clicar no número de telefone exibido na coluna de consultoria do rodapé.',
-      defaultVal: defaultSiteContent.buttonLinks?.footerPhone || `https://wa.me/${customPhone}`,
-      suggestedWhatsapp: `https://wa.me/${customPhone}`,
+      defaultVal:
+        defaultSiteContent.buttonLinks?.footerPhone ||
+        'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.',
+      suggestedWhatsapp: `https://wa.me/${customPhone}?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.`,
     },
     {
       key: 'footerEmail',
@@ -223,7 +225,7 @@ export const ButtonLinksEditorTab: React.FC<ButtonLinksEditorTabProps> = ({
     { id: 'navbar', label: 'Menu & Topo', count: buttonDefinitions.filter((b) => b.category === 'navbar').length },
     { id: 'hero', label: 'Hero / Topo', count: buttonDefinitions.filter((b) => b.category === 'hero').length },
     { id: 'banner', label: 'Banner Curvo', count: buttonDefinitions.filter((b) => b.category === 'banner').length },
-    { id: 'gallery', label: 'Cinema Series', count: buttonDefinitions.filter((b) => b.category === 'gallery').length },
+    { id: 'gallery', label: 'Projetos', count: buttonDefinitions.filter((b) => b.category === 'gallery').length },
     { id: 'cta', label: 'Chamada Final', count: buttonDefinitions.filter((b) => b.category === 'cta').length },
     { id: 'social', label: 'Redes & Maps', count: buttonDefinitions.filter((b) => b.category === 'social').length },
     { id: 'footer', label: 'Rodapé', count: buttonDefinitions.filter((b) => b.category === 'footer').length },

@@ -83,13 +83,16 @@ export const compressAndOptimizeImage = async (
           if (isTransparentLogo) {
             dataUrl = canvas.toDataURL('image/png');
           } else {
-            // Use JPEG at optimized quality to ensure small footprint (<80KB per photo)
-            dataUrl = canvas.toDataURL('image/jpeg', 0.80);
+            // Use requested quality with JPEG compression
+            dataUrl = canvas.toDataURL('image/jpeg', quality);
           }
 
-          // If size is still larger than 120KB, compress further to prevent Firestore document quota error
-          if (!isTransparentLogo && dataUrl.length > 160000) {
-            dataUrl = canvas.toDataURL('image/jpeg', 0.68);
+          // If size is still larger than 120KB, adaptively optimize to ensure small footprint (<100KB per photo)
+          if (!isTransparentLogo && dataUrl.length > 140000) {
+            dataUrl = canvas.toDataURL('image/jpeg', Math.min(quality, 0.74));
+          }
+          if (!isTransparentLogo && dataUrl.length > 180000) {
+            dataUrl = canvas.toDataURL('image/jpeg', 0.65);
           }
 
           resolve(dataUrl);

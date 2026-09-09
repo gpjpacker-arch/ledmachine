@@ -22,7 +22,7 @@ function MainAppContent() {
   const [isSimulatorOpen, setIsSimulatorOpen] = useState<boolean>(false);
   const [isTutorialOpen, setIsTutorialOpen] = useState<boolean>(false);
   const [contactPrefill, setContactPrefill] = useState<string>('');
-  const { isEditorOpen, setIsEditorOpen } = useSiteContent();
+  const { isEditorOpen, setIsEditorOpen, editorInitialTab } = useSiteContent();
 
   // Scroll listener to update active section in navbar
   useEffect(() => {
@@ -201,6 +201,7 @@ function MainAppContent() {
       {/* 3. Visual Admin Editor Modal */}
       <VisualEditorModal
         isOpen={isEditorOpen}
+        initialTab={editorInitialTab}
         onClose={() => setIsEditorOpen(false)}
       />
 

@@ -16,6 +16,8 @@ import {
   Gem,
   CheckCircle2,
 } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContentContext';
+import { openButtonLink } from '../utils/linkHelper';
 
 interface SolutionsSectionProps {
   onOpenCommercialQuote: () => void;
@@ -29,6 +31,23 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
   initialTab = 'comercial',
 }) => {
   const [activeTab, setActiveTab] = useState<'comercial' | 'residencial'>(initialTab);
+  const { content } = useSiteContent();
+  const solutions = content.solutions;
+
+  const sectionTitle = solutions?.title || 'Soluções criadas para valorizar o seu espaço';
+  const sectionSubtitle = solutions?.subtitle || 'Desenvolvemos projetos sob medida para empresas que buscam visibilidade e residências que buscam sofisticação.';
+
+  const commBadge = solutions?.commercial?.badge || 'Presença & Retorno Comercial';
+  const commTitle = solutions?.commercial?.title || 'Mais visibilidade para o seu negócio.';
+  const commHighlight = solutions?.commercial?.titleHighlight || 'Mais impacto para a sua marca.';
+  const commDesc = solutions?.commercial?.description || 'Em um mercado competitivo, quem chama mais atenção vende mais. O painel de LED transforma sua fachada, vitrine ou espaço interno em um canal de comunicação poderoso.';
+  const commCta = solutions?.commercial?.ctaText || 'Quero um projeto para minha empresa';
+
+  const resBadge = solutions?.residential?.badge || 'Experiência & Sofisticação';
+  const resTitle = solutions?.residential?.title || 'O cinema definitivo.';
+  const resHighlight = solutions?.residential?.titleHighlight || 'Na sua própria casa.';
+  const resDesc = solutions?.residential?.description || 'Substitua a limitação das TVs convencionais por um painel de LED Fine-Pitch sob medida. Uma imagem perfeita, sem emendas, que dialoga perfeitamente com sua arquitetura.';
+  const resCta = solutions?.residential?.ctaText || 'Quero transformar minha casa';
 
   const commercialBenefits = [
     {
@@ -126,11 +145,16 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
   return (
     <section id="solucoes-section" className="relative w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+        {solutions?.badge && (
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-300 mb-4 backdrop-blur-md">
+            {solutions.badge}
+          </div>
+        )}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
-          Soluções criadas para valorizar o seu espaço
+          {sectionTitle}
         </h2>
         <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto">
-          Desenvolvemos projetos sob medida para empresas que buscam visibilidade e residências que buscam sofisticação.
+          {sectionSubtitle}
         </p>
       </div>
 
@@ -167,23 +191,25 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block">
-                  Presença & Retorno Comercial
+                  {commBadge}
                 </span>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
-                  Mais visibilidade para o seu negócio.{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
-                    Mais impacto para a sua marca.
-                  </span>
+                  {commTitle}{' '}
+                  {commHighlight && (
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
+                      {commHighlight}
+                    </span>
+                  )}
                 </h3>
                 <p className="text-sm sm:text-base text-white/75 leading-relaxed">
-                  Em um mercado competitivo, quem chama mais atenção vende mais. O painel de LED transforma sua fachada, vitrine ou espaço interno em um canal de comunicação poderoso.
+                  {commDesc}
                 </p>
                 <div className="pt-2">
                   <button
-                    onClick={onOpenCommercialQuote}
+                    onClick={() => openButtonLink(content.buttonLinks?.solutionsCommercial, onOpenCommercialQuote)}
                     className="px-6 py-3 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(255,255,255,0.18)] flex items-center gap-2 cursor-pointer hover:scale-105"
                   >
-                    <span>Quero um projeto para minha empresa</span>
+                    <span>{commCta}</span>
                     <ArrowRight className="w-4 h-4 text-[#070c20]" />
                   </button>
                 </div>
@@ -243,23 +269,25 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <span className="text-xs font-bold text-blue-400 uppercase tracking-wider block">
-                  Experiência Residencial Premium
+                  {resBadge}
                 </span>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
-                  O cinema definitivo.{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
-                    Na sua própria casa.
-                  </span>
+                  {resTitle}{' '}
+                  {resHighlight && (
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-blue-400">
+                      {resHighlight}
+                    </span>
+                  )}
                 </h3>
                 <p className="text-sm sm:text-base text-white/75 leading-relaxed">
-                  Substitua a limitação das TVs convencionais por um painel de LED Fine-Pitch sob medida. Uma imagem perfeita, sem emendas, que dialoga perfeitamente com sua arquitetura.
+                  {resDesc}
                 </p>
                 <div className="pt-2">
                   <button
-                    onClick={onOpenResidentialQuote}
+                    onClick={() => openButtonLink(content.buttonLinks?.solutionsResidential, onOpenResidentialQuote)}
                     className="px-6 py-3 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs sm:text-sm transition-all shadow-[0_4px_20px_rgba(255,255,255,0.18)] flex items-center gap-2 cursor-pointer hover:scale-105"
                   >
-                    <span>Quero transformar minha casa</span>
+                    <span>{resCta}</span>
                     <ArrowRight className="w-4 h-4 text-[#070c20]" />
                   </button>
                 </div>

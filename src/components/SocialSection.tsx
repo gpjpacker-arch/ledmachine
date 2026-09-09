@@ -32,7 +32,7 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
     {
       id: 'whatsapp',
       name: 'WhatsApp Oficial',
-      handle: content.general?.phoneContact || '(19) 99991-07788',
+      handle: content.general?.phoneContact || '(19) 99910-7788',
       description: 'Atendimento direto e imediato. Fale com um consultor técnico para tirar dúvidas ou solicitar orçamento.',
       followers: 'Suporte Imediato',
       icon: MessageCircle,
@@ -43,7 +43,7 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
       actionText: 'Acessar canal',
       url:
         content.buttonLinks?.socialWhatsapp ||
-        'https://wa.me/5519999107788?text=Ol%C3%A1%2C%20vi%20os%20produtos%20da%20Led%20Machine%20no%20site%20e%20gostaria%20de%20um%20or%C3%A7amento',
+        'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.',
     },
     {
       id: 'google-maps',
@@ -70,14 +70,19 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          {content.social?.badge && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-300 mb-4 backdrop-blur-md">
+              {content.social.badge}
+            </div>
+          )}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
-            Acompanhe a{' '}
+            {content.social?.title || 'Acompanhe a'}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-blue-400">
-              LED Machine
+              {content.social?.titleHighlight || 'LED Machine'}
             </span>
           </h2>
           <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto">
-            Veja nossos projetos em tempo real, bastidores de instalações e converse diretamente com quem entende do assunto.
+            {content.social?.subtitle || 'Veja nossos projetos em tempo real, bastidores de instalações e converse diretamente com quem entende do assunto.'}
           </p>
         </div>
 

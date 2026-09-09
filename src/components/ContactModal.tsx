@@ -36,7 +36,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
     // Construct the WhatsApp message
     const messageLines: string[] = [
-      'Olá, vi os produtos da Led Machine no site e gostaria de um orçamento.',
+      'Olá! Vi o site da LED Machine e quero solicitar um projeto sob medida.',
       '',
       `*Nome:* ${name.trim()}`,
       `*WhatsApp / Telefone:* ${phone.trim()}`,

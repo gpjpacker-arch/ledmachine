@@ -19,7 +19,7 @@ import {
   ImageIcon,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
-import { defaultSiteContent } from '../data/siteContent';
+import { defaultSiteContent, defaultGalleryHotspots } from '../data/siteContent';
 import { compressAndOptimizeImage } from '../utils/imageCompressor';
 import { openButtonLink } from '../utils/linkHelper';
 
@@ -52,7 +52,7 @@ const defaultImages = [
 export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySectionProps> = ({
   onOpenProductQuote,
 }) => {
-  const { content, updateField } = useSiteContent();
+  const { content, updateField, openAdminEditor } = useSiteContent();
   const savedImages = content.featuredGallery?.images || [];
 
   const [activeViewIndex, setActiveViewIndex] = useState(0);
@@ -65,102 +65,62 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
   const [draftImages, setDraftImages] = useState<string[]>([]);
   const [urlInput, setUrlInput] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const getHotspotsForView = (index: number) => {
+    const img = savedImages[index];
+    if (img && img.showHotspots === false) {
+      return [];
+    }
+    if (img && img.hotspots && img.hotspots.length > 0) {
+      return img.hotspots;
+    }
+    return defaultGalleryHotspots[index] || [];
+  };
+
   const productViews: ProductView[] = [
     {
       id: 'panoramica',
-      title: 'Visão Panorâmica do Ambiente',
-      subtitle: 'Integração completa ao living & espaço gourmet',
+      title: savedImages[0]?.title || 'Visão Panorâmica do Ambiente',
+      subtitle: savedImages[0]?.subtitle || 'Integração completa ao living & espaço gourmet',
       description:
         'O painel se torna o ponto central do espaço, oferecendo imersão visual contínua com moldura invisível e curvatura personalizada sob medida.',
       badge: 'Vista Principal',
       imageUrl: savedImages[0]?.url || defaultImages[0],
-      hotspots: [
-        {
-          x: 48,
-          y: 40,
-          label: 'Módulos Fine-Pitch P1.5',
-          desc: 'Densidade de pixels ultrafina para visualização nítida mesmo a curta distância.',
-        },
-        {
-          x: 25,
-          y: 65,
-          label: 'Curvatura Sob Medida',
-          desc: 'Ângulo de visão de 160° sem distorções de cor ou perda de luminosidade.',
-        },
-        {
-          x: 75,
-          y: 70,
-          label: 'Estrutura Slim Front-Service',
-          desc: 'Manutenção frontal magnética rápida sem necessidade de desmontar marcenaria.',
-        },
-      ],
+      hotspots: getHotspotsForView(0),
     },
     {
       id: 'contraste',
-      title: 'Contraste Profundo & Nível de Preto',
-      subtitle: 'Tecnologia HDR10+ com calibração precisa de cores',
+      title: savedImages[1]?.title || 'Contraste Profundo & Nível de Preto',
+      subtitle: savedImages[1]?.subtitle || 'Tecnologia HDR10+ com calibração precisa de cores',
       description:
         'Pretos verdadeiramente profundos e taxa de atualização de 3840Hz, eliminando reflexos indesejados e entregando fidelidade cinematográfica.',
       badge: 'Detalhe & Contraste',
       imageUrl: savedImages[1]?.url || defaultImages[1],
-      hotspots: [
-        {
-          x: 50,
-          y: 45,
-          label: '3.840Hz Refresh Rate',
-          desc: 'Fluidez impecável para transmissões esportivas e cenas de ação rápida.',
-        },
-        {
-          x: 35,
-          y: 75,
-          label: 'Brilho Autoajustável',
-          desc: 'Sensor inteligente que calibra a intensidade luminosa conforme o ambiente.',
-        },
-      ],
+      hotspots: getHotspotsForView(1),
     },
     {
       id: 'marcenaria',
-      title: 'Integração Arquitetônica & Acabamento',
-      subtitle: 'Harmonia milimétrica com painéis de madeira e pedras nobres',
+      title: savedImages[2]?.title || 'Integração Arquitetônica & Acabamento',
+      subtitle: savedImages[2]?.subtitle || 'Harmonia milimétrica com painéis de madeira e pedras nobres',
       description:
         'Desenvolvido para dialogar perfeitamente com projetos de arquitetura e design de interiores, sem cabos visíveis e com ventilação silenciosa.',
       badge: 'Arquitetura & Design',
       imageUrl: savedImages[2]?.url || defaultImages[2],
-      hotspots: [
-        {
-          x: 55,
-          y: 50,
-          label: 'Zero Cabos Visíveis',
-          desc: 'Passagem interna estruturada com central de comando oculta.',
-        },
-        {
-          x: 30,
-          y: 35,
-          label: 'Operação 100% Silenciosa',
-          desc: 'Dissipação passiva de calor sem ventiladores ruidosos.',
-        },
-      ],
+      hotspots: getHotspotsForView(2),
     },
     {
       id: 'escala',
-      title: 'Impacto Visual & Resolução Imersiva',
-      subtitle: 'Experiência imersiva de ponta a ponta sem emendas',
+      title: savedImages[3]?.title || 'Impacto Visual & Resolução Imersiva',
+      subtitle: savedImages[3]?.subtitle || 'Experiência imersiva de ponta a ponta sem emendas',
       description:
         'Superfície contínua e uniforme, proporcionando uma experiência muito superior a TVs convencionais em grandes formatos.',
       badge: 'Escala & Fidelidade',
       imageUrl: savedImages[3]?.url || defaultImages[3],
-      hotspots: [
-        {
-          x: 45,
-          y: 38,
-          label: 'Painel Sem Linhas ou Emendas',
-          desc: 'Acoplamento magnético micrométrico entre os módulos para imagem contínua.',
-        },
-      ],
+      hotspots: getHotspotsForView(3),
     },
   ];
 
@@ -193,9 +153,9 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
     setErrorMessage('');
     try {
       const optimizedBase64 = await compressAndOptimizeImage(file, {
-        maxWidth: 1920,
-        maxHeight: 1080,
-        quality: 0.85,
+        maxWidth: 1400,
+        maxHeight: 900,
+        quality: 0.80,
       });
       setDraftImages((prev) => {
         const next = [...prev];
@@ -236,30 +196,47 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
     setErrorMessage('');
   };
 
-  const handleSaveAll = () => {
-    const baseFeatured = content.featuredGallery || defaultSiteContent.featuredGallery;
-    const currentBaseImages = baseFeatured.images || [];
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    setErrorMessage('');
+    try {
+      const baseFeatured = content.featuredGallery || defaultSiteContent.featuredGallery;
+      const currentBaseImages = baseFeatured.images || [];
 
-    const updatedImages = productViews.map((pv, idx) => ({
-      id: currentBaseImages[idx]?.id || idx + 1,
-      title: pv.title,
-      subtitle: pv.subtitle,
-      url: draftImages[idx] || pv.imageUrl,
-    }));
+      const updatedImages = productViews.map((pv, idx) => ({
+        id: currentBaseImages[idx]?.id || idx + 1,
+        title: currentBaseImages[idx]?.title || pv.title,
+        subtitle: currentBaseImages[idx]?.subtitle || pv.subtitle,
+        url: draftImages[idx] || pv.imageUrl,
+        showHotspots: currentBaseImages[idx]?.showHotspots !== undefined ? currentBaseImages[idx].showHotspots : true,
+        hotspots: currentBaseImages[idx]?.hotspots || defaultGalleryHotspots[idx] || [],
+      }));
 
-    updateField('featuredGallery', {
-      ...baseFeatured,
-      images: updatedImages,
-    });
+      const success = await updateField('featuredGallery', {
+        ...baseFeatured,
+        images: updatedImages,
+      });
 
-    setSaveSuccess(true);
-    setTimeout(() => {
-      setSaveSuccess(false);
-      setIsEditorOpen(false);
-    }, 900);
+      if (success) {
+        setSaveSuccess(true);
+        setTimeout(() => {
+          setSaveSuccess(false);
+          setIsEditorOpen(false);
+          setIsSaving(false);
+        }, 800);
+      } else {
+        setErrorMessage('Não foi possível salvar na nuvem. Verifique sua conexão e tente novamente.');
+        setIsSaving(false);
+      }
+    } catch (err: any) {
+      console.error('Erro ao salvar galeria:', err);
+      setErrorMessage('Erro ao salvar galeria: ' + (err.message || 'Falha de comunicação.'));
+      setIsSaving(false);
+    }
   };
 
-  const flagshipProductTitle = 'Painel LED Machine Cinema Series • Fine-Pitch Master Wall';
+  const flagshipProductTitle =
+    content.featuredGallery?.productTitle || 'Projetos LED Machine • Alta Performance sob Medida';
 
   return (
     <section
@@ -271,13 +248,14 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
 
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15]">
-          LED Machine{' '}
+          {(content.featuredGallery?.title || 'Os melhores Projetos')}{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-200 to-white">
-            Cinema Series
+            {content.featuredGallery?.titleHighlight || 'LED Machine'}
           </span>
         </h2>
         <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">
-          Conheça cada detalhe do nosso painel <strong className="text-white">Fine-Pitch Master Wall</strong> sob medida: engenharia de precisão, contraste absoluto e acabamento arquitetônico sem emendas.
+          {content.featuredGallery?.subtitle ||
+            'Conheça os detalhes dos nossos projetos sob medida: especificações técnicas de alta precisão, tecnologia de ponta e o mais elevado nível de acabamento.'}
         </p>
       </div>
 
@@ -385,12 +363,12 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             </span>
             <button
               type="button"
-              onClick={() => handleOpenEditor(activeViewIndex)}
+              onClick={() => openAdminEditor('featured')}
               className="text-xs text-sky-400 hover:text-sky-300 font-medium flex items-center gap-1.5 transition-colors cursor-pointer hover:underline"
-              title="Abrir gerenciador de fotos"
+              title="Abrir painel administrativo para editar fotos e pontos brilhantes"
             >
-              <Camera className="w-3.5 h-3.5" />
-              <span>Alterar Fotos da Galeria</span>
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Painel ADM • Editar Fotos & Hotspots</span>
             </button>
           </div>
 
@@ -505,9 +483,8 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
 
             <button
               onClick={() => {
-                const defaultWhatsapp = `https://wa.me/5519999107788?text=${encodeURIComponent(
-                  `Olá, vi os detalhes do ${flagshipProductTitle} no site da LED Machine e gostaria de um orçamento personalizado para o meu espaço.`
-                )}`;
+                const defaultWhatsapp =
+                  'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.';
                 openButtonLink(
                   content.buttonLinks?.featuredProductWhatsapp || defaultWhatsapp,
                   () => onOpenProductQuote(flagshipProductTitle)
@@ -559,7 +536,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white tracking-tight">
-                    Alterar Fotos da Galeria Cinema Series
+                    Alterar Fotos dos Projetos LED Machine
                   </h3>
                   <p className="text-xs text-zinc-400">
                     Substitua qualquer uma das 4 fotos por imagens do seu computador, celular ou link.
@@ -781,10 +758,15 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
                 <button
                   type="button"
                   onClick={handleSaveAll}
-                  disabled={isProcessing}
-                  className="flex-1 sm:flex-none px-6 py-2.5 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] text-xs font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                  disabled={isProcessing || isSaving}
+                  className="flex-1 sm:flex-none px-6 py-2.5 rounded-full bg-white hover:bg-zinc-100 text-[#090a0f] text-xs font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {saveSuccess ? (
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 text-sky-600 animate-spin" />
+                      <span>Salvando na Nuvem...</span>
+                    </>
+                  ) : saveSuccess ? (
                     <>
                       <Check className="w-4 h-4 text-emerald-600" />
                       <span>Salvo com Sucesso!</span>

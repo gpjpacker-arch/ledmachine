@@ -74,11 +74,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
           </p>
           <div className="pt-2 space-y-2 text-xs text-zinc-400">
             <div
-              onClick={() => openButtonLink(content.buttonLinks?.footerPhone || `https://wa.me/${content.general.whatsappNumber}`)}
+              onClick={() =>
+                openButtonLink(
+                  content.buttonLinks?.footerPhone ||
+                    'https://wa.me/5519999107788?text=Ol%C3%A1!%20Vi%20o%20site%20da%20LED%20Machine%20e%20quero%20solicitar%20um%20projeto%20sob%20medida.'
+                )
+              }
               className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors w-fit"
             >
               <Phone className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-              <span className="text-zinc-300">{content.general.phoneContact || '(11) 99999-9999'}</span>
+              <span className="text-zinc-300">{content.general.phoneContact || '(19) 99910-7788'}</span>
             </div>
             <div
               onClick={() => openButtonLink(content.buttonLinks?.footerEmail || `mailto:${content.general.emailContact}`)}
