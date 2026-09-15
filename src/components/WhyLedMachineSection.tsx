@@ -59,7 +59,7 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
       id: 6,
       tag: 'Instalação profissional',
       title: 'Do projeto à instalação',
-      description: 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável.',
+      description: 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável. A Led Machine oferece projeto em 3D, acompanhamento com engenheiro e emissão de ART, além de todo o suporte técnico necessário do projeto à instalação.',
       badge: 'Engenharia especializada',
     },
   ];

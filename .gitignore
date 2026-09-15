@@ -6,3 +6,5 @@ coverage/
 *.log
 .env*
 !.env.example
+hostinger_public_html/
+hostinger_public_html.zip

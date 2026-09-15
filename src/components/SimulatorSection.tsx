@@ -35,44 +35,171 @@ const PRESETS: PresetOption[] = [
   {
     id: 'cinema',
     name: 'Home cinema 16:9',
-    width: 3.5,
-    height: 2.0,
-    pitch: 1.53,
+    width: 3.52, // 11 módulos de 32cm
+    height: 1.92, // 12 módulos de 16cm
+    pitch: 1.8,
     environment: 'indoor',
   },
   {
     id: 'outdoor_billboard',
     name: 'Outdoor comercial',
-    width: 6.0,
-    height: 3.5,
-    pitch: 3.91,
+    width: 6.08, // 19 módulos de 32cm
+    height: 3.52, // 22 módulos de 16cm
+    pitch: 4.0,
     environment: 'outdoor',
   },
   {
     id: 'corporate',
     name: 'Sala de reunião',
-    width: 3.0,
-    height: 1.7,
-    pitch: 1.86,
+    width: 2.88, // 9 módulos de 32cm
+    height: 1.60, // 10 módulos de 16cm
+    pitch: 1.8,
     environment: 'indoor',
   },
   {
     id: 'vitrine',
     name: 'Vitrine de loja',
-    width: 2.0,
-    height: 3.0,
+    width: 1.92, // 6 módulos de 32cm
+    height: 2.88, // 18 módulos de 16cm
     pitch: 2.5,
     environment: 'indoor',
   },
   {
     id: 'rental_event',
     name: 'Palco & eventos',
-    width: 8.0,
-    height: 4.5,
-    pitch: 2.9,
+    width: 8.0, // 16 gabinetes de 50cm
+    height: 4.5, // 9 gabinetes de 50cm
+    pitch: 2.97,
     environment: 'rental',
   },
 ];
+
+interface PitchOption {
+  pitch: number;
+  label: string;
+  sub: string;
+  moduleWidthM: number;
+  moduleHeightM: number;
+  moduleResX: number;
+  moduleResY: number;
+  pixelsPerModule: number;
+  powerWPerModule: number;
+  unitLabel: 'módulo' | 'gabinete';
+  unitDimensions: string;
+}
+
+const PITCH_OPTIONS: Record<'indoor' | 'outdoor' | 'rental', PitchOption[]> = {
+  indoor: [
+    {
+      pitch: 1.25,
+      label: 'P1.25',
+      sub: 'Indoor',
+      moduleWidthM: 0.32,
+      moduleHeightM: 0.16,
+      moduleResX: 256,
+      moduleResY: 128,
+      pixelsPerModule: 32768,
+      powerWPerModule: 20,
+      unitLabel: 'módulo',
+      unitDimensions: '320 × 160 mm',
+    },
+    {
+      pitch: 1.8,
+      label: 'P1.8',
+      sub: 'Indoor',
+      moduleWidthM: 0.32,
+      moduleHeightM: 0.16,
+      moduleResX: 178,
+      moduleResY: 89,
+      pixelsPerModule: 15842,
+      powerWPerModule: 20,
+      unitLabel: 'módulo',
+      unitDimensions: '320 × 160 mm',
+    },
+    {
+      pitch: 2.5,
+      label: 'P2.5',
+      sub: 'Indoor',
+      moduleWidthM: 0.32,
+      moduleHeightM: 0.16,
+      moduleResX: 128,
+      moduleResY: 64,
+      pixelsPerModule: 8192,
+      powerWPerModule: 25,
+      unitLabel: 'módulo',
+      unitDimensions: '320 × 160 mm',
+    },
+  ],
+  outdoor: [
+    {
+      pitch: 3.0,
+      label: 'P3.0',
+      sub: 'Outdoor',
+      moduleWidthM: 0.32,
+      moduleHeightM: 0.16,
+      moduleResX: 107,
+      moduleResY: 53,
+      pixelsPerModule: 5671,
+      powerWPerModule: 40,
+      unitLabel: 'módulo',
+      unitDimensions: '320 × 160 mm',
+    },
+    {
+      pitch: 4.0,
+      label: 'P4.0',
+      sub: 'Outdoor',
+      moduleWidthM: 0.32,
+      moduleHeightM: 0.16,
+      moduleResX: 80,
+      moduleResY: 40,
+      pixelsPerModule: 3200,
+      powerWPerModule: 40,
+      unitLabel: 'módulo',
+      unitDimensions: '320 × 160 mm',
+    },
+    {
+      pitch: 5.0,
+      label: 'P5.0',
+      sub: 'Outdoor',
+      moduleWidthM: 0.32,
+      moduleHeightM: 0.16,
+      moduleResX: 64,
+      moduleResY: 32,
+      pixelsPerModule: 2048,
+      powerWPerModule: 50,
+      unitLabel: 'módulo',
+      unitDimensions: '320 × 160 mm',
+    },
+  ],
+  rental: [
+    {
+      pitch: 2.97,
+      label: 'P2.97',
+      sub: 'Rental',
+      moduleWidthM: 0.5,
+      moduleHeightM: 0.5,
+      moduleResX: 172,
+      moduleResY: 172,
+      pixelsPerModule: 29584,
+      powerWPerModule: 180,
+      unitLabel: 'gabinete',
+      unitDimensions: '500 × 500 mm',
+    },
+    {
+      pitch: 3.91,
+      label: 'P3.91',
+      sub: 'Rental',
+      moduleWidthM: 0.5, // Em gabinetes padrão de rental (compostos por módulos 250×250mm montados em gabinetes 500×500mm ou modulares de 250mm)
+      moduleHeightM: 0.5,
+      moduleResX: 128,
+      moduleResY: 128,
+      pixelsPerModule: 16384,
+      powerWPerModule: 180,
+      unitLabel: 'gabinete',
+      unitDimensions: '500 × 500 mm',
+    },
+  ],
+};
 
 export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
   onRequestQuoteWithSpecs,
@@ -80,27 +207,64 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
 }) => {
   const { content } = useSiteContent();
   const [environment, setEnvironment] = useState<'indoor' | 'outdoor' | 'rental'>('indoor');
-  const [width, setWidth] = useState<number>(3.5);
-  const [height, setHeight] = useState<number>(2.0);
-  const [pixelPitch, setPixelPitch] = useState<number>(1.53);
-  const [activePreset, setActivePreset] = useState<string>('cinema');
+  const [width, setWidth] = useState<number>(0.32);
+  const [height, setHeight] = useState<number>(0.16);
+  const [pixelPitch, setPixelPitch] = useState<number>(1.25);
+  const [isCustomPitchMode, setIsCustomPitchMode] = useState<boolean>(false);
+  const [customPitchInput, setCustomPitchInput] = useState<string>('1.53');
+  const [activePreset, setActivePreset] = useState<string>('');
 
-  // Calculations
+  // Modular grid dimensions:
+  // Find matching standard pitch specification or fallback
+  const currentPitchSpec = !isCustomPitchMode
+    ? PITCH_OPTIONS[environment].find((p) => p.pitch === pixelPitch)
+    : undefined;
+
+  const isRental = environment === 'rental';
+  const isModular32x16 = !isRental;
+  const stepW = currentPitchSpec ? currentPitchSpec.moduleWidthM : isRental ? 0.5 : 0.32;
+  const stepH = currentPitchSpec ? currentPitchSpec.moduleHeightM : isRental ? 0.5 : 0.16;
+  const minWidth = stepW; // Permite partir de 1 módulo (ex: 0.32m ou 0.50m)
+  const maxWidth = stepW * 60;
+  const minHeight = stepH; // Permite partir de 1 módulo (ex: 0.16m ou 0.50m)
+  const maxHeight = 12.0;
+
+  // Exact calculations from parameters sheet:
   const totalArea = Number((width * height).toFixed(2));
-  const pixelsHorizontal = Math.round((width * 1000) / pixelPitch);
-  const pixelsVertical = Math.round((height * 1000) / pixelPitch);
-  const totalPixels = pixelsHorizontal * pixelsVertical;
+  const moduleCols = Math.round(width / stepW);
+  const moduleRows = Math.round(height / stepH);
+  const totalModules = moduleCols * moduleRows;
+
+  // Resolution calculation based on official module/cabinet resolution or mathematical pitch
+  const pixelsHorizontal = currentPitchSpec
+    ? moduleCols * currentPitchSpec.moduleResX
+    : Math.round((width * 1000) / pixelPitch);
+  const pixelsVertical = currentPitchSpec
+    ? moduleRows * currentPitchSpec.moduleResY
+    : Math.round((height * 1000) / pixelPitch);
+
+  const totalPixels = currentPitchSpec
+    ? totalModules * currentPitchSpec.pixelsPerModule
+    : pixelsHorizontal * pixelsVertical;
+
+  // Distance: ~pixelPitch * 0.9m
   const minViewingDist = Math.max(1, parseFloat((pixelPitch * 0.9).toFixed(1)));
-  const cabinetCols = Math.ceil(width / 0.5);
-  const cabinetRows = Math.ceil(height / 0.5);
-  const totalCabinets = cabinetCols * cabinetRows;
-  const estimatedPowerAvg = Math.round(totalArea * (environment === 'outdoor' ? 320 : 200));
-  const estimatedPowerMax = Math.round(totalArea * (environment === 'outdoor' ? 850 : 580));
-  const estimatedWeight = Math.round(totalCabinets * (environment === 'outdoor' ? 12 : 7.5));
+
+  // Estimated Power: Exact formula from sheet: "Watts × quantidade de módulos"
+  const estimatedPower = currentPitchSpec
+    ? totalModules * currentPitchSpec.powerWPerModule
+    : Math.round(totalArea * (environment === 'outdoor' ? 400 : 250));
+
+  // Weight: Sheet specification:
+  // Indoor: 33 kg / m²
+  // Outdoor: 33 kg / m²
+  // Rental: 24 kg / m²
+  const weightPerM2 = isRental ? 24 : 33;
+  const estimatedWeight = Math.round(totalArea * weightPerM2);
 
   // Determine aspect ratio display
   const ratioValue = width / height;
-  let ratioLabel = `${width.toFixed(1)}:${height.toFixed(1)}`;
+  let ratioLabel = `${width.toFixed(2)}:${height.toFixed(2)}`;
   if (Math.abs(ratioValue - 16 / 9) < 0.08) ratioLabel = '16:9 (widescreen)';
   else if (Math.abs(ratioValue - 16 / 10) < 0.08) ratioLabel = '16:10';
   else if (Math.abs(ratioValue - 4 / 3) < 0.08) ratioLabel = '4:3';
@@ -112,17 +276,73 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
     setWidth(preset.width);
     setHeight(preset.height);
     setPixelPitch(preset.pitch);
+    setIsCustomPitchMode(false);
     setEnvironment(preset.environment);
+  };
+
+  const handleStepWidth = (delta: 1 | -1) => {
+    setActivePreset('');
+    const currentSteps = Math.round(width / stepW);
+    const minSteps = Math.round(minWidth / stepW);
+    const maxSteps = Math.round(maxWidth / stepW);
+    const nextSteps = Math.max(minSteps, Math.min(maxSteps, currentSteps + delta));
+    setWidth(Number((nextSteps * stepW).toFixed(2)));
+  };
+
+  const handleStepHeight = (delta: 1 | -1) => {
+    setActivePreset('');
+    const currentSteps = Math.round(height / stepH);
+    const minSteps = Math.round(minHeight / stepH);
+    const maxSteps = Math.round(maxHeight / stepH);
+    const nextSteps = Math.max(minSteps, Math.min(maxSteps, currentSteps + delta));
+    setHeight(Number((nextSteps * stepH).toFixed(2)));
   };
 
   const handleWidthChange = (val: number) => {
     setActivePreset('');
-    setWidth(Math.max(1.0, Math.min(20.0, parseFloat(val.toFixed(1)))));
+    const steps = Math.round(val / stepW);
+    const minSteps = Math.round(minWidth / stepW);
+    const maxSteps = Math.round(maxWidth / stepW);
+    const clampedSteps = Math.max(minSteps, Math.min(maxSteps, steps));
+    setWidth(Number((clampedSteps * stepW).toFixed(2)));
   };
 
   const handleHeightChange = (val: number) => {
     setActivePreset('');
-    setHeight(Math.max(1.0, Math.min(12.0, parseFloat(val.toFixed(1)))));
+    const steps = Math.round(val / stepH);
+    const minSteps = Math.round(minHeight / stepH);
+    const maxSteps = Math.round(maxHeight / stepH);
+    const clampedSteps = Math.max(minSteps, Math.min(maxSteps, steps));
+    setHeight(Number((clampedSteps * stepH).toFixed(2)));
+  };
+
+  const handleSelectPitch = (item: PitchOption) => {
+    setIsCustomPitchMode(false);
+    setPixelPitch(item.pitch);
+    setActivePreset('');
+    // Predefine as dimensões exatamente para 1 módulo/gabinete do modelo selecionado
+    // Exemplo: P1.25 -> 0.32m (320mm) de largura e 0.16m (160mm) de altura
+    setWidth(item.moduleWidthM);
+    setHeight(item.moduleHeightM);
+  };
+
+  const handleEnvironmentChange = (newEnv: 'indoor' | 'outdoor' | 'rental', defaultPitch?: number) => {
+    setEnvironment(newEnv);
+    const resolvedPitch = defaultPitch ?? (newEnv === 'indoor' ? 1.8 : newEnv === 'outdoor' ? 3.0 : 2.97);
+    setPixelPitch(resolvedPitch);
+    setIsCustomPitchMode(false);
+    setActivePreset('');
+
+    const pitchSpec = PITCH_OPTIONS[newEnv].find((p) => p.pitch === resolvedPitch);
+    if (pitchSpec) {
+      setWidth(pitchSpec.moduleWidthM);
+      setHeight(pitchSpec.moduleHeightM);
+    } else {
+      const newStepW = newEnv === 'rental' ? 0.5 : 0.32;
+      const newStepH = newEnv === 'rental' ? 0.5 : 0.16;
+      setWidth(newStepW);
+      setHeight(newStepH);
+    }
   };
 
   const getSpecsSummary = () => {
@@ -133,7 +353,15 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
         ? 'Rental (Eventos)'
         : 'Indoor (Alta definição)';
 
-    return `Painel de LED ${envName}\n• Medidas: ${width}m (largura) × ${height}m (altura) | Área: ${totalArea} m²\n• Resolução calculada: ${pixelsHorizontal} × ${pixelsVertical} px (~${totalPixels.toLocaleString('pt-BR')} pixels)\n• Pixel pitch: P${pixelPitch} mm | Gabinetes 500×500mm: ${totalCabinets} módulos\n• Distância ideal: a partir de ~${minViewingDist} metros\n• Consumo estimado: ~${estimatedPowerAvg}W médio (~${estimatedPowerMax}W máx)`;
+    const unitType = currentPitchSpec?.unitLabel || (isRental ? 'gabinete' : 'módulo');
+    const unitDim = currentPitchSpec?.unitDimensions || (isRental ? '500×500 mm' : '320×160 mm');
+    const unitRes = currentPitchSpec
+      ? ` | Resolução por ${unitType}: ${currentPitchSpec.moduleResX}×${currentPitchSpec.moduleResY} px (${currentPitchSpec.pixelsPerModule.toLocaleString('pt-BR')} px)`
+      : '';
+
+    const moduleInfo = `${totalModules} ${unitType}s (${unitDim}) [${moduleCols} colunas × ${moduleRows} linhas]${unitRes}`;
+
+    return `Painel de LED ${envName}\n• Medidas: ${width.toFixed(2)}m (largura) × ${height.toFixed(2)}m (altura) | Área: ${totalArea} m²\n• Resolução calculada: ${pixelsHorizontal} × ${pixelsVertical} px (~${totalPixels.toLocaleString('pt-BR')} pixels)\n• Pixel pitch: P${pixelPitch} mm\n• Estrutura: ${moduleInfo}\n• Distância ideal: a partir de ~${minViewingDist} metros\n• Consumo estimado: ~${estimatedPower.toLocaleString('pt-BR')} W (${currentPitchSpec ? `${currentPitchSpec.powerWPerModule}W × ${totalModules} ${unitType}s` : 'calculado'})\n• Peso estimado: ~${estimatedWeight} kg (${weightPerM2} kg/m²)`;
   };
 
   const handleQuoteClick = () => {
@@ -226,21 +454,21 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                     label: 'Indoor',
                     desc: 'Alta definição',
                     icon: Tv,
-                    defaultPitch: 1.53,
+                    defaultPitch: 1.8,
                   },
                   {
                     id: 'outdoor',
                     label: 'Outdoor',
                     desc: 'IP65 contra sol e chuva',
                     icon: Tv,
-                    defaultPitch: 3.91,
+                    defaultPitch: 3.0,
                   },
                   {
                     id: 'rental',
                     label: 'Rental',
                     desc: 'Shows & palcos',
                     icon: Layers,
-                    defaultPitch: 2.9,
+                    defaultPitch: 2.97,
                   },
                 ].map((item) => {
                   const isSelected = environment === item.id;
@@ -248,11 +476,7 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                   return (
                     <button
                       key={item.id}
-                      onClick={() => {
-                        setEnvironment(item.id as any);
-                        setPixelPitch(item.defaultPitch);
-                        setActivePreset('');
-                      }}
+                      onClick={() => handleEnvironmentChange(item.id as any, item.defaultPitch)}
                       className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                         isSelected
                           ? 'bg-white/10 border-white/40 text-white shadow-sm'
@@ -273,8 +497,164 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
               </div>
             </div>
 
-            {/* 2. Dimensions Sliders */}
+            {/* 2. Pixel Pitch Selection (Step 2) */}
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/70">
+                  2. Pixel pitch (distância entre os LEDs)
+                </label>
+                <span className="text-[11px] text-zinc-300 font-mono font-bold bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                  P{pixelPitch} mm
+                </span>
+              </div>
+
+              <div
+                className={`grid gap-2 ${
+                  environment === 'rental'
+                    ? 'grid-cols-3'
+                    : 'grid-cols-2 sm:grid-cols-4'
+                }`}
+              >
+                {PITCH_OPTIONS[environment].map((item) => {
+                  const isSelected = !isCustomPitchMode && pixelPitch === item.pitch;
+                  return (
+                    <button
+                      key={item.pitch}
+                      type="button"
+                      onClick={() => handleSelectPitch(item)}
+                      className={`py-2 px-1 rounded-xl text-center border transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-white text-[#060814] border-white font-bold shadow-lg'
+                          : 'bg-white/[0.03] border-white/10 text-white/70 hover:text-white hover:bg-white/[0.07]'
+                      }`}
+                    >
+                      <span className="block text-xs font-bold leading-tight">{item.label}</span>
+                      <span
+                        className={`block text-[9px] ${
+                          isSelected ? 'text-zinc-600 font-semibold' : 'text-white/40'
+                        }`}
+                      >
+                        {item.sub}
+                      </span>
+                    </button>
+                  );
+                })}
+
+                {/* Option: Outros */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomPitchMode(true);
+                    setActivePreset('');
+                    const isCurrentStandard = PITCH_OPTIONS[environment].some(
+                      (p) => p.pitch === pixelPitch
+                    );
+                    if (isCurrentStandard) {
+                      const fallback =
+                        environment === 'indoor'
+                          ? 1.53
+                          : environment === 'outdoor'
+                          ? 6.0
+                          : 4.81;
+                      setPixelPitch(fallback);
+                      setCustomPitchInput(String(fallback));
+                    } else {
+                      setCustomPitchInput(String(pixelPitch));
+                    }
+                  }}
+                  className={`py-2 px-1 rounded-xl text-center border transition-all cursor-pointer ${
+                    isCustomPitchMode
+                      ? 'bg-white text-[#060814] border-white font-bold shadow-lg'
+                      : 'bg-white/[0.03] border-white/10 text-white/70 hover:text-white hover:bg-white/[0.07]'
+                  }`}
+                >
+                  <span className="block text-xs font-bold leading-tight">Outros</span>
+                  <span
+                    className={`block text-[9px] ${
+                      isCustomPitchMode ? 'text-zinc-600 font-semibold' : 'text-white/40'
+                    }`}
+                  >
+                    Personalizado
+                  </span>
+                </button>
+              </div>
+
+              {/* Custom Pitch Input when 'Outros' is active */}
+              {isCustomPitchMode && (
+                <div className="p-3 rounded-xl bg-white/[0.04] border border-white/15 space-y-2.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <span className="text-xs font-semibold text-white block">
+                        Pixel pitch personalizado:
+                      </span>
+                      <span className="text-[11px] text-white/50 block">
+                        Digite a distância exata em milímetros
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="font-mono font-bold text-white text-sm">P</span>
+                      <input
+                        type="number"
+                        min={0.5}
+                        max={30}
+                        step={0.01}
+                        value={customPitchInput}
+                        onChange={(e) => {
+                          const raw = e.target.value;
+                          setCustomPitchInput(raw);
+                          const val = parseFloat(raw);
+                          if (!isNaN(val) && val >= 0.4 && val <= 50) {
+                            setPixelPitch(val);
+                            setActivePreset('');
+                          }
+                        }}
+                        className="w-24 px-2.5 py-1 rounded-lg bg-white/10 border border-white/30 text-white font-mono font-bold text-sm text-center focus:outline-none focus:border-white focus:ring-1 focus:ring-white"
+                        placeholder="Ex: 1.53"
+                      />
+                      <span className="text-xs text-white/60 font-mono">mm</span>
+                    </div>
+                  </div>
+
+                  {/* Suggestions tags */}
+                  <div className="flex items-center gap-1.5 flex-wrap pt-2 border-t border-white/[0.07]">
+                    <span className="text-[10px] text-white/40">Sugestões:</span>
+                    {(environment === 'indoor'
+                      ? [0.9, 1.53, 1.86, 2.0]
+                      : environment === 'outdoor'
+                      ? [4.81, 6.0, 8.0, 10.0]
+                      : [2.6, 4.81, 5.95]
+                    ).map((sp) => (
+                      <button
+                        key={sp}
+                        type="button"
+                        onClick={() => {
+                          setPixelPitch(sp);
+                          setCustomPitchInput(String(sp));
+                          setActivePreset('');
+                        }}
+                        className={`px-2 py-0.5 rounded text-[10px] font-mono transition-all cursor-pointer ${
+                          pixelPitch === sp
+                            ? 'bg-white text-black font-bold'
+                            : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10'
+                        }`}
+                      >
+                        P{sp}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 3. Dimensions Sliders (Step 3) */}
             <div className="space-y-4 pt-1">
+              <label className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-white/70">
+                <span>3. Dimensões do painel</span>
+                <span className="text-[11px] font-mono text-white/40 lowercase">
+                  ({width.toFixed(2)}m × {height.toFixed(2)}m)
+                </span>
+              </label>
+
               {/* Width */}
               <div className="space-y-2 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.07]">
                 <div className="flex items-center justify-between text-xs">
@@ -284,19 +664,19 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                   </span>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => handleWidthChange(width - 0.5)}
-                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white"
-                      title="Diminuir 0.5m"
+                      onClick={() => handleStepWidth(-1)}
+                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white cursor-pointer"
+                      title={isModular32x16 ? 'Diminuir 32 cm' : 'Diminuir 50 cm'}
                     >
                       <Minus className="w-3 h-3" />
                     </button>
                     <span className="font-mono font-bold text-white text-sm bg-white/10 px-2.5 py-0.5 rounded border border-white/20">
-                      {width.toFixed(1)} m
+                      {width.toFixed(2)} m
                     </span>
                     <button
-                      onClick={() => handleWidthChange(width + 0.5)}
-                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white"
-                      title="Aumentar 0.5m"
+                      onClick={() => handleStepWidth(1)}
+                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white cursor-pointer"
+                      title={isModular32x16 ? 'Aumentar 32 cm' : 'Aumentar 50 cm'}
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -304,17 +684,16 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                 </div>
                 <input
                   type="range"
-                  min={1}
-                  max={20}
-                  step={0.5}
+                  min={minWidth}
+                  max={maxWidth}
+                  step={stepW}
                   value={width}
                   onChange={(e) => handleWidthChange(parseFloat(e.target.value))}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
                 />
-                <div className="flex justify-between text-[10px] text-white/40">
-                  <span>1.0 metro</span>
-                  <span>10.0 metros</span>
-                  <span>20.0 metros</span>
+                <div className="flex justify-between items-center text-[10px] text-white/40">
+                  <span>Mín: {minWidth.toFixed(2)} m</span>
+                  <span>Máx: {maxWidth.toFixed(2)} m</span>
                 </div>
               </div>
 
@@ -327,19 +706,19 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                   </span>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => handleHeightChange(height - 0.5)}
-                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white"
-                      title="Diminuir 0.5m"
+                      onClick={() => handleStepHeight(-1)}
+                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white cursor-pointer"
+                      title={isModular32x16 ? 'Diminuir 16 cm' : 'Diminuir 50 cm'}
                     >
                       <Minus className="w-3 h-3" />
                     </button>
                     <span className="font-mono font-bold text-white text-sm bg-white/10 px-2.5 py-0.5 rounded border border-white/20">
-                      {height.toFixed(1)} m
+                      {height.toFixed(2)} m
                     </span>
                     <button
-                      onClick={() => handleHeightChange(height + 0.5)}
-                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white"
-                      title="Aumentar 0.5m"
+                      onClick={() => handleStepHeight(1)}
+                      className="p-1 rounded bg-white/5 hover:bg-white/10 text-white/70 hover:text-white cursor-pointer"
+                      title={isModular32x16 ? 'Aumentar 16 cm' : 'Aumentar 50 cm'}
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -347,62 +726,17 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                 </div>
                 <input
                   type="range"
-                  min={1}
-                  max={12}
-                  step={0.5}
+                  min={minHeight}
+                  max={maxHeight}
+                  step={stepH}
                   value={height}
                   onChange={(e) => handleHeightChange(parseFloat(e.target.value))}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
                 />
-                <div className="flex justify-between text-[10px] text-white/40">
-                  <span>1.0 metro</span>
-                  <span>6.0 metros</span>
-                  <span>12.0 metros</span>
+                <div className="flex justify-between items-center text-[10px] text-white/40">
+                  <span>Mín: {minHeight.toFixed(2)} m</span>
+                  <span>Máx: {maxHeight.toFixed(2)} m</span>
                 </div>
-              </div>
-            </div>
-
-            {/* 3. Pixel Pitch Selection */}
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-bold uppercase tracking-wider text-white/70">
-                  2. Pixel pitch (distância entre os LEDs)
-                </label>
-                <span className="text-[11px] text-zinc-300 font-mono">
-                  P{pixelPitch} mm
-                </span>
-              </div>
-
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                {[
-                  { p: 1.53, label: 'P1.53', note: 'Ultra HD' },
-                  { p: 1.86, label: 'P1.86', note: 'Full HD' },
-                  { p: 2.5, label: 'P2.5', note: 'Indoor' },
-                  { p: 2.9, label: 'P2.9', note: 'Rental' },
-                  { p: 3.91, label: 'P3.91', note: 'Outdoor' },
-                  { p: 4.81, label: 'P4.81', note: 'Fachada' },
-                ].map((item) => {
-                  const isSelected = pixelPitch === item.p;
-                  return (
-                    <button
-                      key={item.p}
-                      onClick={() => {
-                        setPixelPitch(item.p);
-                        setActivePreset('');
-                      }}
-                      className={`py-2 px-1 rounded-xl text-center border transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-white text-[#060814] border-white font-bold shadow-lg'
-                          : 'bg-white/[0.03] border-white/10 text-white/70 hover:text-white hover:bg-white/[0.07]'
-                      }`}
-                    >
-                      <span className="block text-xs font-bold leading-tight">{item.label}</span>
-                      <span className={`block text-[9px] ${isSelected ? 'text-zinc-600' : 'text-white/40'}`}>
-                        {item.note}
-                      </span>
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </div>
@@ -449,13 +783,13 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                     className="absolute inset-0 opacity-20 pointer-events-none"
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: `repeat(${Math.min(cabinetCols, 16)}, 1fr)`,
-                      gridTemplateRows: `repeat(${Math.min(cabinetRows, 12)}, 1fr)`,
+                      gridTemplateColumns: `repeat(${Math.min(moduleCols, 24)}, 1fr)`,
+                      gridTemplateRows: `repeat(${Math.min(moduleRows, 16)}, 1fr)`,
                       border: '1px solid rgba(255, 255, 255, 0.25)',
                     }}
                   >
                     {Array.from({
-                      length: Math.min(cabinetCols, 16) * Math.min(cabinetRows, 12),
+                      length: Math.min(moduleCols, 24) * Math.min(moduleRows, 16),
                     }).map((_, i) => (
                       <div key={i} className="border border-white/15" />
                     ))}
@@ -464,13 +798,10 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                   {/* Centered Spec Tag on Screen */}
                   <div className="relative z-10 text-center p-2.5 flex flex-col items-center justify-center select-none backdrop-blur-[2px]">
                     <span className="text-sm sm:text-base font-extrabold font-mono text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                      {width.toFixed(1)}m × {height.toFixed(1)}m
+                      {width.toFixed(2)}m × {height.toFixed(2)}m
                     </span>
                     <span className="text-[10px] sm:text-xs font-mono font-semibold text-zinc-300 mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
                       {pixelsHorizontal} × {pixelsVertical} px
-                    </span>
-                    <span className="text-[9.5px] text-white/70 mt-0.5">
-                      {totalCabinets} módulos (500×500 mm)
                     </span>
                   </div>
                 </div>
@@ -482,7 +813,9 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
                 <span className="text-[11px] text-white/50 block mb-0.5">Área total:</span>
                 <span className="text-base font-extrabold text-white">{totalArea} m²</span>
-                <span className="text-[9.5px] text-white/40 block mt-0.5">{totalCabinets} gabinetes</span>
+                <span className="text-[9.5px] text-white/50 block mt-0.5">
+                  Dimensão final
+                </span>
               </div>
 
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
@@ -491,7 +824,7 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                   {pixelsHorizontal} × {pixelsVertical}
                 </span>
                 <span className="text-[9.5px] text-zinc-400 block mt-0.5">
-                  ~{(totalPixels / 1000).toFixed(0)}k pixels
+                  {totalPixels.toLocaleString('pt-BR')} pixels
                 </span>
               </div>
 
@@ -507,10 +840,14 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
                 <span className="text-[11px] text-white/50 block mb-0.5 flex items-center gap-1">
                   <Zap className="w-3 h-3 text-amber-300" />
-                  <span>Consumo médio:</span>
+                  <span>Consumo estimado:</span>
                 </span>
-                <span className="text-base font-bold text-white font-mono">~{estimatedPowerAvg} W</span>
-                <span className="text-[9.5px] text-white/40 block mt-0.5">Máx: ~{estimatedPowerMax} W</span>
+                <span className="text-base font-bold text-white font-mono">
+                  ~{estimatedPower.toLocaleString('pt-BR')} W
+                </span>
+                <span className="text-[9.5px] text-white/40 block mt-0.5">
+                  ~{(estimatedPower / 1000).toFixed(1)} kW máximo
+                </span>
               </div>
 
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">
@@ -519,7 +856,9 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
                   <span>Peso estimado:</span>
                 </span>
                 <span className="text-base font-bold text-white font-mono">~{estimatedWeight} kg</span>
-                <span className="text-[9.5px] text-white/40 block mt-0.5">Estrutura leve</span>
+                <span className="text-[9.5px] text-white/40 block mt-0.5">
+                  Painel completo
+                </span>
               </div>
 
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.08]">

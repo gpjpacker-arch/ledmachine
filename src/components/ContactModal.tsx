@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle2, Mail, Building2, User, Phone, MessageSquare, ShieldCheck, MessageCircle, ExternalLink } from 'lucide-react';
 import { LedMachineLogo } from './LedMachineLogo';
+import { useSiteContent } from '../context/SiteContentContext';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -15,6 +18,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   onClose,
   prefilledNotes = '',
 }) => {
+  const { content } = useSiteContent();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -31,34 +35,76 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Construct the WhatsApp message
+    const trimmedName = name.trim();
+    const trimmedPhone = phone.trim();
+    const trimmedEmail = email.trim();
+    const trimmedMessage = message.trim();
+    const timestampStr = new Date().toLocaleString('pt-BR');
+
+    // 1. Salvar Lead no Firestore e LocalStorage para redundância e consulta no Painel Admin
+    const leadData = {
+      name: trimmedName,
+      phone: trimmedPhone,
+      email: trimmedEmail,
+      segment,
+      application,
+      message: trimmedMessage,
+      createdAt: new Date().toISOString(),
+      dateFormatted: timestampStr,
+      source: prefilledNotes ? 'Simulador com medidas' : 'Modal de Orçamento',
+      status: 'novo',
+    };
+
+    // Backup LocalStorage
+    try {
+      const existingLeads = JSON.parse(localStorage.getItem('ledmachine_leads_backup') || '[]');
+      localStorage.setItem('ledmachine_leads_backup', JSON.stringify([leadData, ...existingLeads].slice(0, 100)));
+    } catch {
+      // ignore
+    }
+
+    // Salvar no Firestore
+    if (db) {
+      try {
+        await addDoc(collection(db, 'leads'), {
+          ...leadData,
+          serverDate: serverTimestamp(),
+        });
+      } catch (err) {
+        console.warn('Registro Firestore (lead) salvo localmente:', err);
+      }
+    }
+
+    // 2. Construir mensagem para WhatsApp
     const messageLines: string[] = [
       'Olá! Vi o site da LED Machine e quero solicitar um projeto sob medida.',
       '',
-      `*Nome:* ${name.trim()}`,
-      `*WhatsApp / Telefone:* ${phone.trim()}`,
+      `*Nome:* ${trimmedName}`,
+      `*WhatsApp / Telefone:* ${trimmedPhone}`,
     ];
 
-    if (email.trim()) {
-      messageLines.push(`*E-mail:* ${email.trim()}`);
+    if (trimmedEmail) {
+      messageLines.push(`*E-mail:* ${trimmedEmail}`);
     }
 
     messageLines.push(`*Segmento:* ${segment}`);
     messageLines.push(`*Ambiente:* ${application}`);
 
-    if (message.trim() && message.trim() !== DEFAULT_MESSAGE) {
-      messageLines.push(`*Detalhes do Projeto:* ${message.trim()}`);
+    if (trimmedMessage && trimmedMessage !== DEFAULT_MESSAGE) {
+      messageLines.push(`*Detalhes do Projeto:* ${trimmedMessage}`);
     }
 
+    const rawWhatsapp = content.general?.whatsappNumber || '5519999107788';
+    const cleanWhatsapp = rawWhatsapp.replace(/\D/g, '');
     const fullMessage = messageLines.join('\n');
-    const whatsappUrl = `https://wa.me/5519999107788?text=${encodeURIComponent(fullMessage)}`;
+    const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(fullMessage)}`;
     setSubmittedUrl(whatsappUrl);
     setSubmitted(true);
 
-    // Automatically open WhatsApp in a new tab
+    // Abrir o WhatsApp automaticamente em nova aba
     window.open(whatsappUrl, '_blank');
 
     setTimeout(() => {

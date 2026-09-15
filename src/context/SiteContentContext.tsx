@@ -82,6 +82,23 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
     updatedWhyUs = { ...updatedWhyUs, badge: '' };
   }
 
+  if (updatedWhyUs?.cards) {
+    updatedWhyUs = {
+      ...updatedWhyUs,
+      cards: updatedWhyUs.cards.map((c: any) => {
+        if (c.title === 'Do projeto à instalação' || c.id === 6) {
+          if (!c.description || c.description === 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável.') {
+            return {
+              ...c,
+              description: 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável. A Led Machine oferece projeto em 3D, acompanhamento com engenheiro e emissão de ART, além de todo o suporte técnico necessário do projeto à instalação.',
+            };
+          }
+        }
+        return c;
+      }),
+    };
+  }
+
   if (
     updatedWhyUs?.title === 'Tecnologia que você percebe.' ||
     updatedWhyUs?.title === 'Tecnologia e Qualidade'

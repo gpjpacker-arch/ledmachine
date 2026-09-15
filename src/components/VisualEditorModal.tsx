@@ -21,7 +21,8 @@ import {
   Cloud,
   Loader2,
   RefreshCw,
-  Link2
+  Link2,
+  Users
 } from 'lucide-react';
 import { LedMachineLogo } from './LedMachineLogo';
 import { useSiteContent } from '../context/SiteContentContext';
@@ -29,6 +30,7 @@ import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { compressAndOptimizeImage } from '../utils/imageCompressor';
 import { ButtonLinksEditorTab, ButtonLinkKey } from './ButtonLinksEditorTab';
 import { FeaturedHotspotsEditor } from './FeaturedHotspotsEditor';
+import { LeadsManagerTab } from './LeadsManagerTab';
 
 interface VisualEditorModalProps {
   isOpen: boolean;
@@ -54,8 +56,8 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
   const [pinError, setPinError] = useState<string>('');
 
   const [activeTab, setActiveTab] = useState<
-    'general' | 'links' | 'hero' | 'carousel' | 'widescreen' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
-  >('general');
+    'leads' | 'general' | 'links' | 'hero' | 'carousel' | 'widescreen' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
+  >('leads');
 
   const [localContent, setLocalContent] = useState<SiteContent>(content);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -422,7 +424,32 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
         <div className="flex flex-1 overflow-hidden">
           {/* Left Tabs Navigation */}
           <div className="w-64 sm:w-72 bg-black/40 border-r border-white/10 flex flex-col p-3 overflow-y-auto space-y-1">
-            <div className="text-[11px] font-semibold text-white/40 uppercase tracking-wider px-3 py-1.5">
+            <div className="text-[11px] font-semibold text-white/40 uppercase tracking-wider px-3 py-1.5 flex items-center justify-between">
+              <span>Atendimento</span>
+            </div>
+
+            <button
+              id="editor-tab-leads"
+              onClick={() => setActiveTab('leads')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeTab === 'leads'
+                  ? 'bg-emerald-600/30 text-emerald-200 border border-emerald-500/40 shadow-sm'
+                  : 'text-white/80 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Users className="w-4 h-4 text-emerald-400" />
+                <span className="font-semibold">Leads Recebidos</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Inbox
+                </span>
+                {activeTab === 'leads' && <ChevronRight className="w-3.5 h-3.5" />}
+              </div>
+            </button>
+
+            <div className="text-[11px] font-semibold text-white/40 uppercase tracking-wider px-3 pt-3 pb-1">
               Seções do site
             </div>
 
@@ -661,6 +688,9 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
 
           {/* Right Editor Fields Area */}
           <div className="flex-1 p-6 overflow-y-auto bg-black/20 space-y-6">
+            {/* 0. LEADS TAB */}
+            {activeTab === 'leads' && <LeadsManagerTab />}
+
             {/* 1. GENERAL / CONTACT TAB */}
             {activeTab === 'general' && (
               <div className="space-y-6 animate-in fade-in duration-150">
