@@ -15,6 +15,7 @@ import {
   Cpu,
   Gem,
   CheckCircle2,
+  Volume2,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
 import { openButtonLink } from '../utils/linkHelper';
@@ -46,7 +47,7 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
   const resBadge = solutions?.residential?.badge || 'Experiência & sofisticação';
   const resTitle = solutions?.residential?.title || 'O cinema definitivo.';
   const resHighlight = solutions?.residential?.titleHighlight || 'Na sua própria casa.';
-  const resDesc = solutions?.residential?.description || 'Substitua a limitação das TVs convencionais por um painel de LED Fine-Pitch sob medida. Uma imagem perfeita, sem emendas, que dialoga perfeitamente com sua arquitetura.';
+  const resDesc = solutions?.residential?.description || 'O cinema definitivo agora faz parte da arquitetura da sua casa. Esqueça os projetores limitados e as TVs de sempre. Com os nossos painéis de LED, você cria telas gigantes sob medida, com brilho impecável e pretos profundos. Uma tecnologia de alto nível que valoriza o seu imóvel e se integra perfeitamente à decoração. Descubra o luxo de ter o melhor do audiovisual no seu lar.';
   const resCta = solutions?.residential?.ctaText || 'Quero transformar minha casa';
 
   const commercialBenefits = [
@@ -130,6 +131,11 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
       icon: CheckCircle2,
       title: 'Imagem sem reflexos ou emendas',
       description: 'Painéis modulares de alta resolução Fine-Pitch, sem bordas no meio da tela e com brilho adaptável.',
+    },
+    {
+      icon: Volume2,
+      title: 'Sistemas de som indoor e outdoor',
+      description: 'Soluções sonoras do pequeno ao grande porte, totalmente personalizadas de acordo com cada projeto.',
     },
   ];
 

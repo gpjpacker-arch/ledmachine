@@ -14,11 +14,19 @@ export interface GalleryHotspot {
   desc: string;
 }
 
+export interface GalleryImageSpecItem {
+  label: string;
+  value: string;
+}
+
 export interface GalleryImageItem {
   id: number;
   title: string;
   subtitle: string;
   url: string;
+  badge?: string;
+  description?: string;
+  specs?: GalleryImageSpecItem[];
   showHotspots?: boolean;
   hotspots?: GalleryHotspot[];
 }
@@ -363,8 +371,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Painel curvo panorâmico",
         "subtitle": "Living integrado & espaço gourmet com ângulo de visão envolvente",
         "description": "Painel de LED curvo de altíssima definição integrado à marcenaria e bar gourmet, entregando imersão total e cores deslumbrantes em qualquer ângulo.",
-        "pitch": "P1.5 fine-pitch curvo",
-        "brightness": "1.200 nits auto-dim",
+        "pitch": "P2.5",
+        "brightness": "800 nits",
         "resolution": "Curvatura sob medida",
         "imageUrl": "/images/gallery/1-painel-curvo-panoramico.jpg"
       },
@@ -375,8 +383,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Lounge cinema & esportes",
         "subtitle": "Espaço gamer & cinema privativo com iluminação imersiva",
         "description": "Integração de áudio Hi-Fi e display Fine-Pitch de altíssimo contraste para assistir a jogos, filmes e simuladores com realismo absoluto.",
-        "pitch": "P1.8 high refresh rate",
-        "brightness": "1.000 nits HDR10+",
+        "pitch": "P1.8",
+        "brightness": "800 nits",
         "resolution": "4K Ultra HD",
         "imageUrl": "/images/gallery/2-lounge-cinema-esportes.jpg"
       },
@@ -387,8 +395,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Painel outdoor para piscina",
         "subtitle": "Painel ultrabrilhante com proteção IP65 à prova de sol e chuva",
         "description": "Visibilidade cristalina mesmo sob luz solar direta ao meio-dia, com tratamento antirreflexo e vedação militar para áreas de piscina.",
-        "pitch": "P2.9 outdoor gold-wire",
-        "brightness": "5.500 nits high bright",
+        "pitch": "P4.0",
+        "brightness": "4500 nits",
         "resolution": "Visível sob sol pleno",
         "imageUrl": "/images/gallery/3-outdoor-weatherproof-pool.jpg"
       },
@@ -399,8 +407,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Cinema e entretenimento para piscina",
         "subtitle": "Cinema ao ar livre para momentos inesquecíveis com a família",
         "description": "Transmissões esportivas e streaming com máxima fidelidade em área de convivência externa premium, sem reflexos.",
-        "pitch": "P3.9 weatherproof",
-        "brightness": "6.000 nits sunproof",
+        "pitch": "P3.0",
+        "brightness": "4500 nits",
         "resolution": "Resistente à chuva IP65",
         "imageUrl": "/images/gallery/4-entertainment-pool-wall.jpg"
       },
@@ -411,8 +419,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Showroom & flagship store",
         "subtitle": "Impacto visual imersivo para valorizar marcas e produtos de luxo",
         "description": "Painel sem emendas perfeito para lojas conceito, recepções corporativas e stands que exigem elegância máxima.",
-        "pitch": "P1.2 microLED pitch",
-        "brightness": "1.500 nits Rec.709",
+        "pitch": "P4.0",
+        "brightness": "800 nits",
         "resolution": "Sem emendas visíveis",
         "imageUrl": "/images/gallery/5-showroom-flagship-store.jpg"
       },
@@ -423,8 +431,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Painel arquitetônico vertical",
         "subtitle": "Arte digital em grande formato para halls e entradas imponentes",
         "description": "Instalação vertical sofisticada com transições dinâmicas de cores para edifícios corporativos e condomínios de alto padrão.",
-        "pitch": "P1.9 architectural line",
-        "brightness": "1.200 nits true-tone",
+        "pitch": "P1.8",
+        "brightness": "800 nits",
         "resolution": "Fidelidade de cores",
         "imageUrl": "/images/gallery/6-painel-arquitetonico-vertical.jpg"
       },
@@ -435,8 +443,8 @@ export const defaultSiteContent: SiteContent = {
         "title": "Estrutura gourmet externa",
         "subtitle": "O melhor do entretenimento para festas e recepções ao ar livre",
         "description": "Design robusto e moderno para resistir a qualquer intempérie com funcionamento silencioso e zero aquecimento.",
-        "pitch": "P3.9 outdoor pro",
-        "brightness": "5.500 nits",
+        "pitch": "P4.0",
+        "brightness": "4500 nits",
         "resolution": "IP65 com vedação total",
         "imageUrl": "/images/gallery/7-estrutura-gourmet-externa.jpg"
       }
@@ -536,7 +544,7 @@ export const defaultSiteContent: SiteContent = {
       "title": "O cinema definitivo dentro da sua casa.",
       "titleHighlight": "Tecnologia de tela que valoriza seu imóvel.",
       "subtitle": "Para salas de estar, home theaters, áreas de piscina e espaços de lazer.",
-      "description": "Esqueça projetores com lâmpadas fracas ou TVs comuns limitadas a tamanhos padrão. Os painéis de LED para residência oferecem brilho vibrante, pretos profundos e integração perfeita à decoração.",
+      "description": "O cinema definitivo agora faz parte da arquitetura da sua casa. Esqueça os projetores limitados e as TVs de sempre. Com os nossos painéis de LED, você cria telas gigantes sob medida, com brilho impecável e pretos profundos. Uma tecnologia de alto nível que valoriza o seu imóvel e se integra perfeitamente à decoração. Descubra o luxo de ter o melhor do audiovisual no seu lar.",
       "features": [
         "Home cinema sem emendas com contraste profundo",
         "Painéis curvos para living & espaços gourmet",
@@ -594,24 +602,56 @@ export const defaultSiteContent: SiteContent = {
         "id": 1,
         "title": "Visão panorâmica do ambiente",
         "subtitle": "Integração completa ao living & espaço gourmet",
+        "badge": "Vista principal",
+        "description": "O painel se torna o ponto central do espaço, oferecendo imersão visual contínua com moldura invisível e curvatura personalizada sob medida.",
+        "specs": [
+          { "label": "Pixel pitch", "value": "P1.2 a P1.8 mm" },
+          { "label": "Taxa de atualização", "value": "3.840 Hz HDR" },
+          { "label": "Brilho calibrado", "value": "Até 1.600 nits" },
+          { "label": "Manutenção", "value": "100% frontal" }
+        ],
         "url": "/images/gallery/led_curved_living_1788059274464-D1t_CX-N.jpg"
       },
       {
         "id": 2,
         "title": "Contraste profundo & nível de preto",
         "subtitle": "Tecnologia HDR10+ com calibração precisa de cores",
+        "badge": "Detalhe & contraste",
+        "description": "Pretos verdadeiramente profundos e taxa de atualização de 3840Hz, eliminando reflexos indesejados e entregando fidelidade cinematográfica.",
+        "specs": [
+          { "label": "Pixel pitch", "value": "P1.2 a P1.5 mm" },
+          { "label": "Taxa de atualização", "value": "3.840 Hz HDR" },
+          { "label": "Brilho calibrado", "value": "Até 1.200 nits" },
+          { "label": "Manutenção", "value": "100% frontal" }
+        ],
         "url": "/images/gallery/led_lounge_sports_1788059299151-NjsbYABC.jpg"
       },
       {
         "id": 3,
         "title": "Integração arquitetônica & acabamento",
         "subtitle": "Harmonia milimétrica com painéis de madeira e pedras nobres",
+        "badge": "Arquitetura & design",
+        "description": "Desenvolvido para dialogar perfeitamente com projetos de arquitetura e design de interiores, sem cabos visíveis e com ventilação silenciosa.",
+        "specs": [
+          { "label": "Pixel pitch", "value": "P1.5 a P1.8 mm" },
+          { "label": "Taxa de atualização", "value": "3.840 Hz HDR" },
+          { "label": "Brilho calibrado", "value": "Até 1.000 nits" },
+          { "label": "Manutenção", "value": "100% frontal magnética" }
+        ],
         "url": "/images/gallery/led_dining_room_1788059416951.jpg"
       },
       {
         "id": 4,
         "title": "Impacto visual & resolução imersiva",
         "subtitle": "Experiência imersiva de ponta a ponta sem emendas",
+        "badge": "Escala & fidelidade",
+        "description": "Superfície contínua e uniforme, proporcionando uma experiência muito superior a TVs convencionais em grandes formatos.",
+        "specs": [
+          { "label": "Pixel pitch", "value": "P1.2 a P2.0 mm" },
+          { "label": "Taxa de atualização", "value": "3.840 Hz HDR" },
+          { "label": "Brilho calibrado", "value": "Até 1.600 nits" },
+          { "label": "Manutenção", "value": "100% frontal" }
+        ],
         "url": "/images/gallery/led_hall_autumn_1788059379228-MSKReglj.jpg"
       }
     ]

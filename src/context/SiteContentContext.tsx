@@ -3,7 +3,7 @@ import { SiteContent, defaultSiteContent } from '../data/siteContent';
 import { db } from '../lib/firebase';
 import { doc, setDoc, onSnapshot, collection } from 'firebase/firestore';
 
-const STORAGE_KEY = 'ledmachine_site_content_v4';
+const STORAGE_KEY = 'ledmachine_site_content_v5';
 const FIRESTORE_DOC_ID = 'main_config';
 
 interface SiteContentContextType {
@@ -168,8 +168,25 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
       ? 'R. Dr. José Rodrigues de Almeida, 632 - Paulicéia, Piracicaba - SP'
       : sc.general.address;
 
+  // Ensure carousel project specs match the latest updated technical definitions
+  const updatedCarousel = sc.carousel ? {
+    ...sc.carousel,
+    projects: sc.carousel.projects.map((proj, idx) => {
+      const defaultProj = defaultSiteContent.carousel.projects[idx];
+      if (defaultProj) {
+        return {
+          ...proj,
+          pitch: defaultProj.pitch,
+          brightness: defaultProj.brightness,
+        };
+      }
+      return proj;
+    }),
+  } : defaultSiteContent.carousel;
+
   return {
     ...sc,
+    carousel: updatedCarousel,
     general: {
       ...sc.general,
       address: updatedAddress,
@@ -190,6 +207,7 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
 export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
     try {
+      localStorage.removeItem('ledmachine_site_content_v4');
       localStorage.removeItem('ledmachine_site_content_v3');
       localStorage.removeItem('ledmachine_site_content_v2');
       localStorage.removeItem('ledmachine_site_content');
