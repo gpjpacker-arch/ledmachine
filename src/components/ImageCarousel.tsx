@@ -10,6 +10,7 @@ import {
   X
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 import { openButtonLink } from '../utils/linkHelper';
 
 export interface LedProjectCard {
@@ -37,6 +38,8 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   onOpenSimulator,
 }) => {
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   const projects: LedProjectCard[] = content.carousel.projects.map((p) => ({
     id: p.id,
@@ -122,7 +125,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   return (
     <div
       id="voyage-3d-coverflow-carousel"
-      className="relative w-full rounded-3xl overflow-hidden bg-[#0a0518] border border-white/15 shadow-[0_25px_70px_rgba(0,0,0,0.8)] text-white select-none transition-all"
+      className={`relative w-full rounded-3xl overflow-hidden select-none transition-all ${
+        isLight
+          ? 'bg-[#f5f5f7] border border-[#e5e5ea] shadow-[0_20px_50px_rgba(0,0,0,0.06)] text-[#1d1d1f]'
+          : 'bg-[#0a0518] border border-white/15 shadow-[0_25px_70px_rgba(0,0,0,0.8)] text-white'
+      }`}
     >
       {/* 1. ATMOSPHERIC BLURRED BACKGROUND (Reflects active slide) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -130,21 +137,39 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           key={activeProject.imageUrl}
           src={activeProject.imageUrl}
           alt=""
-          className="w-full h-full object-cover object-center filter blur-3xl scale-125 opacity-35 transition-all duration-1000 ease-out"
+          className={`w-full h-full object-cover object-center filter blur-3xl scale-125 transition-all duration-1000 ease-out ${
+            isLight ? 'opacity-20' : 'opacity-35'
+          }`}
           referrerPolicy="no-referrer"
         />
         {/* Subtle Vignette & Gradient Overlays */}
-        <div className="absolute inset-0 bg-[#070312]/80 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-radial-vignette opacity-80" />
+        {isLight ? (
+          <div className="absolute inset-0 bg-gradient-to-b from-[#f5f5f7]/85 via-[#f5f5f7]/75 to-[#f5f5f7]/95" />
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-[#070312]/80 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-radial-vignette opacity-80" />
+          </>
+        )}
       </div>
 
       {/* 2. TOP MINIMALIST HEADER BAR */}
-      <div className="relative z-20 px-6 sm:px-8 py-5 flex items-center justify-between border-b border-white/10 backdrop-blur-md bg-black/20">
+      <div className={`relative z-20 px-6 sm:px-8 py-5 flex items-center justify-between border-b backdrop-blur-md transition-colors ${
+        isLight
+          ? 'border-[#e5e5ea] bg-white/70 text-[#1d1d1f]'
+          : 'border-white/10 bg-black/20 text-white'
+      }`}>
         <div className="flex items-center gap-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-white uppercase tracking-wider backdrop-blur-sm">
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border text-xs font-semibold uppercase tracking-wider backdrop-blur-sm ${
+            isLight
+              ? 'bg-white border-[#e5e5ea] text-[#1d1d1f] shadow-xs'
+              : 'bg-white/10 border-white/20 text-white'
+          }`}>
             <span>Projetos LED Machine</span>
           </div>
-          <span className="hidden sm:inline-flex text-xs text-white/60 font-medium">
+          <span className={`hidden sm:inline-flex text-xs font-medium ${
+            isLight ? 'text-[#6e6e73]' : 'text-white/60'
+          }`}>
             Painéis de LED em Alta Resolução
           </span>
         </div>
@@ -153,17 +178,29 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="p-2 rounded-full bg-white/5 hover:bg-white/15 border border-white/15 text-white transition-colors cursor-pointer"
+            className={`p-2 rounded-full border transition-colors cursor-pointer ${
+              isLight
+                ? 'bg-white hover:bg-[#ebebee] border-[#e5e5ea] text-[#1d1d1f] shadow-xs'
+                : 'bg-white/5 hover:bg-white/15 border-white/15 text-white'
+            }`}
             title={isPlaying ? 'Pausar reprodução' : 'Iniciar reprodução'}
           >
-            {isPlaying ? <Pause className="w-3.5 h-3.5 text-blue-300" /> : <Play className="w-3.5 h-3.5 text-blue-300" />}
+            {isPlaying ? (
+              <Pause className={`w-3.5 h-3.5 ${isLight ? 'text-[#1d1d1f]' : 'text-blue-300'}`} />
+            ) : (
+              <Play className={`w-3.5 h-3.5 ${isLight ? 'text-[#1d1d1f]' : 'text-blue-300'}`} />
+            )}
           </button>
           <button
             onClick={() => setIsLightboxOpen(true)}
-            className="p-2 rounded-full bg-white/5 hover:bg-white/15 border border-white/15 text-white transition-colors cursor-pointer"
+            className={`p-2 rounded-full border transition-colors cursor-pointer ${
+              isLight
+                ? 'bg-white hover:bg-[#ebebee] border-[#e5e5ea] text-[#1d1d1f] shadow-xs'
+                : 'bg-white/5 hover:bg-white/15 border-white/15 text-white'
+            }`}
             title="Visualizar em tela cheia"
           >
-            <Maximize2 className="w-3.5 h-3.5 text-white/80 hover:text-white" />
+            <Maximize2 className={`w-3.5 h-3.5 ${isLight ? 'text-[#1d1d1f]' : 'text-white/80 hover:text-white'}`} />
           </button>
         </div>
       </div>
@@ -183,7 +220,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
             e.stopPropagation();
             prevSlide();
           }}
-          className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/60 hover:bg-blue-600/90 border border-white/20 hover:border-blue-400 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 shadow-2xl hover:scale-110 cursor-pointer group"
+          className={`absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-300 cursor-pointer group ${
+            isLight
+              ? 'bg-white/95 hover:bg-white border-[#e5e5ea] hover:border-[#1d1d1f] text-[#1d1d1f] shadow-[0_4px_16px_rgba(0,0,0,0.12)] hover:scale-105'
+              : 'bg-black/60 hover:bg-blue-600/90 border-white/20 hover:border-blue-400 text-white shadow-2xl hover:scale-110'
+          }`}
           aria-label="Anterior"
         >
           <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
@@ -196,7 +237,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
             e.stopPropagation();
             nextSlide();
           }}
-          className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/60 hover:bg-blue-600/90 border border-white/20 hover:border-blue-400 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 shadow-2xl hover:scale-110 cursor-pointer group"
+          className={`absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-300 cursor-pointer group ${
+            isLight
+              ? 'bg-white/95 hover:bg-white border-[#e5e5ea] hover:border-[#1d1d1f] text-[#1d1d1f] shadow-[0_4px_16px_rgba(0,0,0,0.12)] hover:scale-105'
+              : 'bg-black/60 hover:bg-blue-600/90 border-white/20 hover:border-blue-400 text-white shadow-2xl hover:scale-110'
+          }`}
           aria-label="Próximo"
         >
           <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
@@ -265,6 +310,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
             return (
               <div
                 key={project.id}
+                data-carousel-card="true"
                 onClick={() => {
                   if (!isCenter) setActiveIndex(idx);
                 }}
@@ -277,8 +323,12 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
                 }}
                 className={`absolute w-[260px] sm:w-[320px] md:w-[360px] h-[360px] sm:h-[430px] md:h-[470px] rounded-3xl overflow-hidden transition-all duration-600 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer ${
                   isCenter
-                    ? 'shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(59,130,246,0.4)] ring-1 ring-white/30'
-                    : 'shadow-2xl hover:opacity-100 hover:filter-none ring-1 ring-white/10'
+                    ? isLight
+                      ? 'shadow-[0_20px_50px_rgba(0,0,0,0.22)] ring-1 ring-black/10'
+                      : 'shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(59,130,246,0.4)] ring-1 ring-white/30'
+                    : isLight
+                      ? 'shadow-lg hover:opacity-100 ring-1 ring-black/5'
+                      : 'shadow-2xl hover:opacity-100 hover:filter-none ring-1 ring-white/10'
                 }`}
               >
                 {/* Card Background Image */}
@@ -293,29 +343,29 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
                 <div
                   className={`absolute inset-0 transition-opacity duration-500 ${
                     isCenter
-                      ? 'bg-gradient-to-t from-black/95 via-black/40 to-black/25'
+                      ? 'bg-gradient-to-t from-black/95 via-black/45 to-black/20'
                       : 'bg-black/45 hover:bg-black/20'
                   }`}
                 />
 
-                {/* Top Floating Tag (Exact match of #Central America pill in reference) */}
+                {/* Top Floating Tag */}
                 <div className="absolute top-5 right-5 z-20">
-                  <span className="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-[11px] font-semibold text-white shadow-sm tracking-wide">
+                  <span className="px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/25 text-[11px] font-semibold !text-white shadow-sm tracking-wide">
                     {project.tag}
                   </span>
                 </div>
 
-                {/* Bottom Centered Title & Subtitle Overlay (Matching reference layout) */}
+                {/* Bottom Centered Title & Subtitle Overlay */}
                 {isCenter ? (
                   <div className="absolute inset-x-0 bottom-0 z-20 p-6 sm:p-7 text-center flex flex-col items-center justify-end space-y-2.5 animate-in fade-in zoom-in-95 duration-500">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight uppercase leading-[1.1] drop-shadow-lg text-balance">
+                    <h3 className="carousel-slide-title text-xl sm:text-2xl md:text-3xl font-black !text-white tracking-tight uppercase leading-[1.1] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] text-balance">
                       {project.title}
                     </h3>
 
-                    {/* Clean Horizontal Line Under Title (like reference) */}
+                    {/* Clean Horizontal Line Under Title */}
                     <div className="w-12 h-[2px] bg-white/80 my-1 rounded-full shadow-sm" />
 
-                    <p className="text-xs sm:text-sm text-white/90 font-medium leading-relaxed max-w-[280px] drop-shadow">
+                    <p className="carousel-slide-desc text-xs sm:text-sm !text-white font-medium leading-relaxed max-w-[280px] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                       {project.subtitle}
                     </p>
 
@@ -330,17 +380,21 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
                             }
                           });
                         }}
-                        className="px-5 py-2 rounded-full bg-white hover:bg-slate-100 text-[#070c20] font-bold text-xs shadow-[0_4px_20px_rgba(255,255,255,0.2)] hover:shadow-[0_6px_25px_rgba(255,255,255,0.3)] border border-white inline-flex items-center gap-1.5 transition-transform hover:scale-105 cursor-pointer"
+                        className={`px-5 py-2 rounded-full font-bold text-xs inline-flex items-center gap-1.5 transition-transform hover:scale-105 cursor-pointer ${
+                          isLight
+                            ? 'bg-white hover:bg-zinc-100 text-[#1d1d1f] shadow-[0_4px_16px_rgba(0,0,0,0.25)] border border-white'
+                            : 'bg-white hover:bg-slate-100 text-[#070c20] shadow-[0_4px_20px_rgba(255,255,255,0.2)] hover:shadow-[0_6px_25px_rgba(255,255,255,0.3)] border border-white'
+                        }`}
                       >
                         <span>Solicitar Projeto</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-[#070c20]" />
+                        <ArrowRight className={`w-3.5 h-3.5 ${isLight ? 'text-[#1d1d1f]' : 'text-[#070c20]'}`} />
                       </button>
                     </div>
                   </div>
                 ) : (
                   /* Side Preview Title */
                   <div className="absolute inset-x-0 bottom-0 p-5 text-center bg-gradient-to-t from-black/80 to-transparent">
-                    <div className="text-xs sm:text-sm font-bold text-white/90 truncate uppercase tracking-tight">
+                    <div className="carousel-slide-title text-xs sm:text-sm font-bold !text-white truncate uppercase tracking-tight drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                       {project.title}
                     </div>
                   </div>
@@ -351,7 +405,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
         </div>
       </div>
 
-      {/* 4. BOTTOM DOTS & ACTIVE INDICATOR (Matching white dot in reference image) */}
+      {/* 4. BOTTOM DOTS & ACTIVE INDICATOR */}
       <div className="relative z-20 pb-6 pt-2 flex flex-col items-center justify-center space-y-3">
         <div className="flex items-center space-x-2.5">
           {projects.map((_, idx) => {
@@ -363,8 +417,12 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
                 aria-label={`Ir para slide ${idx + 1}`}
                 className={`transition-all duration-300 cursor-pointer rounded-full ${
                   isActive
-                    ? 'w-7 h-2 bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)]'
-                    : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+                    ? isLight
+                      ? 'w-7 h-2 bg-[#1d1d1f] shadow-[0_0_8px_rgba(0,0,0,0.25)]'
+                      : 'w-7 h-2 bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)]'
+                    : isLight
+                      ? 'w-2 h-2 bg-[#d2d2d7] hover:bg-[#86868b]'
+                      : 'w-2 h-2 bg-white/30 hover:bg-white/60'
                 }`}
               />
             );
@@ -372,17 +430,27 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
         </div>
 
         {/* Active Item Mini Counter & Specs */}
-        <div className="flex items-center gap-4 text-xs text-white/70 font-medium">
-          <span className="text-blue-300 font-mono font-bold">
+        <div className={`flex items-center gap-4 text-xs font-medium ${
+          isLight ? 'text-[#6e6e73]' : 'text-white/70'
+        }`}>
+          <span className={`font-mono font-bold ${
+            isLight ? 'text-[#1d1d1f]' : 'text-blue-300'
+          }`}>
             0{activeIndex + 1} / 0{total}
           </span>
           <span>•</span>
-          <span className="text-white/90">{activeProject.specs.pitch}</span>
+          <span className={isLight ? 'text-[#1d1d1f] font-semibold' : 'text-white/90'}>
+            {activeProject.specs.pitch}
+          </span>
           <span>•</span>
-          <span className="text-white/90">{activeProject.specs.brightness}</span>
+          <span className={isLight ? 'text-[#1d1d1f] font-semibold' : 'text-white/90'}>
+            {activeProject.specs.brightness}
+          </span>
           <span>•</span>
-          <span className="text-blue-300 font-semibold flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5" />
+          <span className={`font-semibold flex items-center gap-1 ${
+            isLight ? 'text-[#1d1d1f]' : 'text-blue-300'
+          }`}>
+            <ShieldCheck className={`w-3.5 h-3.5 ${isLight ? 'text-emerald-600' : 'text-blue-300'}`} />
             2 anos de garantia
           </span>
         </div>
@@ -400,14 +468,14 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
               <span className="px-3.5 py-1 rounded-full bg-blue-600 text-xs font-bold uppercase text-white shadow-lg">
                 {activeProject.tag}
               </span>
-              <h4 className="text-lg font-bold text-white hidden sm:block">
+              <h4 className="text-lg font-bold !text-white hidden sm:block">
                 {activeProject.title}
               </h4>
             </div>
 
             <button
               onClick={() => setIsLightboxOpen(false)}
-              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 !text-white transition-colors cursor-pointer"
             >
               <X className="w-6 h-6" />
             </button>
@@ -425,7 +493,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
           {/* Bottom Info in Lightbox */}
           <div className="w-full max-w-3xl text-center space-y-3">
-            <p className="text-sm sm:text-base text-white/90 font-medium">
+            <p className="text-sm sm:text-base !text-white/95 font-medium">
               {activeProject.description}
             </p>
             <div className="flex items-center justify-center gap-4 text-xs text-blue-300">

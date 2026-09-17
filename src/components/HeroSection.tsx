@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { ImageCarousel } from './ImageCarousel';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 import { openButtonLink } from '../utils/linkHelper';
 
 interface HeroSectionProps {
@@ -18,6 +19,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onRequestQuoteWithDetails,
 }) => {
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   return (
     <section
@@ -103,7 +106,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* 3D Carousel Showcase */}
       <div className="w-full max-w-6xl relative group mt-16">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/25 via-blue-500/20 to-slate-700/20 rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition duration-1000" />
+        <div className={`absolute -inset-1 rounded-3xl blur-xl transition duration-1000 ${
+          isLight
+            ? 'bg-gradient-to-r from-slate-200/60 via-zinc-200/50 to-slate-200/60 opacity-60'
+            : 'bg-gradient-to-r from-blue-600/25 via-blue-500/20 to-slate-700/20 opacity-40 group-hover:opacity-60'
+        }`} />
         <ImageCarousel
           onRequestQuoteForProject={(projectTitle, category) => {
             if (onRequestQuoteWithDetails) {

@@ -16,6 +16,7 @@ import {
   Scale,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface SimulatorSectionProps {
   onRequestQuoteWithSpecs: (specsText: string) => void;
@@ -206,6 +207,8 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
   onDirectWhatsapp,
 }) => {
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const [environment, setEnvironment] = useState<'indoor' | 'outdoor' | 'rental'>('indoor');
   const [width, setWidth] = useState<number>(0.32);
   const [height, setHeight] = useState<number>(0.16);
@@ -745,65 +748,140 @@ export const SimulatorSection: React.FC<SimulatorSectionProps> = ({
           <div className="lg:col-span-6 space-y-6">
             {/* Visual Aspect Ratio Canvas Box */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-white/60">
-                <span className="flex items-center gap-1.5">
-                  <Boxes className="w-3.5 h-3.5 text-zinc-300" />
+              <div className="flex items-center justify-between text-xs">
+                <span className={`flex items-center gap-1.5 ${isLight ? 'text-[#1d1d1f] font-semibold' : 'text-white/60'}`}>
+                  <Boxes className={`w-3.5 h-3.5 ${isLight ? 'text-[#0071e3]' : 'text-zinc-300'}`} />
                   <span>Prévia proporcional do formato:</span>
                 </span>
-                <span className="font-mono text-white/90 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                <span
+                  className={`font-mono px-2 py-0.5 rounded text-xs transition-colors ${
+                    isLight
+                      ? 'text-[#1d1d1f] bg-white border border-[#e5e5ea] font-bold shadow-2xs'
+                      : 'text-white/90 bg-white/5 border border-white/10'
+                  }`}
+                >
                   {ratioLabel}
                 </span>
               </div>
 
-              <div className="w-full h-48 sm:h-56 rounded-2xl bg-[#030611] border border-white/15 p-4 flex items-center justify-center relative overflow-hidden shadow-inner">
+              <div
+                id="simulador-stage-container"
+                className={`w-full h-48 sm:h-56 rounded-2xl p-4 flex items-center justify-center relative overflow-hidden transition-all ${
+                  isLight
+                    ? 'bg-gradient-to-b from-[#fbfbfd] via-[#f7f7fa] to-[#f0f0f4] border border-[#e5e5ea] shadow-[inset_0_1px_4px_rgba(0,0,0,0.03)]'
+                    : 'bg-[#030611] border border-white/15 shadow-inner'
+                }`}
+              >
                 {/* Background ambient grid pattern */}
                 <div
-                  className="absolute inset-0 opacity-10 pointer-events-none"
+                  className={`absolute inset-0 pointer-events-none transition-opacity ${
+                    isLight ? 'opacity-40' : 'opacity-10'
+                  }`}
                   style={{
-                    backgroundImage:
-                      'radial-gradient(circle, rgba(255, 255, 255, 0.3) 1px, transparent 1px)',
-                    backgroundSize: '18px 18px',
+                    backgroundImage: isLight
+                      ? 'radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px)'
+                      : 'radial-gradient(circle, rgba(255, 255, 255, 0.3) 1px, transparent 1px)',
+                    backgroundSize: isLight ? '16px 16px' : '18px 18px',
                   }}
                 />
 
                 {/* Simulated Screen with Dynamic Aspect Ratio */}
                 <div
-                  className="relative rounded-xl border border-white/20 flex flex-col items-center justify-center transition-all duration-300 overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)]"
+                  id="simulador-screen-panel"
+                  className={`relative rounded-xl flex flex-col items-center justify-center transition-all duration-300 overflow-hidden ${
+                    isLight
+                      ? 'border border-[#d2d2d7] ring-1 ring-black/[0.04] shadow-[0_12px_28px_rgba(0,0,0,0.06),0_2px_8px_rgba(0,0,0,0.03)] bg-gradient-to-br from-[#ffffff] via-[#f8f9fc] to-[#edf0f6]'
+                      : 'border border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.8)]'
+                  }`}
                   style={{
                     aspectRatio: `${width} / ${height}`,
                     height: width / height > 2.2 ? 'auto' : '84%',
                     width: width / height > 2.2 ? '90%' : 'auto',
                     maxWidth: '92%',
                     maxHeight: '88%',
-                    backgroundColor: environment === 'outdoor' ? '#08101a' : '#080c14',
+                    backgroundColor: isLight
+                      ? undefined
+                      : environment === 'outdoor'
+                      ? '#08101a'
+                      : '#080c14',
                   }}
                 >
+                  {/* Subtle top edge specular highlight (Apple display glass feel) */}
+                  {isLight && (
+                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none z-10" />
+                  )}
+
+                  {/* Micro diode LED grid texture for illuminated light mode */}
+                  {isLight && (
+                    <div
+                      className="absolute inset-0 opacity-25 pointer-events-none"
+                      style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(0, 113, 227, 0.12) 1px, transparent 1px)',
+                        backgroundSize: '10px 10px',
+                      }}
+                    />
+                  )}
+
+                  {/* Corner indicator badges in Light Mode */}
+                  {isLight && (
+                    <>
+                      <div className="absolute top-2 left-2.5 z-10 hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-xs border border-[#e5e5ea] text-[10px] font-medium text-[#6e6e73] shadow-2xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>Painel Ativo</span>
+                      </div>
+                      <div className="absolute top-2 right-2.5 z-10 hidden sm:block px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-xs border border-[#e5e5ea] text-[10px] font-mono font-bold text-[#1d1d1f] shadow-2xs">
+                        P{pixelPitch} mm
+                      </div>
+                    </>
+                  )}
+
                   {/* Modular Cabinet Grid Overlay */}
                   <div
-                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    className={`absolute inset-0 pointer-events-none transition-opacity ${
+                      isLight ? 'opacity-40' : 'opacity-20'
+                    }`}
                     style={{
                       display: 'grid',
                       gridTemplateColumns: `repeat(${Math.min(moduleCols, 24)}, 1fr)`,
                       gridTemplateRows: `repeat(${Math.min(moduleRows, 16)}, 1fr)`,
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      border: isLight
+                        ? '1px solid rgba(0, 0, 0, 0.08)'
+                        : '1px solid rgba(255, 255, 255, 0.25)',
                     }}
                   >
                     {Array.from({
                       length: Math.min(moduleCols, 24) * Math.min(moduleRows, 16),
                     }).map((_, i) => (
-                      <div key={i} className="border border-white/15" />
+                      <div
+                        key={i}
+                        className={isLight ? 'border border-black/[0.05]' : 'border border-white/15'}
+                      />
                     ))}
                   </div>
 
                   {/* Centered Spec Tag on Screen */}
-                  <div className="relative z-10 text-center p-2.5 flex flex-col items-center justify-center select-none backdrop-blur-[2px]">
-                    <span className="text-sm sm:text-base font-extrabold font-mono text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                      {width.toFixed(2)}m × {height.toFixed(2)}m
-                    </span>
-                    <span className="text-[10px] sm:text-xs font-mono font-semibold text-zinc-300 mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-                      {pixelsHorizontal} × {pixelsVertical} px
-                    </span>
-                  </div>
+                  {isLight ? (
+                    <div className="relative z-10 text-center p-2.5 sm:p-3 flex flex-col items-center justify-center select-none bg-white/85 backdrop-blur-xs rounded-xl border border-white shadow-[0_2px_12px_rgba(0,0,0,0.05)] mx-2">
+                      <span className="text-sm sm:text-base font-black font-mono text-[#1d1d1f] tracking-tight">
+                        {width.toFixed(2)}m × {height.toFixed(2)}m
+                      </span>
+                      <span className="text-[10px] sm:text-xs font-mono font-bold text-[#0071e3] mt-0.5">
+                        {pixelsHorizontal} × {pixelsVertical} px
+                      </span>
+                      <span className="text-[9.5px] font-medium text-[#6e6e73] mt-0.5">
+                        {moduleCols * moduleRows} módulos ({moduleCols}L × {moduleRows}A)
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="relative z-10 text-center p-2.5 flex flex-col items-center justify-center select-none backdrop-blur-[2px]">
+                      <span className="text-sm sm:text-base font-extrabold font-mono text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                        {width.toFixed(2)}m × {height.toFixed(2)}m
+                      </span>
+                      <span className="text-[10px] sm:text-xs font-mono font-semibold text-zinc-300 mt-0.5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+                        {pixelsHorizontal} × {pixelsVertical} px
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

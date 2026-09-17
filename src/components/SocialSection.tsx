@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface SocialSectionProps {
   onOpenContactModal?: () => void;
@@ -13,6 +14,8 @@ interface SocialSectionProps {
 
 export const SocialSection: React.FC<SocialSectionProps> = () => {
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   const socialLinks = [
     {
@@ -113,19 +116,27 @@ export const SocialSection: React.FC<SocialSectionProps> = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
+                  <h3 className={`text-xl font-bold mb-1 transition-colors ${
+                    isLight ? 'text-[#1d1d1f] group-hover:text-black' : 'text-white group-hover:text-blue-300'
+                  }`}>
                     {item.name}
                   </h3>
-                  <span className="text-xs font-semibold text-white/50 block mb-3 truncate" title={item.handle}>
+                  <span className={`text-xs font-semibold block mb-3 truncate ${
+                    isLight ? 'text-[#6e6e73]' : 'text-white/50'
+                  }`} title={item.handle}>
                     {item.handle}
                   </span>
-                  <p className="text-sm text-white/70 leading-relaxed mb-6">
+                  <p className={`text-sm leading-relaxed mb-6 font-normal ${
+                    isLight ? 'text-[#3a3a3c]' : 'text-white/70'
+                  }`}>
                     {item.description}
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/10 flex items-center justify-between mt-auto">
-                  <span className="text-xs font-bold text-white/80">
+                  <span className={`text-xs font-bold ${
+                    isLight ? 'text-[#1d1d1f]' : 'text-white/80'
+                  }`}>
                     {item.followers}
                   </span>
                   <span className="text-xs font-semibold text-blue-400 group-hover:text-white group-hover:underline transition-colors flex items-center gap-1">

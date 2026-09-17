@@ -7,6 +7,150 @@ import imgHallAutumn from '../assets/images/led_hall_autumn_1788059379228.jpg';
 import imgPoolMatch from '../assets/images/led_pool_match_1788059400102.jpg';
 import imgDiningRoom from '../assets/images/led_dining_room_1788059416951.jpg';
 
+export type CatalogCategory = 'indoor' | 'outdoor' | 'rental';
+
+export interface ModelBoxItem {
+  model: string;
+  pitch: string;
+  moduleOrCabinetSize: string;
+  resolution: string;
+  pixelsPerModule: string;
+  maxPowerEstimated: string;
+  description: string;
+  image: string;
+}
+
+export interface CatalogCategoryData {
+  id: CatalogCategory;
+  name: string;
+  title: string;
+  subtitle: string;
+  headline: string;
+  image: string;
+  sizeLabel: string;
+  resolutionLabel: string;
+  models: ModelBoxItem[];
+}
+
+export const defaultCatalogData: Record<CatalogCategory, CatalogCategoryData> = {
+  indoor: {
+    id: 'indoor',
+    name: 'Indoor',
+    title: 'Painéis de LED Indoor',
+    subtitle: 'Fine-pitch sob medida para residências e espaços corporativos de alto padrão.',
+    headline: 'Definição Cinematográfica & Fine-Pitch sob Medida',
+    image: imgCurvedLiving,
+    sizeLabel: 'Tamanho do módulo',
+    resolutionLabel: 'Resolução por módulo',
+    models: [
+      {
+        model: 'P1.25 Indoor',
+        pitch: '1,25 mm',
+        moduleOrCabinetSize: '320 × 160 mm',
+        resolution: '256 × 128 px',
+        pixelsPerModule: '32.768 px',
+        maxPowerEstimated: '≈ 20 W',
+        description: 'Ultra fine-pitch de altíssima densidade para salas de cinema residencial e home theaters de alto luxo.',
+        image: imgCurvedLiving,
+      },
+      {
+        model: 'P1.8 Indoor',
+        pitch: '1,8 mm',
+        moduleOrCabinetSize: '320 × 160 mm',
+        resolution: '178 × 89 px',
+        pixelsPerModule: '≈ 15.842 px',
+        maxPowerEstimated: '≈ 20 W',
+        description: 'Equilíbrio ideal entre definição cristalina e ampla versatilidade para salas de reunião e living rooms.',
+        image: imgDiningRoom,
+      },
+      {
+        model: 'P2.5 Indoor',
+        pitch: '2,5 mm',
+        moduleOrCabinetSize: '320 × 160 mm',
+        resolution: '128 × 64 px',
+        pixelsPerModule: '8.192 px',
+        maxPowerEstimated: '≈ 25 W',
+        description: 'Solução de alta performance para recepções corporativas, auditórios e grandes espaços comerciais.',
+        image: imgHallAutumn,
+      },
+    ],
+  },
+  outdoor: {
+    id: 'outdoor',
+    name: 'Outdoor',
+    title: 'Painéis de LED Outdoor',
+    subtitle: 'Brilho monumental de até 6.500 nits com blindagem climática industrial IP65.',
+    headline: 'Brilho Monumental & Resistência Climática IP65',
+    image: imgPoolMorning,
+    sizeLabel: 'Tamanho do módulo',
+    resolutionLabel: 'Resolução por módulo',
+    models: [
+      {
+        model: 'P3.0 Outdoor',
+        pitch: '3,0 mm',
+        moduleOrCabinetSize: '320 × 160 mm',
+        resolution: '≈ 107 × 53 px',
+        pixelsPerModule: '≈ 5.671 px',
+        maxPowerEstimated: '≈ 40 W',
+        description: 'Alta definição outdoor para áreas de piscinas, varandas gourmet abertas e fachadas de proximidade.',
+        image: imgPoolMorning,
+      },
+      {
+        model: 'P4.0 Outdoor',
+        pitch: '4,0 mm',
+        moduleOrCabinetSize: '320 × 160 mm',
+        resolution: '80 × 40 px',
+        pixelsPerModule: '3.200 px',
+        maxPowerEstimated: '≈ 40 W',
+        description: 'Excelente custo-benefício e luminosidade extrema sob luz solar direta para vitrines e fachadas comerciais.',
+        image: imgPoolSmartTv,
+      },
+      {
+        model: 'P5.0 Outdoor',
+        pitch: '5,0 mm',
+        moduleOrCabinetSize: '320 × 160 mm',
+        resolution: '64 × 32 px',
+        pixelsPerModule: '2.048 px',
+        maxPowerEstimated: '≈ 50 W',
+        description: 'Projetado para telas monumentais externas, topos de prédios corporativos e grandes distâncias de visualização.',
+        image: imgPoolMatch,
+      },
+    ],
+  },
+  rental: {
+    id: 'rental',
+    name: 'Rental',
+    title: 'Painel de LED Rental — Módulo 250 × 250 mm',
+    subtitle: 'Gabinetes modulares em alumínio fundido ultraleve com travas Quick-Lock.',
+    headline: 'Montagem Rápida em Gabinetes Modulares de Alumínio Fundido',
+    image: imgLoungeSports,
+    sizeLabel: 'Tamanho do Gabinete',
+    resolutionLabel: 'Resolução por Gabinete / Módulo',
+    models: [
+      {
+        model: 'P2.97 Rental',
+        pitch: '2,9 mm',
+        moduleOrCabinetSize: '500 × 500 mm',
+        resolution: '≈ 172 × 172 px',
+        pixelsPerModule: '≈ 29.584 px',
+        maxPowerEstimated: '≈ 180 W',
+        description: 'Painel de palco e estandes corporativos com montagem ágil Quick-Lock e curvatura ajustável.',
+        image: imgLoungeSports,
+      },
+      {
+        model: 'P3.91 Rental',
+        pitch: '3,91 mm',
+        moduleOrCabinetSize: '250 × 250 mm',
+        resolution: '≈ 128 × 128 px',
+        pixelsPerModule: '≈ 16.384 px',
+        maxPowerEstimated: '≈ 180 W',
+        description: 'Modularidade extrema para festivais, cenografia itinerante e eventos corporativos de grande porte.',
+        image: imgShowroomBirds,
+      },
+    ],
+  },
+};
+
 export interface GalleryHotspot {
   x: number; // 0 to 100 percentage
   y: number; // 0 to 100 percentage
@@ -275,6 +419,16 @@ export interface SiteContent {
     aboutText: string;
     copyrightText: string;
   };
+  catalog?: Record<CatalogCategory, CatalogCategoryData>;
+  videoLandingPage?: {
+    headline: string;
+    subheadline: string;
+    videoUrl: string; // URL direta do mp4/webm ou embed
+    posterUrl?: string;
+    whatsappButtonText: string;
+    whatsappCustomMessage: string;
+    guaranteeNotice: string;
+  };
   buttonLinks?: {
     navbarContact: string;
     navbarBudget: string;
@@ -501,7 +655,7 @@ export const defaultSiteContent: SiteContent = {
         "tag": "Instalação profissional",
         "title": "Do projeto à instalação",
         "highlight": "Engenharia especializada",
-        "description": "Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável. A Led Machine oferece projeto em 3D, acompanhamento com engenheiro e emissão de ART, além de todo o suporte técnico necessário do projeto à instalação.",
+        "description": "Cuidamos de todas as etapas técnicas com projeto em 3D, acompanhamento de engenharia com emissão de ART e suporte técnico do projeto à instalação.",
         "badge": "Engenharia especializada"
       }
     ]
@@ -790,7 +944,17 @@ export const defaultSiteContent: SiteContent = {
   },
   "footer": {
     "aboutText": "Especialistas em engenharia visual de alta definição, painéis de LED modulares e telas monumentais para projetos comerciais e residenciais de alto padrão.",
-    "copyrightText": "© 2026 LED MACHINE Displays & Engineering. Todos os direitos reservados."
+    "copyrightText": "© 2026 Led Machine Painéis. Todos os direitos reservados."
+  },
+  "catalog": defaultCatalogData,
+  "videoLandingPage": {
+    "headline": "Conheça os Painéis LED Machine",
+    "subheadline": "Transformamos residências de alto padrão e ambientes corporativos! 2 anos de garantia.",
+    "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-digital-lights-41584-large.mp4",
+    "posterUrl": "/images/gallery/led_cinema_room_1788059253457-3b2d1c9.jpg",
+    "whatsappButtonText": "Falar com Especialista no WhatsApp",
+    "whatsappCustomMessage": "Olá! Assisti ao vídeo da LED Machine e quero conversar sobre um projeto sob medida para meu espaço.",
+    "guaranteeNotice": "Atendimento técnico direto com nossos especialistas • Piracicaba - SP para todo o Brasil"
   },
   "buttonLinks": {
     "navbarContact": "#contato",

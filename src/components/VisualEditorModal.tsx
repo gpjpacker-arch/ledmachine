@@ -31,6 +31,7 @@ import { compressAndOptimizeImage } from '../utils/imageCompressor';
 import { ButtonLinksEditorTab, ButtonLinkKey } from './ButtonLinksEditorTab';
 import { FeaturedHotspotsEditor } from './FeaturedHotspotsEditor';
 import { LeadsManagerTab } from './LeadsManagerTab';
+import { CatalogEditorTab } from './CatalogEditorTab';
 
 interface VisualEditorModalProps {
   isOpen: boolean;
@@ -56,7 +57,7 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
   const [pinError, setPinError] = useState<string>('');
 
   const [activeTab, setActiveTab] = useState<
-    'leads' | 'general' | 'links' | 'hero' | 'carousel' | 'widescreen' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
+    'leads' | 'general' | 'links' | 'catalog' | 'videoLanding' | 'hero' | 'carousel' | 'widescreen' | 'solutions' | 'whyUs' | 'warranty' | 'featured' | 'moreThan' | 'experience' | 'faq' | 'social' | 'finalCta' | 'footer'
   >('leads');
 
   const [localContent, setLocalContent] = useState<SiteContent>(content);
@@ -486,6 +487,48 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                   Novo
                 </span>
                 {activeTab === 'links' && <ChevronRight className="w-3.5 h-3.5" />}
+              </div>
+            </button>
+
+            <button
+              id="editor-tab-catalog"
+              onClick={() => setActiveTab('catalog')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeTab === 'catalog'
+                  ? 'bg-blue-600/30 text-blue-200 border border-blue-400/50 shadow-sm'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Layout className="w-4 h-4 text-blue-400" />
+                <span>Catálogo de Produtos</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  Apple
+                </span>
+                {activeTab === 'catalog' && <ChevronRight className="w-3.5 h-3.5" />}
+              </div>
+            </button>
+
+            <button
+              id="editor-tab-video-landing"
+              onClick={() => setActiveTab('videoLanding')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                activeTab === 'videoLanding'
+                  ? 'bg-purple-600/30 text-purple-200 border border-purple-400/50 shadow-sm'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="w-4 h-4 text-purple-400" />
+                <span>Página de Vídeo (/video)</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                  Landing
+                </span>
+                {activeTab === 'videoLanding' && <ChevronRight className="w-3.5 h-3.5" />}
               </div>
             </button>
 
@@ -938,6 +981,210 @@ export const VisualEditorModal: React.FC<VisualEditorModalProps> = ({ isOpen, on
                 onResetAllLinks={handleResetAllLinks}
                 onApplyWhatsappToAll={handleApplyWhatsappToAll}
               />
+            )}
+
+            {/* 1.55 CATÁLOGO DE PRODUTOS (/catalogo) */}
+            {activeTab === 'catalog' && (
+              <CatalogEditorTab
+                catalogData={localContent.catalog || defaultSiteContent.catalog!}
+                onChange={(updatedCatalog) =>
+                  setLocalContent({
+                    ...localContent,
+                    catalog: updatedCatalog,
+                  })
+                }
+              />
+            )}
+
+            {/* 1.6 LANDING PAGE DO VÍDEO (/video) */}
+            {activeTab === 'videoLanding' && (
+              <div className="space-y-6 animate-in fade-in duration-150">
+                <div className="border-b border-white/10 pb-3 flex items-center justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-purple-400" />
+                      Página de Vendas com Vídeo (Rota: /video)
+                    </h3>
+                    <p className="text-xs text-white/60">
+                      Página restrita com logo não-clicável, vídeo em destaque e botão de conversão para o WhatsApp.
+                    </p>
+                  </div>
+                  <a
+                    href="/video"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600/30 text-purple-200 border border-purple-400/40 hover:bg-purple-600/50 transition-colors"
+                  >
+                    <span>Visualizar /video</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Título Principal (Headline)</label>
+                    <input
+                      type="text"
+                      value={localContent.videoLandingPage?.headline || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          videoLandingPage: {
+                            ...(localContent.videoLandingPage || {
+                              headline: '',
+                              subheadline: '',
+                              videoUrl: '',
+                              whatsappButtonText: '',
+                              whatsappCustomMessage: '',
+                              guaranteeNotice: '',
+                            }),
+                            headline: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Conheça os Painéis LED Machine"
+                      className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-purple-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Subtítulo Explicativo</label>
+                    <textarea
+                      rows={3}
+                      value={localContent.videoLandingPage?.subheadline || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          videoLandingPage: {
+                            ...(localContent.videoLandingPage || {
+                              headline: '',
+                              subheadline: '',
+                              videoUrl: '',
+                              whatsappButtonText: '',
+                              whatsappCustomMessage: '',
+                              guaranteeNotice: '',
+                            }),
+                            subheadline: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Transformamos residências de alto padrão e ambientes corporativos! 2 anos de garantia."
+                      className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-purple-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">
+                      Link Direto do Vídeo (.mp4 ou .webm)
+                    </label>
+                    <input
+                      type="text"
+                      value={localContent.videoLandingPage?.videoUrl || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          videoLandingPage: {
+                            ...(localContent.videoLandingPage || {
+                              headline: '',
+                              subheadline: '',
+                              videoUrl: '',
+                              whatsappButtonText: '',
+                              whatsappCustomMessage: '',
+                              guaranteeNotice: '',
+                            }),
+                            videoUrl: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="https://exemplo.com/meu-video-led.mp4"
+                      className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-purple-500 focus:outline-none"
+                    />
+                    <p className="text-[11px] text-white/40 mt-1">
+                      Cole a URL direta do vídeo mp4/webm que deseja reproduzir sem distrações na landing page.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Texto do Botão de WhatsApp</label>
+                      <input
+                        type="text"
+                        value={localContent.videoLandingPage?.whatsappButtonText || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            videoLandingPage: {
+                              ...(localContent.videoLandingPage || {
+                                headline: '',
+                                subheadline: '',
+                                videoUrl: '',
+                                whatsappButtonText: '',
+                                whatsappCustomMessage: '',
+                                guaranteeNotice: '',
+                              }),
+                              whatsappButtonText: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Falar com Especialista no WhatsApp"
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-purple-500 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-white/80 mb-1">Mensagem Padrão do WhatsApp</label>
+                      <input
+                        type="text"
+                        value={localContent.videoLandingPage?.whatsappCustomMessage || ''}
+                        onChange={(e) =>
+                          setLocalContent({
+                            ...localContent,
+                            videoLandingPage: {
+                              ...(localContent.videoLandingPage || {
+                                headline: '',
+                                subheadline: '',
+                                videoUrl: '',
+                                whatsappButtonText: '',
+                                whatsappCustomMessage: '',
+                                guaranteeNotice: '',
+                              }),
+                              whatsappCustomMessage: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Olá! Assisti ao vídeo da LED Machine e quero um projeto sob medida."
+                        className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-purple-500 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-white/80 mb-1">Texto de Garantia / Suporte</label>
+                    <input
+                      type="text"
+                      value={localContent.videoLandingPage?.guaranteeNotice || ''}
+                      onChange={(e) =>
+                        setLocalContent({
+                          ...localContent,
+                          videoLandingPage: {
+                            ...(localContent.videoLandingPage || {
+                              headline: '',
+                              subheadline: '',
+                              videoUrl: '',
+                              whatsappButtonText: '',
+                              whatsappCustomMessage: '',
+                              guaranteeNotice: '',
+                            }),
+                            guaranteeNotice: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Atendimento técnico direto com nossos especialistas • Piracicaba - SP para todo o Brasil"
+                      className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-purple-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* 2. HERO / TOPO TAB */}

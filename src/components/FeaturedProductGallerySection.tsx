@@ -19,6 +19,7 @@ import {
   ImageIcon,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 import { defaultSiteContent, defaultGalleryHotspots } from '../data/siteContent';
 import { compressAndOptimizeImage } from '../utils/imageCompressor';
 import { openButtonLink } from '../utils/linkHelper';
@@ -53,6 +54,8 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
   onOpenProductQuote,
 }) => {
   const { content, updateField, openAdminEditor } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const savedImages = content.featuredGallery?.images || [];
 
   const [activeViewIndex, setActiveViewIndex] = useState(0);
@@ -420,49 +423,73 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
               <ShieldCheck className="w-4 h-4 text-zinc-300" />
               <span>Garantia de 2 anos inclusa</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
+            <h3 className={`text-xl sm:text-2xl font-black tracking-tight leading-snug ${
+              isLight ? 'text-[#1d1d1f]' : 'text-white'
+            }`}>
               Engenharia e imagem em nível cinema
             </h3>
-            <p className="mt-3 text-xs sm:text-sm text-white/70 leading-relaxed">
+            <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${
+              isLight ? 'text-[#3a3a3c]' : 'text-white/70'
+            }`}>
               {currentView.description}
             </p>
           </div>
 
           <div className="space-y-2.5 pt-2 border-t border-white/10">
-            <h4 className="text-[11px] font-bold text-white/50 uppercase tracking-widest">
+            <h4 className={`text-[11px] font-bold uppercase tracking-widest ${
+              isLight ? 'text-[#6e6e73]' : 'text-white/50'
+            }`}>
               Especificações do modelo
             </h4>
             <div className="grid grid-cols-2 gap-2 text-left">
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Pixel pitch</span>
-                <span className="text-xs sm:text-sm font-bold text-white">P1.2 a P1.8 mm</span>
+                <span className={`text-[10px] block font-medium ${
+                  isLight ? 'text-[#6e6e73]' : 'text-white/50'
+                }`}>Pixel pitch</span>
+                <span className={`text-xs sm:text-sm font-bold ${
+                  isLight ? 'text-[#1d1d1f]' : 'text-white'
+                }`}>P1.2 a P1.8 mm</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Taxa de atualização</span>
-                <span className="text-xs sm:text-sm font-bold text-white">3.840 Hz HDR</span>
+                <span className={`text-[10px] block font-medium ${
+                  isLight ? 'text-[#6e6e73]' : 'text-white/50'
+                }`}>Taxa de atualização</span>
+                <span className={`text-xs sm:text-sm font-bold ${
+                  isLight ? 'text-[#1d1d1f]' : 'text-white'
+                }`}>3.840 Hz HDR</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Brilho calibrado</span>
-                <span className="text-xs sm:text-sm font-bold text-white">Até 1.600 nits</span>
+                <span className={`text-[10px] block font-medium ${
+                  isLight ? 'text-[#6e6e73]' : 'text-white/50'
+                }`}>Brilho calibrado</span>
+                <span className={`text-xs sm:text-sm font-bold ${
+                  isLight ? 'text-[#1d1d1f]' : 'text-white'
+                }`}>Até 1.600 nits</span>
               </div>
               <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="text-[10px] text-white/50 block font-medium">Manutenção</span>
-                <span className="text-xs sm:text-sm font-bold text-white">100% frontal</span>
+                <span className={`text-[10px] block font-medium ${
+                  isLight ? 'text-[#6e6e73]' : 'text-white/50'
+                }`}>Manutenção</span>
+                <span className={`text-xs sm:text-sm font-bold ${
+                  isLight ? 'text-[#1d1d1f]' : 'text-white'
+                }`}>100% frontal</span>
               </div>
             </div>
           </div>
 
-          <div className="space-y-2 text-xs text-white/80">
+          <div className={`space-y-2 text-xs ${
+            isLight ? 'text-[#3a3a3c]' : 'text-white/80'
+          }`}>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-zinc-300 shrink-0" />
+              <CheckCircle2 className={`w-4 h-4 shrink-0 ${isLight ? 'text-zinc-600' : 'text-zinc-300'}`} />
               <span>Formatos planos, curvos ou em ângulo 90°</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-zinc-300 shrink-0" />
+              <CheckCircle2 className={`w-4 h-4 shrink-0 ${isLight ? 'text-zinc-600' : 'text-zinc-300'}`} />
               <span>Compatível com Apple TV, PS5, automação Control4/Crestron</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-zinc-300 shrink-0" />
+              <CheckCircle2 className={`w-4 h-4 shrink-0 ${isLight ? 'text-zinc-600' : 'text-zinc-300'}`} />
               <span>Instalação estrutural e calibração por equipe própria</span>
             </div>
           </div>

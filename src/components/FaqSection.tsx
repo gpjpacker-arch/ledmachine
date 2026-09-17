@@ -106,7 +106,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onContactClick }) => {
       <div className="mt-12 text-center p-6 sm:p-8 rounded-2xl bg-[#10121a] border border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-left">
           <h4 className="text-base font-bold text-white">Ficou com alguma dúvida sobre o seu projeto?</h4>
-          <p className="text-xs sm:text-sm text-zinc-400 mt-0.5">Engenheiros e consultores técnicos à disposição para orientar.</p>
+          <p className="text-xs sm:text-sm text-zinc-400 mt-0.5">Especialistas e consultores técnicos à disposição para orientar.</p>
         </div>
         <button
           onClick={onContactClick}

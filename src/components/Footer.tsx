@@ -69,6 +69,73 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
                 2 anos de garantia
               </button>
             </li>
+            <li className="pt-2 border-t border-white/10 mt-2">
+              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1.5">
+                Páginas Especiais
+              </span>
+              <div className="space-y-1.5">
+                <a
+                  href="/video"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.history && window.history.pushState) {
+                      window.history.pushState({}, '', '/video');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    } else {
+                      window.location.href = '/video';
+                    }
+                  }}
+                  className="text-left block text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  Vídeo LED Machine (/video)
+                </a>
+                <a
+                  href="/simulador"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.history && window.history.pushState) {
+                      window.history.pushState({}, '', '/simulador');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    } else {
+                      window.location.href = '/simulador';
+                    }
+                  }}
+                  className="text-left block text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  Simulador Dedicado (/simulador)
+                </a>
+                <a
+                  href="/catalogo"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.history && window.history.pushState) {
+                      window.history.pushState({}, '', '/catalogo');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    } else {
+                      window.location.href = '/catalogo';
+                    }
+                  }}
+                  className="text-left block text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium"
+                >
+                  Catálogo Oficial (/catalogo)
+                </a>
+                <a
+                  href="/ambientes"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.history && window.history.pushState) {
+                      window.history.pushState({}, '', '/ambientes');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    } else {
+                      window.location.href = '/ambientes';
+                    }
+                  }}
+                  className="text-left block text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                >
+                  Ambientes (/ambientes)
+                </a>
+              </div>
+            </li>
           </ul>
         </div>
 
@@ -115,7 +182,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact, onOpe
       {/* Bottom Copyright */}
       <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
         <div>
-          {content.footer.copyrightText || `© ${new Date().getFullYear()} LED MACHINE Displays & Engineering. Todos os direitos reservados.`}
+          {content.footer.copyrightText || `© ${new Date().getFullYear()} Led Machine Painéis. Todos os direitos reservados.`}
         </div>
         <div className="flex items-center space-x-6 text-zinc-400">
           <button

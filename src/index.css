@@ -4,14 +4,17 @@
   * {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
-
   body {
     background-color: #020617;
     color: #ffffff;
     font-family: 'DM Sans', sans-serif !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
+/* ===================================================
+   DARK MODE AMBIENT EFFECTS (DEFAULT)
+   =================================================== */
 .cosmic-grid-bg {
   background-image: 
     linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px),
@@ -47,4 +50,528 @@
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.28), inset 0 0 15px rgba(255, 255, 255, 0.08);
+}
+
+/* ===================================================
+   LIGHT MODE (ESTILO APPLE MINIMALISTA ULTRA-CLEAN)
+   Padrão idêntico ao Catálogo Apple: 
+   - Fundo branco puro (#ffffff)
+   - Tipografia premium em tons neutros (#1d1d1f, #6e6e73, #86868b)
+   - Cartões arredondados em cinza Apple (#f5f5f7 com hover #ebebee)
+   - Bordas sutis (#e5e5ea, #f0f0f2)
+   - Botões com contraste de alto padrão (#1d1d1f com hover #333336)
+   =================================================== */
+
+html.light,
+html.light body,
+.light body,
+.light #ledmachine-app-root {
+  background-color: #ffffff !important;
+  color: #1d1d1f !important;
+}
+
+/* 1. Ambient Background in Light Mode: Fundo branco limpo, sem ruídos ou raios */
+.light .cosmic-grid-bg,
+.light .cosmic-glow-radial,
+.light .aurora-beam,
+.light .aurora-beam-sharp {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* 2. Apple Cards, Containers & Caixas Minimalistas (#f5f5f7) */
+.light .bg-white\/\[0\.035\],
+.light .bg-white\/\[0\.04\],
+.light .bg-white\/5,
+.light .bg-white\/\[0\.05\],
+.light .bg-white\/\[0\.065\],
+.light .bg-white\/\[0\.06\],
+.light .bg-white\/\[0\.02\],
+.light .bg-black\/40,
+.light .bg-black\/50,
+.light .bg-black\/60,
+.light .bg-black\/70,
+.light .bg-\[\#0c1322\],
+.light .bg-\[\#0b0e1b\],
+.light .bg-\[\#090b1c\],
+.light .bg-\[\#10121a\],
+.light .bg-\[\#090a0f\],
+.light .bg-\[\#04060c\],
+.light .bg-\[\#0e1220\],
+.light .bg-\[\#090d1c\]\/80,
+.light .bg-\[\#141724\],
+.light .bg-\[\#070a14\] {
+  background-color: #f5f5f7 !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Solutions & Simulator custom background containers (estilo Apple Card) */
+.light .bg-gradient-to-b.from-\[\#0e1220\],
+.light #simulador {
+  background: #f5f5f7 !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Hover nos cartões Apple (#ebebee) */
+.light .hover\:bg-white\/\[0\.065\]:hover,
+.light .hover\:bg-white\/10:hover,
+.light .hover\:bg-white\/15:hover {
+  background-color: #ebebee !important;
+  border-color: #d2d2d7 !important;
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 3. Bordas refinadas Apple (#e5e5ea e #f0f0f2) */
+.light .border-white\/10,
+.light .border-white\/15,
+.light .border-white\/20,
+.light .border-white\/25,
+.light .border-white\/30,
+.light .border-slate-800,
+.light .border-zinc-800,
+.light .border-white\/\[0\.08\] {
+  border-color: #e5e5ea !important;
+}
+
+.light .border-white\/5,
+.light .border-white\/\[0\.07\] {
+  border-color: #f0f0f2 !important;
+}
+
+.light .border-white\/60 {
+  border-color: #86868b !important;
+}
+
+.light .bg-white\/80 {
+  background-color: #1d1d1f !important;
+}
+
+.light .hover\:border-white\/20:hover,
+.light .hover\:border-white\/30:hover {
+  border-color: #1d1d1f !important;
+}
+
+/* 4. Tipografia Apple Minimalista */
+.light h1,
+.light h2,
+.light h3,
+.light h4,
+.light h5,
+.light h6 {
+  color: #1d1d1f !important;
+  letter-spacing: -0.02em !important;
+}
+
+.light .text-white {
+  color: #1d1d1f !important;
+}
+
+.light .text-white\/90 {
+  color: #1d1d1f !important;
+}
+
+.light .text-white\/80,
+.light .text-white\/75,
+.light .text-white\/70,
+.light .text-zinc-300,
+.light .text-zinc-300\/80,
+.light .text-zinc-300\/90,
+.light .text-white\/70,
+.light p {
+  color: #3a3a3c !important;
+}
+
+.light .text-zinc-400,
+.light .text-white\/60,
+.light .text-white\/50 {
+  color: #515154 !important;
+}
+
+.light .text-white\/55,
+.light .text-white\/40,
+.light .text-zinc-500 {
+  color: #6e6e73 !important;
+}
+
+/* Card Body text in all cards on light mode - High contrast dark slate Apple text */
+.light #diferenciais-section p,
+.light #solucoes-section p,
+.light #garantia-section p,
+.light #redes-sociais p,
+.light #produto-destaque-section p,
+.light .group p,
+.light [id^="why-block-"] p,
+.light [id^="why-block-"] .text-sm,
+.light .bg-white\/\[0\.035\] p,
+.light .bg-white\/\[0\.04\] p,
+.light .bg-white\/\[0\.065\] p,
+.light .bg-\[\#f5f5f7\] p,
+.light .rounded-3xl:not(#voyage-3d-coverflow-carousel):not([data-carousel-card]) p:not(.carousel-slide-desc),
+.light .rounded-2xl p {
+  color: #333336 !important;
+  font-weight: 450 !important;
+  line-height: 1.65 !important;
+}
+
+.light [id^="why-block-"] .uppercase,
+.light .uppercase.tracking-wider,
+.light .text-xs.uppercase {
+  color: #48484a !important;
+  font-weight: 600 !important;
+}
+
+.light [id^="why-block-"] h3,
+.light .group h3,
+.light .rounded-3xl:not(#voyage-3d-coverflow-carousel):not([data-carousel-card]) h3:not(.carousel-slide-title) {
+  color: #1d1d1f !important;
+  font-weight: 700 !important;
+}
+
+/* Gradientes de Títulos no estilo Apple (Preto sofisticado com leve transição) */
+.light .bg-gradient-to-r.from-white {
+  background-image: linear-gradient(135deg, #1d1d1f 0%, #434346 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* 5. Badges e Pílulas Apple (Branco ou cinza suave com borda e texto #1d1d1f) */
+.light .bg-white\/10,
+.light .bg-white\/\[0\.08\],
+.light .bg-white\/\[0\.06\] {
+  background-color: #ffffff !important;
+  border-color: #d2d2d7 !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Ícones em caixas arredondadas Apple */
+.light .w-12.h-12.rounded-2xl.bg-white\/\[0\.08\],
+.light .w-10.h-10.rounded-xl.bg-white\/\[0\.08\] {
+  background-color: #ffffff !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+.light .w-12.h-12.rounded-2xl.bg-white\/\[0\.08\] svg,
+.light .w-10.h-10.rounded-xl.bg-white\/\[0\.08\] svg {
+  color: #1d1d1f !important;
+}
+
+/* Botões coloridos primários (WhatsApp verde, etc) mantêm texto branco */
+.light .bg-emerald-600,
+.light .bg-emerald-600 *,
+.light .bg-green-600,
+.light .bg-green-600 *,
+.light .bg-blue-600,
+.light .bg-blue-600 *,
+.light .bg-blue-500,
+.light .bg-blue-500 * {
+  color: #ffffff !important;
+}
+
+/* 6. Botões Apple Primários: Fundo Preto (#1d1d1f) com Texto Branco */
+.light button.bg-white.text-\[\#070919\],
+.light button.bg-white.text-\[\#070c20\],
+.light button.bg-white.text-black,
+.light button.bg-white.text-zinc-950,
+.light a.bg-white.text-\[\#070919\],
+.light a.bg-white.text-\[\#070c20\],
+.light a.bg-white.text-black {
+  background-color: #1d1d1f !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  border-color: #1d1d1f !important;
+}
+
+.light button.bg-white.text-\[\#070919\]:hover,
+.light button.bg-white.text-\[\#070c20\]:hover,
+.light button.bg-white.text-black:hover,
+.light button.bg-white.text-zinc-950:hover,
+.light a.bg-white.text-\[\#070919\]:hover,
+.light a.bg-white.text-\[\#070c20\]:hover,
+.light a.bg-white.text-black:hover {
+  background-color: #333336 !important;
+  color: #ffffff !important;
+}
+
+.light button.bg-white.text-\[\#070919\] svg,
+.light button.bg-white.text-\[\#070c20\] svg,
+.light button.bg-white.text-black svg,
+.light a.bg-white.text-\[\#070919\] svg,
+.light a.bg-white.text-\[\#070c20\] svg,
+.light a.bg-white.text-black svg {
+  color: #ffffff !important;
+}
+
+/* Botões Secundários Apple: Fundo Branco (#ffffff) com Borda Neutra (#d2d2d7) */
+.light button.bg-white\/\[0\.05\],
+.light a.bg-white\/\[0\.05\] {
+  background-color: #ffffff !important;
+  border-color: #d2d2d7 !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.light button.bg-white\/\[0\.05\]:hover,
+.light a.bg-white\/\[0\.05\]:hover {
+  background-color: #f5f5f7 !important;
+  border-color: #1d1d1f !important;
+  color: #1d1d1f !important;
+}
+
+/* 7. Switcher de Abas (Apple Segmented Control) */
+.light #solucoes-section .bg-\[\#0c0f18\] {
+  background-color: #f5f5f7 !important;
+  border-color: #e5e5ea !important;
+}
+
+.light #solucoes-section .bg-\[\#0c0f18\] button.bg-white {
+  background-color: #ffffff !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.light #solucoes-section .bg-\[\#0c0f18\] button.bg-white svg {
+  color: #1d1d1f !important;
+}
+
+.light #solucoes-section .bg-\[\#0c0f18\] button:not(.bg-white) {
+  color: #6e6e73 !important;
+}
+
+.light #solucoes-section .bg-\[\#0c0f18\] button:not(.bg-white):hover {
+  color: #1d1d1f !important;
+}
+
+/* Solutions right box */
+.light #solucoes-section .bg-black\/40 {
+  background-color: #ffffff !important;
+  border-color: #e5e5ea !important;
+}
+
+/* 8. Simulador Interativo no Estilo Apple */
+.light #simulador button.bg-white\/10 {
+  background-color: #ffffff !important;
+  border-color: #1d1d1f !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.light #simulador button.bg-white\/\[0\.03\] {
+  background-color: #ffffff !important;
+  border-color: #e5e5ea !important;
+  color: #6e6e73 !important;
+}
+
+.light #simulador button.bg-white\/\[0\.03\]:hover {
+  background-color: #ebebee !important;
+  color: #1d1d1f !important;
+}
+
+.light #simulador .bg-\[\#030611\],
+.light #simulador-stage-container {
+  background: linear-gradient(180deg, #fbfbfd 0%, #f4f4f7 100%) !important;
+  border-color: #e5e5ea !important;
+}
+
+.light #simulador-screen-panel {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fc 50%, #edf0f6 100%) !important;
+  border-color: #d2d2d7 !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+.light #simulador-screen-panel span {
+  text-shadow: none !important;
+}
+
+.light #simulador input[type="range"] {
+  accent-color: #1d1d1f !important;
+}
+
+/* 9. Redes Sociais no Estilo Apple Minimalista */
+.light #redes-sociais a {
+  background: #f5f5f7 !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+.light #redes-sociais a:hover {
+  background: #ebebee !important;
+  border-color: #d2d2d7 !important;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.light #redes-sociais a .w-14.h-14 {
+  background-color: #ffffff !important;
+  border-color: #e5e5ea !important;
+  color: #1d1d1f !important;
+}
+
+.light #redes-sociais a .w-14.h-14 svg {
+  color: #1d1d1f !important;
+}
+
+.light #redes-sociais a .w-8.h-8 {
+  background-color: #ffffff !important;
+  border-color: #e5e5ea !important;
+  color: #1d1d1f !important;
+}
+
+.light #redes-sociais a .w-8.h-8 svg {
+  color: #1d1d1f !important;
+}
+
+/* Badges e controles sobrepostos diretamente em fotos mantêm texto branco */
+.light [data-image-overlay="true"],
+.light .aspect-\[16\/9\] button,
+.light .aspect-\[16\/10\] button,
+.light .aspect-\[21\/9\] button,
+.light .aspect-\[16\/9\] span,
+.light .aspect-\[16\/10\] span,
+.light .aspect-\[21\/9\] span,
+.light [data-preserve-white="true"],
+.light [data-preserve-white="true"] * {
+  color: #ffffff !important;
+}
+
+/* Selo 2 Anos de Garantia em Estilo Apple */
+.light #garantia-section .bg-gradient-to-b.from-\[\#181c28\] {
+  background: #ffffff !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light #garantia-section .bg-gradient-to-b.from-white\/30 {
+  background: linear-gradient(180deg, #1d1d1f 0%, #86868b 100%) !important;
+}
+
+.light #garantia-section .text-3xl,
+.light #garantia-section .text-4xl {
+  color: #1d1d1f !important;
+}
+
+/* Rodapé em Estilo Apple */
+.light #main-footer {
+  background-color: #ffffff !important;
+  border-top-color: #f0f0f2 !important;
+}
+
+.light #main-footer .text-zinc-400 {
+  color: #6e6e73 !important;
+}
+
+.light #main-footer .text-zinc-300 {
+  color: #1d1d1f !important;
+}
+
+.light #main-footer .text-zinc-500 {
+  color: #86868b !important;
+}
+
+.light #main-footer .hover\:text-white:hover {
+  color: #1d1d1f !important;
+}
+
+/* Gaveta de Navegação e Header no Estilo Apple */
+.light #main-navigation-header nav {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-color: #f0f0f2 !important;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04) !important;
+}
+
+.light #nav-expanded-menu {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1) !important;
+}
+
+.light #nav-expanded-menu .border-white\/10 {
+  border-color: #f0f0f2 !important;
+}
+
+/* Inputs de Formulário e Selects no Estilo Apple */
+.light input:not([type="checkbox"]):not([type="radio"]),
+.light textarea,
+.light select {
+  background-color: #ffffff !important;
+  border-color: #d2d2d7 !important;
+  color: #1d1d1f !important;
+}
+
+.light input:focus,
+.light textarea:focus,
+.light select:focus {
+  border-color: #1d1d1f !important;
+  box-shadow: 0 0 0 1px #1d1d1f !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #86868b !important;
+}
+
+/* Modais e Diálogos no Estilo Apple */
+.light #contact-modal-card,
+.light .bg-\[\#10121a\],
+.light .bg-\[\#0d111c\],
+.light .bg-\[\#0a0d18\] {
+  background-color: #ffffff !important;
+  border-color: #e5e5ea !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.light #contact-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Carousel 3D Coverflow & Indicators in Apple Light Mode */
+.light #carousel-3d-prev-btn,
+.light #carousel-3d-next-btn {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e5e5ea !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+}
+
+.light #carousel-3d-prev-btn:hover,
+.light #carousel-3d-next-btn:hover {
+  background-color: #ffffff !important;
+  border-color: #1d1d1f !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.light #carousel-3d-prev-btn svg,
+.light #carousel-3d-next-btn svg {
+  color: #1d1d1f !important;
+}
+
+/* Ensure slide text inside photographic carousel cards is ALWAYS bright crisp white in both modes */
+#voyage-3d-coverflow-carousel .carousel-slide-title,
+.light #voyage-3d-coverflow-carousel .carousel-slide-title,
+.light #voyage-3d-coverflow-carousel h3.carousel-slide-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+#voyage-3d-coverflow-carousel .carousel-slide-desc,
+.light #voyage-3d-coverflow-carousel .carousel-slide-desc,
+.light #voyage-3d-coverflow-carousel p.carousel-slide-desc {
+  color: rgba(255, 255, 255, 0.95) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.95) !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+.light #voyage-3d-coverflow-carousel span.text-white {
+  color: #ffffff !important;
 }

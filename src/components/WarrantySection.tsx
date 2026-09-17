@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface WarrantySectionProps {
   onOpenSpecialist?: () => void;
@@ -7,6 +8,8 @@ interface WarrantySectionProps {
 
 export const WarrantySection: React.FC<WarrantySectionProps> = () => {
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const warranty = content.warranty;
 
   const badgeText = warranty?.badge || '2 anos de garantia';
@@ -55,11 +58,15 @@ export const WarrantySection: React.FC<WarrantySectionProps> = () => {
               titleText
             )}
           </h2>
-          <p className="text-sm sm:text-[15px] text-white/70 leading-relaxed">
+          <p className={`text-sm sm:text-[15px] leading-relaxed font-normal ${
+            isLight ? 'text-[#3a3a3c]' : 'text-white/70'
+          }`}>
             {p1Text}
           </p>
           {p2Text && (
-            <p className="text-sm sm:text-[15px] text-white/70 leading-relaxed">
+            <p className={`text-sm sm:text-[15px] leading-relaxed font-normal ${
+              isLight ? 'text-[#3a3a3c]' : 'text-white/70'
+            }`}>
               {p2Text}
             </p>
           )}

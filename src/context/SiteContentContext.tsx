@@ -90,7 +90,7 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
           if (!c.description || c.description === 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável.') {
             return {
               ...c,
-              description: 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável. A Led Machine oferece projeto em 3D, acompanhamento com engenheiro e emissão de ART, além de todo o suporte técnico necessário do projeto à instalação.',
+              description: 'Cuidamos de todas as etapas técnicas com projeto em 3D, acompanhamento de especialista com emissão de ART e suporte técnico do projeto à instalação.',
             };
           }
         }
@@ -184,8 +184,22 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
     }),
   } : defaultSiteContent.carousel;
 
+  let updatedVideoLanding = sc.videoLandingPage || defaultSiteContent.videoLandingPage;
+  if (
+    !updatedVideoLanding ||
+    updatedVideoLanding.headline === 'Tecnologia de Painéis de LED High-End sob Medida' ||
+    updatedVideoLanding.subheadline?.includes('engenharia milimétrica e 2 anos de garantia integral')
+  ) {
+    updatedVideoLanding = {
+      ...(updatedVideoLanding || defaultSiteContent.videoLandingPage),
+      headline: 'Conheça os Painéis LED Machine',
+      subheadline: 'Transformamos residências de alto padrão e ambientes corporativos! 2 anos de garantia.',
+    };
+  }
+
   return {
     ...sc,
+    videoLandingPage: updatedVideoLanding,
     carousel: updatedCarousel,
     general: {
       ...sc.general,
@@ -201,6 +215,7 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
     finalCta: updatedFinalCta,
     featuredGallery: updatedFeaturedGallery,
     buttonLinks: updatedButtons,
+    catalog: sc.catalog || defaultSiteContent.catalog,
   };
 }
 

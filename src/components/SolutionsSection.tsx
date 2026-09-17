@@ -18,6 +18,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 import { openButtonLink } from '../utils/linkHelper';
 
 interface SolutionsSectionProps {
@@ -33,6 +34,8 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'comercial' | 'residencial'>(initialTab);
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const solutions = content.solutions;
 
   const sectionTitle = solutions?.title || 'Soluções criadas para valorizar o seu espaço';
@@ -277,8 +280,12 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
                     <div className="w-12 h-12 rounded-xl bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/15 group-hover:border-white/30 flex items-center justify-center text-white mb-4 transition-all duration-200 group-hover:scale-105 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <h5 className="text-lg font-semibold text-white mb-2">{b.title}</h5>
-                    <p className="text-sm text-zinc-300/80 leading-relaxed">{b.description}</p>
+                    <h5 className={`text-lg font-semibold mb-2 ${
+                      isLight ? 'text-[#1d1d1f]' : 'text-white'
+                    }`}>{b.title}</h5>
+                    <p className={`text-sm leading-relaxed ${
+                      isLight ? 'text-[#3a3a3c]' : 'text-zinc-300/80'
+                    }`}>{b.description}</p>
                   </div>
                 );
               })}
@@ -355,8 +362,12 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
                     <div className="w-12 h-12 rounded-xl bg-white/[0.08] group-hover:bg-white/[0.14] border border-white/15 group-hover:border-white/30 flex items-center justify-center text-white mb-4 transition-all duration-200 group-hover:scale-105 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <h5 className="text-lg font-semibold text-white mb-2">{b.title}</h5>
-                    <p className="text-sm text-zinc-300/80 leading-relaxed">{b.description}</p>
+                    <h5 className={`text-lg font-semibold mb-2 ${
+                      isLight ? 'text-[#1d1d1f]' : 'text-white'
+                    }`}>{b.title}</h5>
+                    <p className={`text-sm leading-relaxed ${
+                      isLight ? 'text-[#3a3a3c]' : 'text-zinc-300/80'
+                    }`}>{b.description}</p>
                   </div>
                 );
               })}

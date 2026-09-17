@@ -8,6 +8,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface WhyLedMachineSectionProps {
   onSelectBlock?: (blockTitle: string) => void;
@@ -17,6 +18,8 @@ const ICONS_BY_INDEX = [Eye, Award, Volume2, ShieldCheck, Sliders, Wrench];
 
 export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSelectBlock }) => {
   const { content } = useSiteContent();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const whyUs = content.whyUs;
 
   const defaultCards = [
@@ -59,7 +62,7 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
       id: 6,
       tag: 'Instalação profissional',
       title: 'Do projeto à instalação',
-      description: 'Cuidamos de todas as etapas técnicas para garantir máxima precisão, segurança e um resultado final impecável. A Led Machine oferece projeto em 3D, acompanhamento com engenheiro e emissão de ART, além de todo o suporte técnico necessário do projeto à instalação.',
+      description: 'Cuidamos de todas as etapas técnicas com projeto em 3D, acompanhamento de engenharia com emissão de ART e suporte técnico do projeto à instalação.',
       badge: 'Engenharia especializada',
     },
   ];
@@ -94,7 +97,7 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6 items-stretch">
         {cards.map((t, idx) => {
           const Icon = ICONS_BY_INDEX[idx % ICONS_BY_INDEX.length] || Eye;
           const displayTag = t.tag || t.highlight || 'Diferencial';
@@ -104,7 +107,7 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
               key={t.id || idx}
               id={`why-block-${t.id || idx + 1}`}
               onClick={() => onSelectBlock && onSelectBlock(t.title)}
-              className="group relative p-8 rounded-3xl bg-white/[0.035] hover:bg-white/[0.065] border border-white/10 hover:border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_20px_45px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),0_25px_55px_rgba(0,0,0,0.75)] transition-all duration-300 flex flex-col justify-between h-full min-h-[300px] cursor-pointer hover:-translate-y-1 overflow-hidden"
+              className="group relative p-7 sm:p-8 rounded-3xl bg-white/[0.035] hover:bg-white/[0.065] border border-white/10 hover:border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_20px_45px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),0_25px_55px_rgba(0,0,0,0.75)] transition-all duration-300 flex flex-col h-full cursor-pointer hover:-translate-y-1 overflow-hidden"
             >
               <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="flex flex-col h-full relative z-10">
@@ -116,13 +119,19 @@ export const WhyLedMachineSection: React.FC<WhyLedMachineSectionProps> = ({ onSe
                     {displayBadge}
                   </span>
                 </div>
-                <div className="text-xs font-semibold text-zinc-400 tracking-wider uppercase mb-1.5">
+                <div className={`text-xs font-semibold tracking-wider uppercase mb-1.5 ${
+                  isLight ? 'text-[#6e6e73]' : 'text-zinc-400'
+                }`}>
                   {displayTag}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3 tracking-tight min-h-[3.25rem] flex items-center">
+                <h3 className={`text-xl font-semibold mb-3 tracking-tight min-h-[3.25rem] flex items-center ${
+                  isLight ? 'text-[#1d1d1f]' : 'text-white'
+                }`}>
                   {t.title}
                 </h3>
-                <p className="text-sm text-zinc-300/80 leading-relaxed mt-auto">
+                <p className={`text-sm leading-relaxed font-normal ${
+                  isLight ? 'text-[#3a3a3c]' : 'text-zinc-300/80'
+                }`}>
                   {t.description}
                 </p>
               </div>
