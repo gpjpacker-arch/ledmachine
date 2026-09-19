@@ -271,6 +271,21 @@ html.light body,
   color: #ffffff !important;
 }
 
+/* Botões pretos/escuros mantêm texto e ícones 100% brancos legíveis */
+.light .bg-\[\#1d1d1f\],
+.light .bg-\[\#1d1d1f\] *,
+.light .bg-\[\#333336\],
+.light .bg-\[\#333336\] *,
+.light button[class*="bg-[#1d1d1f]"],
+.light button[class*="bg-[#1d1d1f]"] *,
+.light button[class*="bg-black"],
+.light button[class*="bg-black"] *,
+.light button[class*="hover:bg-[#1d1d1f]"]:hover,
+.light button[class*="hover:bg-[#1d1d1f]"]:hover * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 /* 6. Botões Apple Primários: Fundo Preto (#1d1d1f) com Texto Branco */
 .light button.bg-white.text-\[\#070919\],
 .light button.bg-white.text-\[\#070c20\],

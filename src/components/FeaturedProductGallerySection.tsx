@@ -426,7 +426,7 @@ export const FeaturedProductGallerySection: React.FC<FeaturedProductGallerySecti
             <h3 className={`text-xl sm:text-2xl font-black tracking-tight leading-snug ${
               isLight ? 'text-[#1d1d1f]' : 'text-white'
             }`}>
-              Engenharia e imagem em nível cinema
+              Seu Painel de LED com a melhor qualidade do mercado
             </h3>
             <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${
               isLight ? 'text-[#3a3a3c]' : 'text-white/70'

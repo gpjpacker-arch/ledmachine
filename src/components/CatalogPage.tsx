@@ -106,11 +106,12 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
 
               <button
                 onClick={() => handleOpenWhatsapp(categoryData.title)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1d1d1f] hover:bg-[#333336] text-white text-xs font-semibold tracking-tight transition-all cursor-pointer shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1d1d1f] hover:bg-[#333336] !text-white text-xs font-semibold tracking-tight transition-all cursor-pointer shadow-sm"
+                style={{ color: '#ffffff', backgroundColor: '#1d1d1f' }}
               >
-                <MessageCircle className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Solicitar orçamento</span>
-                <span className="sm:hidden">Orçamento</span>
+                <MessageCircle className="w-3.5 h-3.5 !text-white shrink-0" style={{ color: '#ffffff' }} />
+                <span className="hidden sm:inline !text-white font-semibold" style={{ color: '#ffffff' }}>Solicitar orçamento</span>
+                <span className="sm:hidden !text-white font-semibold" style={{ color: '#ffffff' }}>Orçamento</span>
               </button>
             </div>
           </div>
@@ -238,9 +239,13 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
 
             <button
               onClick={() => handleOpenWhatsapp(categoryData.title)}
-              className="px-5 py-3 rounded-full bg-[#1d1d1f] hover:bg-[#333336] text-white text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap"
+              className="px-6 py-3 rounded-full bg-[#1d1d1f] hover:bg-[#333336] !text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer whitespace-nowrap inline-flex items-center justify-center gap-2 shadow-sm"
+              style={{ color: '#ffffff', backgroundColor: '#1d1d1f' }}
             >
-              Falar com Especialista no WhatsApp
+              <MessageCircle className="w-4 h-4 !text-white shrink-0" style={{ color: '#ffffff' }} />
+              <span className="!text-white font-semibold" style={{ color: '#ffffff' }}>
+                Falar com Especialista no WhatsApp
+              </span>
             </button>
           </div>
         </main>

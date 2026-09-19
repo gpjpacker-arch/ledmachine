@@ -348,13 +348,6 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
                   }`}
                 />
 
-                {/* Top Floating Tag */}
-                <div className="absolute top-5 right-5 z-20">
-                  <span className="px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/25 text-[11px] font-semibold !text-white shadow-sm tracking-wide">
-                    {project.tag}
-                  </span>
-                </div>
-
                 {/* Bottom Centered Title & Subtitle Overlay */}
                 {isCenter ? (
                   <div className="absolute inset-x-0 bottom-0 z-20 p-6 sm:p-7 text-center flex flex-col items-center justify-end space-y-2.5 animate-in fade-in zoom-in-95 duration-500">
@@ -465,10 +458,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({
           {/* Top Bar */}
           <div className="w-full max-w-7xl flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="px-3.5 py-1 rounded-full bg-blue-600 text-xs font-bold uppercase text-white shadow-lg">
-                {activeProject.tag}
-              </span>
-              <h4 className="text-lg font-bold !text-white hidden sm:block">
+              <h4 className="text-lg font-bold !text-white">
                 {activeProject.title}
               </h4>
             </div>

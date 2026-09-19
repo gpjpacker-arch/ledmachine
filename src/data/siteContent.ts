@@ -520,7 +520,7 @@ export const defaultSiteContent: SiteContent = {
     "projects": [
       {
         "id": 1,
-        "tag": "#Living & gourmet curvo",
+        "tag": "Living & gourmet curvo",
         "category": "Residencial",
         "title": "Painel curvo panorâmico",
         "subtitle": "Living integrado & espaço gourmet com ângulo de visão envolvente",
@@ -532,7 +532,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         "id": 2,
-        "tag": "#Lounge & arena sports",
+        "tag": "Lounge & arena sports",
         "category": "Residencial",
         "title": "Lounge cinema & esportes",
         "subtitle": "Espaço gamer & cinema privativo com iluminação imersiva",
@@ -544,7 +544,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         "id": 3,
-        "tag": "#Área externa & piscina",
+        "tag": "Área externa & piscina",
         "category": "Residencial",
         "title": "Painel outdoor para piscina",
         "subtitle": "Painel ultrabrilhante com proteção IP65 à prova de sol e chuva",
@@ -556,7 +556,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         "id": 4,
-        "tag": "#Pool sunset cinema",
+        "tag": "Pool sunset cinema",
         "category": "Residencial",
         "title": "Cinema e entretenimento para piscina",
         "subtitle": "Cinema ao ar livre para momentos inesquecíveis com a família",
@@ -568,7 +568,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         "id": 5,
-        "tag": "#Showroom & corporativo",
+        "tag": "Showroom & corporativo",
         "category": "Comercial",
         "title": "Showroom & flagship store",
         "subtitle": "Impacto visual imersivo para valorizar marcas e produtos de luxo",
@@ -580,7 +580,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         "id": 6,
-        "tag": "#Hall nobre & recepção",
+        "tag": "Hall nobre & recepção",
         "category": "Corporativo",
         "title": "Painel arquitetônico vertical",
         "subtitle": "Arte digital em grande formato para halls e entradas imponentes",
@@ -592,7 +592,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         "id": 7,
-        "tag": "#Arena pool party",
+        "tag": "Arena pool party",
         "category": "Residencial",
         "title": "Estrutura gourmet externa",
         "subtitle": "O melhor do entretenimento para festas e recepções ao ar livre",
