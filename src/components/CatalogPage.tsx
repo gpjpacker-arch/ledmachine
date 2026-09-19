@@ -215,10 +215,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
                       onClick={() =>
                         handleOpenWhatsapp(`${categoryData.title} - ${item.model}`)
                       }
-                      className="w-full py-2.5 px-4 rounded-full bg-white hover:bg-[#1d1d1f] hover:text-white text-[#1d1d1f] text-xs font-semibold tracking-tight transition-all duration-300 flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                      className="w-full py-3 px-4 rounded-full bg-[#1d1d1f] hover:bg-[#333336] !text-white text-xs font-bold tracking-tight transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md cursor-pointer active:scale-[0.98]"
+                      style={{ backgroundColor: '#1d1d1f', color: '#ffffff' }}
                     >
-                      <span>Cotar {item.model}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span className="font-bold !text-white" style={{ color: '#ffffff' }}>Cotar {item.model}</span>
+                      <ArrowRight className="w-3.5 h-3.5 !text-white shrink-0" style={{ color: '#ffffff' }} />
                     </button>
                   </div>
                 </div>

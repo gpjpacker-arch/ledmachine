@@ -276,12 +276,12 @@ html.light body,
 .light .bg-\[\#1d1d1f\] *,
 .light .bg-\[\#333336\],
 .light .bg-\[\#333336\] *,
-.light button[class*="bg-[#1d1d1f]"],
-.light button[class*="bg-[#1d1d1f]"] *,
-.light button[class*="bg-black"],
-.light button[class*="bg-black"] *,
-.light button[class*="hover:bg-[#1d1d1f]"]:hover,
-.light button[class*="hover:bg-[#1d1d1f]"]:hover * {
+.light button.bg-\[\#1d1d1f\],
+.light button.bg-\[\#1d1d1f\] *,
+.light button.bg-black,
+.light button.bg-black *,
+.light button.bg-zinc-900,
+.light button.bg-zinc-900 * {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
