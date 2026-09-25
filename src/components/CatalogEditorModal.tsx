@@ -14,7 +14,7 @@ import {
   Sparkles,
   Layers,
 } from 'lucide-react';
-import { CatalogCategory, CatalogCategoryData, ModelBoxItem } from '../data/siteContent';
+import { CatalogCategory, CatalogCategoryData, ModelBoxItem, defaultCatalogData } from '../data/siteContent';
 import { compressAndOptimizeImage } from '../utils/imageCompressor';
 
 interface CatalogEditorModalProps {
@@ -40,8 +40,12 @@ export const CatalogEditorModal: React.FC<CatalogEditorModalProps> = ({
   const [pinInput, setPinInput] = useState<string>('');
   const [pinError, setPinError] = useState<string>('');
 
-  const [activeCategory, setActiveCategory] = useState<CatalogCategory>('indoor');
-  const [localData, setLocalData] = useState<Record<CatalogCategory, CatalogCategoryData>>(catalogData);
+  const [activeCategory, setActiveCategory] = useState<CatalogCategory>('residencial');
+  const safeCatalogData: Record<CatalogCategory, CatalogCategoryData> = {
+    residencial: (catalogData as any)?.residencial || defaultCatalogData.residencial,
+    comercial: (catalogData as any)?.comercial || defaultCatalogData.comercial,
+  };
+  const [localData, setLocalData] = useState<Record<CatalogCategory, CatalogCategoryData>>(safeCatalogData);
   const [selectedModelIdx, setSelectedModelIdx] = useState<number>(0);
 
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
@@ -58,7 +62,11 @@ export const CatalogEditorModal: React.FC<CatalogEditorModalProps> = ({
   // Sync state on open
   React.useEffect(() => {
     if (isOpen) {
-      setLocalData(catalogData);
+      const safe: Record<CatalogCategory, CatalogCategoryData> = {
+        residencial: (catalogData as any)?.residencial || defaultCatalogData.residencial,
+        comercial: (catalogData as any)?.comercial || defaultCatalogData.comercial,
+      };
+      setLocalData(safe);
       const sessionAuth = sessionStorage.getItem('ledmachine_admin_auth');
       if (sessionAuth === 'true') {
         setIsAuthenticated(true);
@@ -191,8 +199,8 @@ export const CatalogEditorModal: React.FC<CatalogEditorModalProps> = ({
     }
   };
 
-  const currentCategoryData = localData[activeCategory];
-  const currentModel = currentCategoryData.models[selectedModelIdx] || currentCategoryData.models[0];
+  const currentCategoryData = localData[activeCategory] || defaultCatalogData[activeCategory];
+  const currentModel = currentCategoryData?.models?.[selectedModelIdx] || currentCategoryData?.models?.[0];
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
@@ -340,8 +348,8 @@ export const CatalogEditorModal: React.FC<CatalogEditorModalProps> = ({
                   Categorias do Catálogo
                 </div>
 
-                {(['indoor', 'outdoor', 'rental'] as CatalogCategory[]).map((catKey) => {
-                  const cat = localData[catKey];
+                {(['residencial', 'comercial'] as CatalogCategory[]).map((catKey) => {
+                  const cat = localData[catKey] || defaultCatalogData[catKey];
                   const isActive = activeCategory === catKey;
 
                   return (
@@ -525,7 +533,7 @@ export const CatalogEditorModal: React.FC<CatalogEditorModalProps> = ({
 
                         <div>
                           <label className="block text-xs text-white/70 mb-1 font-medium">
-                            {currentCategoryData.sizeLabel} (Dimensão)
+                            {currentCategoryData.sizeLabel || 'Dimensões'}
                           </label>
                           <input
                             type="text"
@@ -539,7 +547,7 @@ export const CatalogEditorModal: React.FC<CatalogEditorModalProps> = ({
 
                         <div>
                           <label className="block text-xs text-white/70 mb-1 font-medium">
-                            {currentCategoryData.resolutionLabel}
+                            {currentCategoryData.resolutionLabel || 'Resolução'}
                           </label>
                           <input
                             type="text"

@@ -185,13 +185,15 @@ function MainAppContent() {
     );
   }
 
-  // 4. Rota /catalogo (e subpáginas /catalogo/indoor, /catalogo/outdoor, /catalogo/rental)
+  // 4. Rota /catalogo (e subpáginas /catalogo/residencial, /catalogo/comercial)
   // A página de catálogo é sempre na paleta CLARA e elegante conforme solicitado pelo usuário
   if (currentRoute.startsWith('/catalogo')) {
     let initialCat: CatalogCategory | undefined = undefined;
-    if (currentRoute.includes('indoor')) initialCat = 'indoor';
-    else if (currentRoute.includes('outdoor')) initialCat = 'outdoor';
-    else if (currentRoute.includes('rental')) initialCat = 'rental';
+    if (currentRoute.includes('residencial') || currentRoute.includes('indoor') || currentRoute.includes('outdoor')) {
+      initialCat = 'residencial';
+    } else if (currentRoute.includes('comercial') || currentRoute.includes('rental')) {
+      initialCat = 'comercial';
+    }
 
     return (
       <div className="theme-light bg-white text-[#1d1d1f] min-h-screen">

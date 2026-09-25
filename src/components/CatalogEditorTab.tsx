@@ -24,7 +24,7 @@ export const CatalogEditorTab: React.FC<CatalogEditorTabProps> = ({
   catalogData,
   onChange,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<CatalogCategory>('indoor');
+  const [activeCategory, setActiveCategory] = useState<CatalogCategory>('residencial');
   const [selectedModelIdx, setSelectedModelIdx] = useState<number>(0);
   const [isProcessingImage, setIsProcessingImage] = useState<string | null>(null);
 
@@ -35,11 +35,14 @@ export const CatalogEditorTab: React.FC<CatalogEditorTabProps> = ({
     modelIdx?: number;
   } | null>(null);
 
-  const safeData: Record<CatalogCategory, CatalogCategoryData> =
-    catalogData || defaultCatalogData;
+  const rawCatalog = (catalogData as any) || {};
+  const safeData: Record<CatalogCategory, CatalogCategoryData> = {
+    residencial: rawCatalog.residencial || defaultCatalogData.residencial,
+    comercial: rawCatalog.comercial || defaultCatalogData.comercial,
+  };
   const currentCategoryData = safeData[activeCategory] || defaultCatalogData[activeCategory];
   const currentModel =
-    currentCategoryData.models[selectedModelIdx] || currentCategoryData.models[0];
+    currentCategoryData?.models?.[selectedModelIdx] || currentCategoryData?.models?.[0];
 
   const handleUpdateCategoryField = (
     field: keyof CatalogCategoryData,
@@ -130,7 +133,7 @@ export const CatalogEditorTab: React.FC<CatalogEditorTabProps> = ({
             </span>
           </div>
           <p className="text-xs text-white/60">
-            Edite as fotos e dados técnicos das caixas de produtos (Indoor, Outdoor e Rental).
+            Edite as fotos e dados técnicos das caixas de produtos (Residencial e Comercial).
           </p>
         </div>
 
@@ -149,8 +152,8 @@ export const CatalogEditorTab: React.FC<CatalogEditorTabProps> = ({
       </div>
 
       {/* Seleção de Categoria */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {(['indoor', 'outdoor', 'rental'] as CatalogCategory[]).map((catKey) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {(['residencial', 'comercial'] as CatalogCategory[]).map((catKey) => {
           const cat = safeData[catKey] || defaultCatalogData[catKey];
           const isActive = activeCategory === catKey;
 
@@ -338,7 +341,7 @@ export const CatalogEditorTab: React.FC<CatalogEditorTabProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-white/80 mb-1">
-                  {currentCategoryData.sizeLabel} (Tamanho)
+                  {currentCategoryData.sizeLabel || 'Dimensões'}
                 </label>
                 <input
                   type="text"
@@ -352,7 +355,7 @@ export const CatalogEditorTab: React.FC<CatalogEditorTabProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-white/80 mb-1">
-                  {currentCategoryData.resolutionLabel}
+                  {currentCategoryData.resolutionLabel || 'Resolução'}
                 </label>
                 <input
                   type="text"

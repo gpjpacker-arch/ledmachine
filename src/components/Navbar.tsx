@@ -10,7 +10,7 @@ interface NavbarProps {
   onNavigate: (sectionId: string) => void;
   onOpenContact: () => void;
   onOpenSimulator: () => void;
-  onNavigateCatalog?: (category?: 'indoor' | 'outdoor' | 'rental') => void;
+  onNavigateCatalog?: (category?: 'residencial' | 'comercial' | string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({

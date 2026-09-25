@@ -34,9 +34,12 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
   );
   const [isCatalogEditorOpen, setIsCatalogEditorOpen] = useState<boolean>(false);
 
-  // Utiliza os dados do catálogo salvos no siteContent, ou o defaultCatalogData caso não exista ainda
-  const catalogData: Record<CatalogCategory, CatalogCategoryData> =
-    content.catalog || defaultCatalogData;
+  // Utiliza os dados do catálogo salvos no siteContent, com fallback garantido para as novas categorias
+  const rawCatalog = (content.catalog as any) || {};
+  const catalogData: Record<CatalogCategory, CatalogCategoryData> = {
+    residencial: rawCatalog.residencial || defaultCatalogData.residencial,
+    comercial: rawCatalog.comercial || defaultCatalogData.comercial,
+  };
 
   const whatsappNumber = content.general?.whatsappNumber || '5519999107788';
 
@@ -66,7 +69,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
     }
   };
 
-  const categoriesKeys: CatalogCategory[] = ['indoor', 'outdoor', 'rental'];
+  const categoriesKeys: CatalogCategory[] = ['residencial', 'comercial'];
 
   // =========================================================================
   // SUBPÁGINA DETALHADA: CAIXAS MINIMALISTAS APPLE (IMAGEM + INFORMAÇÕES)
@@ -122,9 +125,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
           {/* Topo da Categoria com Título e Subtítulo Minimalistas */}
           <div className="mb-10 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <span className="text-xs font-medium uppercase tracking-wider text-[#86868b] block mb-2">
-                Linha {categoryData.name}
-              </span>
               <h1 className="text-2xl sm:text-4xl font-semibold tracking-tight text-[#1d1d1f] mb-3">
                 {categoryData.title}
               </h1>
@@ -143,13 +143,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
           </div>
 
           {/* AS CAIXAS DOS MODELOS (IMAGEM + INFORMAÇÃO NO ESTILO DO PRINT) */}
-          <div
-            className={`grid grid-cols-1 ${
-              categoryData.models.length === 2
-                ? 'md:grid-cols-2 max-w-4xl mx-auto'
-                : 'md:grid-cols-3'
-            } gap-6 lg:gap-8 mb-14`}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-14">
             {categoryData.models.map((item, idx) => (
               <div
                 key={idx}
@@ -157,16 +151,16 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               >
                 {/* Cabeçalho da Caixa do Modelo */}
                 <div className="relative z-10 mb-4">
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <h2 className="text-2xl sm:text-[26px] font-medium tracking-tight text-[#1d1d1f] leading-tight">
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <h2 className="text-xl sm:text-[22px] font-semibold tracking-tight text-[#1d1d1f] leading-tight">
                       {item.model}
                     </h2>
-                    <span className="text-[11px] font-medium text-[#86868b] px-2.5 py-0.5 rounded-full bg-white/80 shadow-2xs">
-                      Pitch {item.pitch}
+                    <span className="text-[11px] font-medium text-[#86868b] px-2.5 py-0.5 rounded-full bg-white/90 shadow-2xs shrink-0 whitespace-nowrap">
+                      {item.pitch.toLowerCase().startsWith('p') ? `Pitch ${item.pitch}` : item.pitch}
                     </span>
                   </div>
 
-                  <p className="text-xs sm:text-[13px] text-[#6e6e73] leading-relaxed font-normal mt-2">
+                  <p className="text-xs sm:text-[13px] text-[#6e6e73] leading-relaxed font-normal mt-2 min-h-[36px]">
                     {item.description}
                   </p>
                 </div>
@@ -182,30 +176,18 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
                   </div>
                 </div>
 
-                {/* Informações Técnicas da Caixa no estilo Apple */}
-                <div className="relative z-10 pt-4 border-t border-[#e5e5ea] space-y-2 text-xs">
+                {/* Informações Técnicas da Caixa: Apenas Dimensões e Resolução */}
+                <div className="relative z-10 pt-4 border-t border-[#e5e5ea] space-y-2.5 text-xs">
                   <div className="flex items-center justify-between text-[#6e6e73]">
-                    <span>{categoryData.sizeLabel}</span>
+                    <span className="font-medium text-[#6e6e73]">Dimensões</span>
                     <span className="font-semibold text-[#1d1d1f]">
                       {item.moduleOrCabinetSize}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-[#6e6e73]">
-                    <span>{categoryData.resolutionLabel}</span>
+                    <span className="font-medium text-[#6e6e73]">Resolução</span>
                     <span className="font-semibold text-[#1d1d1f]">
                       {item.resolution}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-[#6e6e73]">
-                    <span>Pixels por módulo</span>
-                    <span className="font-mono font-semibold text-[#1d1d1f]">
-                      {item.pixelsPerModule}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-[#6e6e73]">
-                    <span>Consumo máx. estimado</span>
-                    <span className="font-semibold text-[#1d1d1f]">
-                      {item.maxPowerEstimated}
                     </span>
                   </div>
 
@@ -311,7 +293,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1d1d1f]">
-              Catálogo de Telas e Painéis LED
+              Catálogo LED Machine
             </h1>
             <p className="text-xs sm:text-sm text-[#86868b] mt-1">
               Selecione uma categoria para visualizar especificações técnicas de engenharia.
@@ -327,7 +309,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto w-full">
           {categoriesKeys.map((catKey) => {
             const item = catalogData[catKey] || defaultCatalogData[catKey];
 
@@ -335,26 +317,26 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               <div
                 key={catKey}
                 onClick={() => setSelectedCategory(catKey)}
-                className="group cursor-pointer relative aspect-[4/5] w-full rounded-[32px] bg-[#f5f5f7] p-7 sm:p-8 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:bg-[#ebebee]"
+                className="group cursor-pointer relative w-full rounded-[32px] bg-[#f5f5f7] p-8 sm:p-10 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:bg-[#ebebee] hover:shadow-xl hover:-translate-y-1 min-h-[460px] sm:min-h-[500px]"
               >
                 {/* Topo da Caixa */}
-                <div className="relative z-10 max-w-[85%]">
-                  <h2 className="text-2xl sm:text-[26px] font-medium tracking-tight text-[#1d1d1f] mb-2 leading-none">
+                <div className="relative z-10 max-w-[90%]">
+                  <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[#1d1d1f] mb-3 leading-none">
                     {item.name}
                   </h2>
-                  <p className="text-xs sm:text-[13px] text-[#86868b] leading-relaxed font-normal mb-4 line-clamp-3">
+                  <p className="text-xs sm:text-sm text-[#86868b] leading-relaxed font-normal mb-5 line-clamp-3">
                     {item.subtitle}
                   </p>
 
-                  <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#1d1d1f] group-hover:text-[#000000] transition-colors">
-                    <span>Explorar categoria</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#1d1d1f] group-hover:text-black transition-colors py-1">
+                    <span>Explorar catálogo {item.name.toLowerCase()}</span>
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                   </div>
                 </div>
 
                 {/* Imagem do Produto perfeitamente centralizada na parte inferior */}
-                <div className="w-full flex-1 min-h-[160px] sm:min-h-[190px] flex items-center justify-center pt-4 pointer-events-none">
-                  <div className="w-full max-w-[280px] aspect-[16/10] overflow-hidden rounded-2xl shadow-[0_10px_25px_rgba(0,0,0,0.12)] transition-transform duration-500 ease-out group-hover:scale-105">
+                <div className="w-full flex-1 min-h-[190px] sm:min-h-[220px] flex items-center justify-center pt-6 pointer-events-none">
+                  <div className="w-full max-w-[340px] aspect-[16/10] overflow-hidden rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.12)] bg-white transition-transform duration-500 ease-out group-hover:scale-105">
                     <img
                       src={item.image}
                       alt={item.name}

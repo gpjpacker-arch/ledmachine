@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { SiteContent, defaultSiteContent } from '../data/siteContent';
+import { SiteContent, defaultSiteContent, defaultCatalogData } from '../data/siteContent';
 import { db } from '../lib/firebase';
 import { doc, setDoc, onSnapshot, collection } from 'firebase/firestore';
 
-const STORAGE_KEY = 'ledmachine_site_content_v5';
+const STORAGE_KEY = 'ledmachine_site_content_v7';
 const FIRESTORE_DOC_ID = 'main_config';
 
 interface SiteContentContextType {
@@ -215,13 +215,50 @@ function normalizeWhatsappLinks(sc: SiteContent): SiteContent {
     finalCta: updatedFinalCta,
     featuredGallery: updatedFeaturedGallery,
     buttonLinks: updatedButtons,
-    catalog: sc.catalog || defaultSiteContent.catalog,
+    catalog: {
+      residencial: {
+        ...defaultCatalogData.residencial,
+        ...((sc.catalog as any)?.residencial || {}),
+        title:
+          !((sc.catalog as any)?.residencial?.title) ||
+          (sc.catalog as any)?.residencial?.title === 'Painéis de LED Residenciais'
+            ? 'Telas de LED para sua casa'
+            : (sc.catalog as any)?.residencial?.title,
+        sizeLabel: 'Dimensões',
+        resolutionLabel: 'Resolução',
+        models: defaultCatalogData.residencial.models.map((defMod, idx) => {
+          const userMod = (sc.catalog as any)?.residencial?.models?.[idx];
+          return userMod
+            ? { ...defMod, ...userMod, resolution: defMod.resolution }
+            : defMod;
+        }),
+      },
+      comercial: {
+        ...defaultCatalogData.comercial,
+        ...((sc.catalog as any)?.comercial || {}),
+        title:
+          !((sc.catalog as any)?.comercial?.title) ||
+          (sc.catalog as any)?.comercial?.title === 'Painéis de LED Comerciais & Corporativos'
+            ? 'Telas de LED para a sua empresa'
+            : (sc.catalog as any)?.comercial?.title,
+        sizeLabel: 'Dimensões',
+        resolutionLabel: 'Resolução',
+        models: defaultCatalogData.comercial.models.map((defMod, idx) => {
+          const userMod = (sc.catalog as any)?.comercial?.models?.[idx];
+          return userMod
+            ? { ...defMod, ...userMod, resolution: defMod.resolution }
+            : defMod;
+        }),
+      },
+    },
   };
 }
 
 export const SiteContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
     try {
+      localStorage.removeItem('ledmachine_site_content_v6');
+      localStorage.removeItem('ledmachine_site_content_v5');
       localStorage.removeItem('ledmachine_site_content_v4');
       localStorage.removeItem('ledmachine_site_content_v3');
       localStorage.removeItem('ledmachine_site_content_v2');
